@@ -12,7 +12,7 @@ setInterval(function() {
 function updateStuff() {
   document.getElementById("number").innerHTML = game.number;
   document.getElementById("mult1").innerHTML = game.mult.amount[1];
-  document.getElementById("multCost1").innerHTML = game.mul.cost[1];
+  document.getElementById("multCost1").innerHTML = game.mult.cost[1];
 }
 function buyMult(n) {
   if (game.mult.unlocked[n] == false) {
