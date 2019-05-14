@@ -1,8 +1,8 @@
 var game = {
   number: new Decimal(10),
   mult: {
-    amount:[1337, 1, 1],
-    cost:[420, 10, 1e6],
+    amount:[1337, new Decimal(1), new Decimal(1)],
+    cost:[420, new Decimal(10), new Decimal(100)],
     unlocked:[69, false, false]
   },
 };
