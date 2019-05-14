@@ -16,12 +16,14 @@ function updateStuff() {
   document.getElementById("multCost1").innerHTML = game.mult.cost[1];
 }
 function buyMult(n) {
-  if (game.mult.unlocked[n] == false && game.number > game.mult.cost[n]) {
-    game.mult.amount[n] = game.mult.amount[n].times(1.25);
-    game.mult.unlocked = true;
-  } else {
-    game.number = game.number.div(game.mult.cost[n]);
-    game.mult.amount[n] = game.mult.amount[n].pow(2);
+  if (game.number > game.mult.cost[n]) {
+    if (game.mult.unlocked[n] == false) {
+      game.mult.amount[n] = game.mult.amount[n].times(1.25);
+      game.mult.unlocked = true;
+    } else {
+      game.number = game.number.div(game.mult.cost[n]);
+      game.mult.amount[n] = game.mult.amount[n].pow(2);
+    }
   }
   updateStuff();
 }
