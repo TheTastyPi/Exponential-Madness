@@ -19,7 +19,7 @@ function buyMult(n) {
   if (game.number > game.mult.cost[n]) {
     if (game.mult.unlocked[n] == false) {
       game.mult.amount[n] = game.mult.amount[n].times(1.25);
-      game.mult.unlocked = true;
+      game.mult.unlocked[n] = true;
     } else {
       game.number = game.number.div(game.mult.cost[n]);
       game.mult.amount[n] = game.mult.amount[n].pow(2);
