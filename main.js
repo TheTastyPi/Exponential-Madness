@@ -7,7 +7,7 @@ var game = {
   },
 };
 setInterval(function() {
-  game.number = game.number.times(game.mult.amount[1]);
+  game.number = game.number.mul(game.mult.amount[1]);
   updateStuff();
 }, 1000);
 function updateStuff() {
@@ -18,7 +18,7 @@ function updateStuff() {
 function buyMult(n) {
   if (game.number > game.mult.cost[n]) {
     if (game.mult.unlocked[n] == false) {
-      game.mult.amount[n] = game.mult.amount[n].times(1.25);
+      game.mult.amount[n] = game.mult.amount[n].mul(1.25);
       game.mult.unlocked[n] = true;
     } else {
       game.number = game.number.div(game.mult.cost[n]);
