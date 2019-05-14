@@ -23,6 +23,7 @@ function buyMult(n) {
     game.number = game.number.div(game.mult.cost[n]);
     game.mult.amount[n] = game.mult.amount[n].pow(2);
   }
+  updateStuff();
 }
 function findDisplayValue(n) {
   if (n < 1000) {
