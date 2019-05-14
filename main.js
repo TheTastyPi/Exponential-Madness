@@ -29,7 +29,7 @@ function buyMult(n) {
 }
 function findDisplayValue(n) {
   if (n < 1000) {
-    return n.e;
+    return n.mag;
   } else if (n < 1e100) {
     return "e" + n.e;
   } else {
