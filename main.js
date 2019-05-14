@@ -15,7 +15,7 @@ function updateStuff() {
   document.getElementById("multCost1").innerHTML = game.mul.cost[1];
 }
 function buyMult(n) {
-  if (game.multUnlocked[n] == false) {
+  if (game.mult.unlocked[n] == false) {
     game.mult.amount[n] = game.mult.amount[n].times(1.25);
     game.mult.unlocked = true;
   } else {
