@@ -11,9 +11,9 @@ setInterval(function() {
   updateStuff();
 }, 1000);
 function updateStuff() {
-  document.getElementById("number").innerHTML = findDisplayValue(game.number);
-  document.getElementById("mult1").innerHTML = findDisplayValue(game.mult.amount[1]);
-  document.getElementById("multCost1").innerHTML = findDisplayValue(game.mult.cost[1]);
+  document.getElementById("number").innerHTML = game.number;
+  document.getElementById("mult1").innerHTML = game.mult.amount[1];
+  document.getElementById("multCost1").innerHTML = game.mult.cost[1];
 }
 function buyMult(n) {
   if (game.mult.unlocked[n] == false && game.number > game.mult.cost[n]) {
