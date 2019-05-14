@@ -8,6 +8,7 @@ var game = {
 };
 setInterval(function() {
   game.number = game.number.times(game.mult.amount[1]);
+  updateStuff();
 }, 1000);
 function updateStuff() {
   document.getElementById("number").innerHTML = findDisplayValue(game.number);
