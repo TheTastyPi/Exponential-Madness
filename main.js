@@ -9,6 +9,11 @@ var game = {
 setInterval(function() {
   game.number = game.number.times(game.mult.amount[1]);
 }, 1000);
+function updateStuff() {
+  document.getElementById("number").innerHTML = game.number;
+  document.getElementById("mult1").innerHTML = game.mult.amount[1];
+  document.getElementById("multCost1").innerHTML = game.mul.cost[1];
+}
 function buyMult(n) {
   if (game.multUnlocked[n] == false) {
     game.mult.amount[n] = game.mult.amount[n].times(1.25);
