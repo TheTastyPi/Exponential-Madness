@@ -55,9 +55,9 @@ function buyMult(n) {
 }
 function findDisplayValue(n) {
   if (n.lessThan(1000)) {
-    return Math.round(n*100)/100;
+    return n.toFixed(2);
   } else if (n.lessThan(Decimal.fromComponents(1, 4, 1))) {
-    return Math.round(n.m*100)/100 + "e" + findDisplayValue(new Decimal(n.e));
+    return n.m.toFixed(2) + "e" + findDisplayValue(new Decimal(n.e));
   } else {
     return "E" + n.e + "#" + n.layer;
   }
