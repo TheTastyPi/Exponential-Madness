@@ -2,6 +2,8 @@ var game = {
   number: new Decimal(10),
   mult: {
     amount:[1337, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
+    power:[6969, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
+    powerPerBuy:new Decimal(2),
     cost:[420, new Decimal(10), new Decimal(1e10), Decimal.fromComponents(1, 2, 2), Decimal.fromComponents(1, 2, 3)],
     unlocked:[69, false, false, false, false]
   },
@@ -14,6 +16,9 @@ setInterval(function() {
   updateStuff();
 }, 10);
 function updateStuff() {
+  game.mult.amount.forEach(function(a, n) {
+    game.mult.amount[n] = a.pow(game.mult.power[n]); 
+  });
   document.getElementById("number").innerHTML = findDisplayValue(game.number);
   document.getElementById("mult1").innerHTML = findDisplayValue(game.mult.amount[1]);
   document.getElementById("mult2").innerHTML = findDisplayValue(game.mult.amount[2]);
@@ -47,7 +52,7 @@ function buyMult(n) {
       game.mult.amount[n] = game.mult.amount[n].mul(1.5);
       game.mult.unlocked[n] = true;
     } else {
-      game.mult.amount[n] = game.mult.amount[n].pow(2);
+      game.mult.power[n] = game.mult.power[n].mul(game.mult.powerPerBuy);
       game.mult.cost[n] = game.mult.cost[n].pow(1000);
     }
     updateStuff();
