@@ -1,10 +1,19 @@
 var game = {
   number: new Decimal(10),
   mult: {
-    amount:[1337, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
-    cost:[420, new Decimal(10), new Decimal(1e10), Decimal.fromComponents(1, 2, 2), Decimal.fromComponents(1, 2, 3)],
-    unlocked:[69, false, false, false, false]
+    amount:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
+    power:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
+    powerPerBuy:new Decimal(2),
+    cost:[0, new Decimal(10), new Decimal(1e10), Decimal.fromComponents(1, 2, 2), Decimal.fromComponents(1, 2, 3)],
+    unlocked:[0, false, false, false, false]
   },
+  superMult: {
+    amount:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
+    power:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
+    powerPerBuy:new Decimal(2),
+    cost:[0, Decimal.fromComponents(1, 2, 7), Decimal.fromComponents(1, 3, 1), Decimal.fromComponents(1, 3, 1), Decimal.fromComponents(1, 3, 1)],
+    unlocked:[0, false, false, false, false]
+  }
 };
 setInterval(function() {
   game.number = game.number.mul(game.mult.amount[1].root(100));
@@ -14,31 +23,21 @@ setInterval(function() {
   updateStuff();
 }, 10);
 function updateStuff() {
+  game.mult.amount.forEach(function(a, n) {
+    game.mult.amount[n] = a.pow(game.mult.power[n]); 
+    document.getElementById("mult" + n).innerHTML = findDisplayValue(a);
+  });
+  game.mult.power.forEach(function(p, n) {
+    document.getElementById("multPower" + n).innerHTML = findDisplayValue(p);
+  }
   document.getElementById("number").innerHTML = findDisplayValue(game.number);
-  document.getElementById("mult1").innerHTML = findDisplayValue(game.mult.amount[1]);
-  document.getElementById("mult2").innerHTML = findDisplayValue(game.mult.amount[2]);
-  document.getElementById("mult3").innerHTML = findDisplayValue(game.mult.amount[3]);
-  document.getElementById("mult4").innerHTML = findDisplayValue(game.mult.amount[4]);
-  if (game.mult.unlocked[1] == false) {
-    document.getElementById("multButton1").innerHTML = "Unlock Multiplier 1 Cost: " + findDisplayValue(game.mult.cost[1]);
-  } else {
-    document.getElementById("multButton1").innerHTML = "Square Multiplier 1 Cost: " + findDisplayValue(game.mult.cost[1]);
-  }
-  if (game.mult.unlocked[2] == false) {
-    document.getElementById("multButton2").innerHTML = "Unlock Multiplier 2 Cost: " + findDisplayValue(game.mult.cost[2]);
-  } else {
-    document.getElementById("multButton2").innerHTML = "Square Multiplier 2 Cost: " + findDisplayValue(game.mult.cost[2]);
-  }
-  if (game.mult.unlocked[3] == false) {
-    document.getElementById("multButton3").innerHTML = "Unlock Multiplier 3 Cost: " + findDisplayValue(game.mult.cost[3]);
-  } else {
-    document.getElementById("multButton3").innerHTML = "Square Multiplier 3 Cost: " + findDisplayValue(game.mult.cost[3]);
-  }
-  if (game.mult.unlocked[4] == false) {
-    document.getElementById("multButton4").innerHTML = "Unlock Multiplier 4 Cost: " + findDisplayValue(game.mult.cost[4]);
-  } else {
-    document.getElementById("multButton4").innerHTML = "Square Multiplier 4 Cost: " + findDisplayValue(game.mult.cost[4]);
-  }
+  game.mult.cost.forEach(function(c, n) {
+    if (game.mult.unlocked[n] == false) {
+      document.getElementById("multButton" + n).innerHTML = "Unlock Multiplier " + n + " Cost: " + findDisplayValue(c);
+    } else {
+      document.getElementById("multButton" + n).innerHTML = "Square Multiplier " + n + " Cost: " + findDisplayValue(c);
+    }
+  });
 }
 function buyMult(n) {
   if (game.number.greaterThanOrEqualTo(game.mult.cost[n])) {
@@ -47,7 +46,7 @@ function buyMult(n) {
       game.mult.amount[n] = game.mult.amount[n].mul(1.5);
       game.mult.unlocked[n] = true;
     } else {
-      game.mult.amount[n] = game.mult.amount[n].pow(2);
+      game.mult.power[n] = game.mult.power[n].mul(game.mult.powerPerBuy);
       game.mult.cost[n] = game.mult.cost[n].pow(1000);
     }
     updateStuff();
