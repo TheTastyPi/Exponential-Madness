@@ -12,12 +12,12 @@ function getInitPlayer() {
 }
 var game = getInitPlayer();
 setInterval(function() {
-  game.number = game.number.mul(game.mult.amount[1].root(100));
-  game.mult.amount[1] = game.mult.amount[1].mul(game.mult.amount[2].root(100));
-  game.mult.amount[2] = game.mult.amount[2].mul(game.mult.amount[3].root(100));
-  game.mult.amount[3] = game.mult.amount[3].mul(game.mult.amount[4].root(100));
+  game.number = game.number.mul(game.mult.amount[1].root(20));
+  game.mult.amount[1] = game.mult.amount[1].mul(game.mult.amount[2].root(20));
+  game.mult.amount[2] = game.mult.amount[2].mul(game.mult.amount[3].root(20));
+  game.mult.amount[3] = game.mult.amount[3].mul(game.mult.amount[4].root(20));
   updateStuff();
-}, 10);
+}, 50);
 setInterval(function() {
   if (autosave == true) {
     saveGame();
