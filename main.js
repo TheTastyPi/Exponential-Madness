@@ -19,7 +19,7 @@ setInterval(function() {
   updateStuff();
 }, 50);
 setInterval(function() {
-  if (autosave == true) {
+  if (autoSave == true) {
     saveGame();
   }
 }, 60000);
@@ -117,6 +117,10 @@ function loadGame(save,imported=false) {
   let decimalList = temp[0]
   let itemList = temp[1]
   let missingItem = itemList.diff(listItems(save)[1])
+  if (missingItem.includes("save")) {
+      console.log("Unrecoverable corrupted save detected, loading default save...")
+      return
+  }
   if (missingItem.length != 0 && imported) {
     if (!confirm("Your imported save seems to be missing some values, which means importing this save might be destructive, if you have made a backup of your current save and are sure about importing this save please press OK, if not, press cancel and the save will not be imported.")) {
       return
