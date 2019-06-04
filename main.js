@@ -74,101 +74,80 @@ function findDisplayValue(n) {
     return "E" + n.e + "#" + n.layer;
   }
 }
-function clone(obj) { //Handy Dandy clone function to get a copy of a layered object
-	    var copy;
-    	// Handle the 3 simple types, and null or undefined
-    	if (null == obj || "object" != typeof obj) return obj;
-    	// Handle Date
-	if (obj instanceof Date) {
-		copy = new Date();
-	        copy.setTime(obj.getTime());
-	        return copy;
-	}
-	// Handle Array
-	if (obj instanceof Array) {
-	        copy = [];
-	        for (var i = 0, len = obj.length; i < len; i++) {
-	            copy[i] = clone(obj[i]);
-	        }
-	        return copy;
-	}
-	// Handle Object
-	if (obj instanceof Object) {
-		copy = {};
-	        for (var attr in obj) {
-	            if (obj.hasOwnProperty(attr)) copy[attr] = clone(obj[attr]);
-	        }
-	        return copy;
-	}
-    throw new Error("Unable to copy obj! Its type isn't supported.");
+let saveName = "expMadnessSave"
+let initPlayerFunctionName = "getInitPlayer"
+let playerVarName = "game"
+
+function onImportError() {
+    term.echo("Error: Imported save is in invalid format, please make sure you've copied the save correctly and isn't just typing gibberish.")
 }
-function save(){ //Save the game in local storage
-  	localStorage.setItem("geometryIdleSave",JSON.stringify(saveToString(player)));
-	//Right here is just some code that allows a popup message when the game saves.
-  	//document.getElementById("savedInfo").style.display="inline";
-  	//function foo() {document.getElementById("savedInfo").style.display="none"}
-  	//setTimeout(foo, 2000);
+
+function onLoadError() {
+    term.echo("I think you got your save messed up so bad we can't load it, the save have been exported automatically to your clipboard for debug purpose, please send it to the developer(Nyan cat) to see what's wrong!")
+    copyStringToClipboard(save)
 }
-function load() { //Get the game from local storage if possible
-  	if (localStorage.getItem("geometryIdleSave") == null) {
-		player = getDefaultSave();
-  	}
-	else {	
-  		var save = JSON.parse(localStorage.getItem("geometryIdleSave"));
-    		player = stringToSave(save, getDefaultSave());
-	}
-  	return player;
+
+function onImportSuccess() {
+    term.echo("Save imported successfully.")
 }
-function saveToString(save) { //Convert each Decimal to a string for easy JSON stringification
-	var copy = clone(save);
-	var keySet = Object.keys(save);
-	for (var i = 0; i < keySet.length; i++){
-		if(save[keySet[i]] instanceof Decimal) {
-			copy[keySet[i]] = Decimal.toString(save[keySet[i]]);
-		}
-		else if(Object.keys(copy[keySet[i]]).length > 1) {
-			copy[keySet[i]] = saveToString(copy[keySet[i]]);
-		}
-	}
-	return copy;
+// Only change things above to fit your game UNLESS you know what you're doing
+
+Array.prototype.diff = function(a) {
+    return this.filter(function(i) {return a.indexOf(i) < 0;});
+};
+
+function saveGame() {
+  localStorage.setItem(saveName,btoa(JSON.stringify(playerVarName)))
 }
-function stringToSave(newSave, base) { //Compares a JSON stringify value to the default save.
-	var keySet = Object.keys(base);
-	for (var i = 0; i < keySet.length; i++){
-		if(!newSave.hasOwnProperty(keySet[i])) { //If the default save has a value not present in the player save
-			newSave[keySet[i]] = base[keySet[i]]; //aka, if something was added to the game,
-		}					// it is added to the player save with default values.
-		else {
-			if(base[keySet[i]] instanceof Decimal) { //If the default save says a value should be a Decimal object
-				newSave[keySet[i]] = new Decimal(newSave[keySet[i]]); //make a new Decimal with that value
-			}
-			else if(Object.keys(newSave[keySet[i]]).length > 1) { //If a value is itself an object, recursion!
-				newSave[keySet[i]] = stringToSave(newSave[keySet[i]], base[keySet[i]]);
-			}
-		} //If a value is not supposed to be a Decimal, then it will have converted with JSON.stringify() just fine
-	}		//and we don't need to take any further action.
-	return newSave;
+
+function loadGame(save,imported=false) {
+  let reference = window[initPlayerFunctionName]()
+  try {
+    save = JSON.parse(atob(save))
+  } catch(err) {
+    if (imported) {
+      onImportError()
+      return
+    } else {
+      onLoadError()
+      return
+    }
+  }
+  let temp = listItems(reference)
+  let decimalList = temp[0]
+  let itemList = temp[1]
+  let missingItem = itemList.diff(listItems(save)[1])
+  if (missingItem.length != 0 && imported) {
+    if (!confirm("Your imported save seems to be missing some values, which means importing this save might be destructive, if you have made a backup of your current save and are sure about importing this save please press OK, if not, press cancel and the save will not be imported.")) {
+      return
+    }
+  }
+  missingItem.forEach(function(value) {
+    eval(`save.${value} = reference.${value}`) // No one will exploit their browser with localStorage right
+  })
+  
+  decimalList.forEach(function(value) {
+    eval(`save.${value} = new Decimal(save.${value})`)
+  })
+  
+  window[playerVarName] = save
+  if (imported) onImportSuccess()
 }
-function exportSave() { //Saving something to the clipboard is a Mess.
-	var tempInput = document.createElement("input"); //You have to create a new document element
-	tempInput.style = "position: absolute; left: -1000px; top: -1000px"; //Say it's out of the window view
-	tempInput.value = JSON.stringify(saveToString(player)); //Fill it with the player save file
-	document.body.appendChild(tempInput); //Stick the window on the main document
-	tempInput.select(); //Select the window
-	document.execCommand("copy"); //Stick the contents of said window into the clipboard
-	document.body.removeChild(tempInput); //Delete the go-between window
-	alert("Save copied to clipboard"); //Tell the player it all worked
-}
-function importSave() { //Allow the player to import a save file. This is also where "secret codes" will go.
-	var imp = prompt("Paste your save file here");
-	if(imp==null) alert("That save file doesn't work, sorry.");
-	else player = stringToSave(JSON.parse(imp), getDefaultSave());
-}
-function clearSave() { //Deletes the player save and clears the local storage.
-	if (confirm("This is not reversible. Delete your save file?")) {
-		localStorage.removeItem("geometryIdleSave");
-		player = getDefaultSave();
-		save();
-		update();
-	}
-}
+
+function listItems(data,nestIndex="") {
+  let decimalList = []
+  let itemList = []
+  data.forEach(function (value, index) {
+    itemList.push(nestIndex + (nestIndex===""?"":".") + index)
+    if (typeof value == 'object') {
+      if (value instanceof Decimal) {
+        decimalList.push(nestIndex + (nestIndex===""?"":".") + index)
+      } else {
+        let temp = listItems(value, nestIndex + (nestIndex===""?"":".") + index)
+        decimalList = decimalList.concat(temp[0])
+        itemList = itemList.concat(temp[1])
+      }
+    }
+  });
+  return [decimalList,itemList]
+};
