@@ -19,7 +19,7 @@ setInterval(function() {
   updateStuff();
 }, 50);
 setInterval(function() {
-  if (autoSave == true) {
+  if (player.autoSave == true) {
     saveGame();
   }
 }, 60000);
