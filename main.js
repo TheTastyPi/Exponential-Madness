@@ -137,7 +137,8 @@ function loadGame(save,imported=false) {
 function listItems(data,nestIndex="") {
   let decimalList = []
   let itemList = []
-  data.forEach(function (value, index) {
+  Object.keys(data).forEach(function (index) {
+    let value = data[index]
     itemList.push(nestIndex + (nestIndex===""?"":".") + index)
     if (typeof value == 'object') {
       if (value instanceof Decimal) {
