@@ -5,7 +5,7 @@ function getInitPlayer() {
     mult: {
       amount:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
       cost:[0, new Decimal(10), new Decimal(1e10), Decimal.fromComponents(1, 2, 2), Decimal.fromComponents(1, 2, 3)],
-      unlocked:[0, false, false, false, false]}
+      unlocked:[0, false, false, false, false]
     }
   }
   return player;
