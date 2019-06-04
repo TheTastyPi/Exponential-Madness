@@ -1,6 +1,6 @@
 function getInitPlayer() {
   var player = {
-    save: true,
+    autoSave: true,
     number: new Decimal(10),
     mult: {
       amount:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
@@ -97,7 +97,7 @@ Array.prototype.diff = function(a) {
 };
 
 function saveGame() {
-  localStorage.setItem(saveName,btoa(JSON.stringify(playerVarName)))
+  localStorage.setItem(saveName,btoa(JSON.stringify(window[playerVarName])))
 }
 
 function loadGame(save,imported=false) {
@@ -122,11 +122,10 @@ function loadGame(save,imported=false) {
       return
     }
   }
-  console.log(missingItem);
-  console.log(save);
   missingItem.forEach(function(value) {
     eval(`save.${value} = reference.${value}`) // No one will exploit their browser with localStorage right
   })
+  
   decimalList.forEach(function(value) {
     eval(`save.${value} = new Decimal(save.${value})`)
   })
