@@ -122,10 +122,11 @@ function loadGame(save,imported=false) {
       return
     }
   }
+  console.log(missingItem);
   missingItem.forEach(function(value) {
     eval(`save.${value} = reference.${value}`) // No one will exploit their browser with localStorage right
   })
-  
+  console.log(missingItem);
   decimalList.forEach(function(value) {
     eval(`save.${value} = new Decimal(save.${value})`)
   })
