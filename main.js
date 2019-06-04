@@ -1,12 +1,16 @@
-var game = {
-  save: true,
-  number: new Decimal(10),
-  mult: {
-    amount:[1337, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
-    cost:[420, new Decimal(10), new Decimal(1e10), Decimal.fromComponents(1, 2, 2), Decimal.fromComponents(1, 2, 3)],
-    unlocked:[69, false, false, false, false]
-  },
-};
+function getInitPlayer() {
+  let player = {
+    save: true,
+    number: new Decimal(10),
+    mult: {
+      amount:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
+      cost:[0, new Decimal(10), new Decimal(1e10), Decimal.fromComponents(1, 2, 2), Decimal.fromComponents(1, 2, 3)],
+      unlocked:[0, false, false, false, false]}
+    }
+  }
+return player;
+}
+var game = getInitPlayer();
 setInterval(function() {
   game.number = game.number.mul(game.mult.amount[1].root(100));
   game.mult.amount[1] = game.mult.amount[1].mul(game.mult.amount[2].root(100));
@@ -71,8 +75,8 @@ function findDisplayValue(n) {
   }
 }
 let saveName = "expmadnesssave"
-let initPlayerFunctionName = "game"
-let playerVarName = "player"
+let initPlayerFunctionName = "getInitPlayer"
+let playerVarName = "game"
 
 function onImportError() {
     term.echo("Error: Imported save is in invalid format, please make sure you've copied the save correctly and isn't just typing gibberish.")
