@@ -1,5 +1,5 @@
 function getInitPlayer() {
-  let player = {
+  var player = {
     save: true,
     number: new Decimal(10),
     mult: {
@@ -8,9 +8,9 @@ function getInitPlayer() {
       unlocked:[0, false, false, false, false]}
     }
   }
-  var game = player;
+  return player;
 }
-
+var game = getInitPlayer();
 setInterval(function() {
   game.number = game.number.mul(game.mult.amount[1].root(100));
   game.mult.amount[1] = game.mult.amount[1].mul(game.mult.amount[2].root(100));
