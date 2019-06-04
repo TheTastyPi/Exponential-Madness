@@ -79,16 +79,16 @@ let initPlayerFunctionName = "getInitPlayer"
 let playerVarName = "game"
 
 function onImportError() {
-    term.echo("Error: Imported save is in invalid format, please make sure you've copied the save correctly and isn't just typing gibberish.")
+    alert("Error: Imported save is in invalid format, please make sure you've copied the save correctly and isn't just typing gibberish.")
 }
 
 function onLoadError() {
-    term.echo("I think you got your save messed up so bad we can't load it, the save have been exported automatically to your clipboard for debug purpose, please send it to the developer(Nyan cat) to see what's wrong!")
+    alert("I think you got your save messed up so bad we can't load it, the save have been exported automatically to your clipboard for debug purpose, please send it to the developer(Nyan cat) to see what's wrong!")
     copyStringToClipboard(save)
 }
 
 function onImportSuccess() {
-    term.echo("Save imported successfully.")
+    alert("Save imported successfully.")
 }
 // Only change things above to fit your game UNLESS you know what you're doing
 
