@@ -55,7 +55,7 @@ function wipe() {
 	cost:[0, Decimal.fromComponents(1, 2, 9), Decimal.fromComponents(1, 3, 1), Decimal.fromComponents(1, 3, 1), Decimal.fromComponents(1, 3, 1)],
 	costIncrease:[0, 1e3, 1e4, 1e5, 1e6],
 	unlocked:[0, false, false, false, false]
-  }
+  }}
   save();
 }
 
