@@ -35,28 +35,29 @@ function load() {
 
 function wipe() {
 	game = {
-  number: new Decimal(10),
-  mult: {
-	amount:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
-	power:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
-	generation:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
-	powerPerBuy:new Decimal(2),
-	upgradeAmount:[0, new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)],
-	cost:[0, new Decimal(10), new Decimal(1e10), Decimal.fromComponents(1, 2, 2), Decimal.fromComponents(1, 2, 3)],
-	costIncrease:[0, 1e3, 1e4, 1e5, 1e6],
-	unlocked:[0, false, false, false, false]
-  },
-  superMult: {
-	amount:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
-	power:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
-	generation:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
-	powerPerBuy:new Decimal(2),
-	upgradeAmount:[0, new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)],
-	cost:[0, Decimal.fromComponents(1, 2, 9), Decimal.fromComponents(1, 3, 1), Decimal.fromComponents(1, 3, 1), Decimal.fromComponents(1, 3, 1)],
-	costIncrease:[0, 1e3, 1e4, 1e5, 1e6],
-	unlocked:[0, false, false, false, false]
-  }}
-  save();
+		number: new Decimal(10),
+		mult: {
+			amount:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
+			power:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
+			generation:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
+			powerPerBuy:new Decimal(2),
+			upgradeAmount:[0, new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)],
+			cost:[0, new Decimal(10), new Decimal(1e10), Decimal.fromComponents(1, 2, 2), Decimal.fromComponents(1, 2, 3)],
+			costIncrease:[0, 1e3, 1e4, 1e5, 1e6],
+			unlocked:[0, false, false, false, false]
+		},
+		superMult: {
+			amount:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
+			power:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
+			generation:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
+			powerPerBuy:new Decimal(2),
+			upgradeAmount:[0, new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)],
+			cost:[0, Decimal.fromComponents(1, 2, 9), Decimal.fromComponents(1, 3, 1), Decimal.fromComponents(1, 3, 1), Decimal.fromComponents(1, 3, 1)],
+			costIncrease:[0, 1e3, 1e4, 1e5, 1e6],
+			unlocked:[0, false, false, false, false]
+		}
+	}
+	save();
 }
 
 var game;
@@ -88,13 +89,13 @@ if (load()) {
 	};
 }
 setInterval(function() {
-  game.number = game.number.mul(game.mult.generation[1].root(100));
+  game.number = game.number.mul(game.mult.generation[1].root(20));
   for (i = 2; i < game.mult.amount.length; i++) {
-    game.mult.amount[i-1] = game.mult.amount[i-1].mul(game.mult.generation[i].root(100));
+    game.mult.amount[i-1] = game.mult.amount[i-1].mul(game.mult.generation[i].root(20));
   };
-  game.mult.powerPerBuy = game.mult.powerPerBuy.mul(game.superMult.generation[1].root(100))
+  game.mult.powerPerBuy = game.mult.powerPerBuy.mul(game.superMult.generation[1].root(20))
   for (i = 2; i < game.superMult.amount.length; i++) {
-    game.superMult.amount[i-1] = game.superMult.amount[i-1].mul(game.superMult.generation[i].root(100));
+    game.superMult.amount[i-1] = game.superMult.amount[i-1].mul(game.superMult.generation[i].root(20));
   };
   updateStuff();
 }, 50);
@@ -139,7 +140,7 @@ function buyMult(n) {
   if (game.number.greaterThanOrEqualTo(game.mult.cost[n])) {
     game.number = game.number.div(game.mult.cost[n]);
     if (game.mult.unlocked[n] == false) {
-      game.mult.amount[n] = new Decimal(1.5);
+      game.mult.amount[n] = new Decimal(1.25);
       game.mult.unlocked[n] = true;
     } else {
       game.mult.upgradeAmount[n] = game.mult.upgradeAmount[n].add(1);
