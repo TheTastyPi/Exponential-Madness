@@ -1,3 +1,8 @@
 body {
   font-family: "Lucida Console", Monaco, monospace;
 }
+button {
+  background-color: white;
+  color: black;
+  border: 2px solid black;
+}
