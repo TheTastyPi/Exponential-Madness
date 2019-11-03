@@ -42,7 +42,7 @@ function wipe() {
 			generation:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
 			powerPerBuy:new Decimal(2),
 			upgradeAmount:[0, new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)],
-			cost:[0, new Decimal(10), new Decimal(1e10), Decimal.fromComponents(1, 2, 2), Decimal.fromComponents(1, 2, 3)],
+			cost:[0, new Decimal(10), new Decimal(1e10), Decimal.fromComponents(1, 2, 2), Decimal.fromComponents(1, 2, 4)],
 			costIncrease:[0, 1e3, 1e4, 1e5, 1e6],
 			unlocked:[0, false, false, false, false]
 		},
@@ -72,7 +72,7 @@ if (load()) {
 		generation:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
 		powerPerBuy:new Decimal(2),
 		upgradeAmount:[0, new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)],
-		cost:[0, new Decimal(10), new Decimal(1e10), Decimal.fromComponents(1, 2, 2), Decimal.fromComponents(1, 2, 3)],
+		cost:[0, new Decimal(10), new Decimal(1e10), Decimal.fromComponents(1, 2, 2), Decimal.fromComponents(1, 2, 4)],
 		costIncrease:[0, 1e3, 1e4, 1e5, 1e6],
 		unlocked:[0, false, false, false, false]
 	  },
