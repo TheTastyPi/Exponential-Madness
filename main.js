@@ -8,24 +8,24 @@ function load() {
 		let g = {};
 		g.number = new Decimal(dat.number);
 		g.mult = {
-			amount:[dat.mult.amount[0], new Decimal(dat.mult.amount[1]), new Decimal(dat.mult.amount[2]), new Decimal(dat.mult.amount[3]), new Decimal(dat.mult.amount[4])],
-			power:[dat.mult.power[0], new Decimal(dat.mult.power[1]), new Decimal(dat.mult.power[2]), new Decimal(dat.mult.power[3]), new Decimal(dat.mult.power[4])],
-			generation:[dat.mult.generation[0], new Decimal(dat.mult.generation[1]), new Decimal(dat.mult.generation[2]), new Decimal(dat.mult.generation[3]), new Decimal(dat.mult.generation[4])],
+			amount:[0, new Decimal(dat.mult.amount[1]), new Decimal(dat.mult.amount[2]), new Decimal(dat.mult.amount[3]), new Decimal(dat.mult.amount[4])],
+			power:[0, new Decimal(dat.mult.power[1]), new Decimal(dat.mult.power[2]), new Decimal(dat.mult.power[3]), new Decimal(dat.mult.power[4])],
+			generation:[0, new Decimal(dat.mult.generation[1]), new Decimal(dat.mult.generation[2]), new Decimal(dat.mult.generation[3]), new Decimal(dat.mult.generation[4])],
 			powerPerBuy:new Decimal(dat.mult.powerPerBuy),
-			upgradeAmount:[dat.mult.upgradeAmount[0], new Decimal(dat.mult.upgradeAmount[1]), new Decimal(dat.mult.upgradeAmount[2]), new Decimal(dat.mult.upgradeAmount[3]), new Decimal(dat.mult.upgradeAmount[4])],
-			cost:[dat.mult.cost[0], new Decimal(dat.mult.cost[1]), new Decimal(dat.mult.cost[2]), new Decimal(dat.mult.cost[3]), new Decimal(dat.mult.cost[4])],
-			costIncrease:[dat.mult.costIncrease[0], 1e3, 1e4, 1e5, 1e6],
-			unlocked:[dat.mult.unlocked[0], false, false, false, false]
+			upgradeAmount:[0, new Decimal(dat.mult.upgradeAmount[1]), new Decimal(dat.mult.upgradeAmount[2]), new Decimal(dat.mult.upgradeAmount[3]), new Decimal(dat.mult.upgradeAmount[4])],
+			cost:[0, new Decimal(dat.mult.cost[1]), new Decimal(dat.mult.cost[2]), new Decimal(dat.mult.cost[3]), new Decimal(dat.mult.cost[4])],
+			costIncrease:[0, dat.mult.costIncrease[1], dat.mult.costIncrease[2], dat.mult.costIncrease[3], dat.mult.costIncrease[4]],
+			unlocked:[0, dat.mult.unlocked[1], dat.mult.unlocked[2], dat.mult.unlocked[3], dat.mult.unlocked[4]]
 		}
 		g.superMult = {
-			amount:[dat.superMult.amount[0], new Decimal(dat.superMult.amount[1]), new Decimal(dat.superMult.amount[2]), new Decimal(dat.superMult.amount[3]), new Decimal(dat.superMult.amount[4])],
-			power:[dat.superMult.power[0], new Decimal(dat.superMult.power[1]), new Decimal(dat.superMult.power[2]), new Decimal(dat.superMult.power[3]), new Decimal(dat.superMult.power[4])],
-			generation:[dat.superMult.generation[0], new Decimal(dat.superMult.generation[1]), new Decimal(dat.superMult.generation[2]), new Decimal(dat.superMult.generation[3]), new Decimal(dat.superMult.generation[4])],
+			amount:[0, new Decimal(dat.superMult.amount[1]), new Decimal(dat.superMult.amount[2]), new Decimal(dat.superMult.amount[3]), new Decimal(dat.superMult.amount[4])],
+			power:[0, new Decimal(dat.superMult.power[1]), new Decimal(dat.superMult.power[2]), new Decimal(dat.superMult.power[3]), new Decimal(dat.superMult.power[4])],
+			generation:[0, new Decimal(dat.superMult.generation[1]), new Decimal(dat.superMult.generation[2]), new Decimal(dat.superMult.generation[3]), new Decimal(dat.superMult.generation[4])],
 			powerPerBuy:new Decimal(dat.superMult.powerPerBuy),
-			upgradeAmount:[dat.superMult.upgradeAmount[0], new Decimal(dat.superMult.upgradeAmount[1]), new Decimal(dat.superMult.upgradeAmount[2]), new Decimal(dat.superMult.upgradeAmount[3]), new Decimal(dat.superMult.upgradeAmount[4])],
-			cost:[dat.superMult.cost[0], new Decimal(dat.superMult.cost[1]), new Decimal(dat.superMult.cost[2]), new Decimal(dat.superMult.cost[3]), new Decimal(dat.superMult.cost[4])],
-			costIncrease:[dat.superMult.costIncrease[0], 1e3, 1e4, 1e5, 1e6],
-			unlocked:[dat.superMult.unlocked[0], false, false, false, false]
+			upgradeAmount:[0, new Decimal(dat.superMult.upgradeAmount[1]), new Decimal(dat.superMult.upgradeAmount[2]), new Decimal(dat.superMult.upgradeAmount[3]), new Decimal(dat.superMult.upgradeAmount[4])],
+			cost:[0, new Decimal(dat.superMult.cost[1]), new Decimal(dat.superMult.cost[2]), new Decimal(dat.superMult.cost[3]), new Decimal(dat.superMult.cost[4])],
+			costIncrease:[0, dat.superMult.costIncrease[1], dat.superMult.costIncrease[2], dat.superMult.costIncrease[3], dat.superMult.costIncrease[4]],
+			unlocked:[0, dat.superMult.unlocked[1], dat.superMult.unlocked[2], dat.superMult.unlocked[3], dat.superMult.unlocked[4]]
 		}
 		return g;
 	} else {
