@@ -168,7 +168,7 @@ function findDisplayValue(n) {
   } else if (n.lessThan(1e100)) {
     return n.m.toFixed(2) + "e" + findDisplayValue(n.e);
   } else if (n.lessThan(Decimal.fromComponents(1, 5, 1))) {
-    return "e" + findDisplayValue(n.log10);
+    return "e" + findDisplayValue(newDecimal(n.log10));
   } else {
     return "E" + n.mag.toFixed(2) + "#" + n.layer;
   }
