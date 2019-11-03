@@ -62,13 +62,13 @@ if (load()) {
 	};
 }
 setInterval(function() {
-  game.number = game.number.mul(game.mult.generation[1].root(100));
+  game.number = game.number.mul(game.mult.generation[1].root(20));
   for (i = 2; i < game.mult.amount.length; i++) {
-    game.mult.amount[i-1] = game.mult.amount[i-1].mul(game.mult.generation[i].root(100));
+    game.mult.amount[i-1] = game.mult.amount[i-1].mul(game.mult.generation[i].root(20));
   };
-  game.mult.powerPerBuy = game.mult.powerPerBuy.mul(game.superMult.generation[1].root(100))
+  game.mult.powerPerBuy = game.mult.powerPerBuy.mul(game.superMult.generation[1].root(20))
   for (i = 2; i < game.superMult.amount.length; i++) {
-    game.superMult.amount[i-1] = game.superMult.amount[i-1].mul(game.superMult.generation[i].root(100));
+    game.superMult.amount[i-1] = game.superMult.amount[i-1].mul(game.superMult.generation[i].root(20));
   };
   updateStuff();
 }, 50);
