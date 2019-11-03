@@ -76,7 +76,7 @@ function buyMult(n) {
   if (game.number.greaterThanOrEqualTo(game.mult.cost[n])) {
     game.number = game.number.div(game.mult.cost[n]);
     if (game.mult.unlocked[n] == false) {
-      game.mult.amount[n] = new Decimal(1.25);
+      game.mult.amount[n] = new Decimal(1.5);
       game.mult.unlocked[n] = true;
     } else {
       game.mult.upgradeAmount[n] = game.mult.upgradeAmount[n].add(1);
