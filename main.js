@@ -110,8 +110,16 @@ function updateStuff() {
 	if (document.getElementById("multButton" + i).classList.contains('disabled')) {
 		document.getElementById("multButton" + i).classList.remove('disabled');
 	}
+	if (!(document.getElementById("multButton" + i).classList.contains('enabled'))) {
+		document.getElementById("multButton" + i).classList.add('enabled');
+	} 
     } else {
-	document.getElementById("multButton" + i).classList.add('disabled');    
+	if (document.getElementById("multButton" + i).classList.contains('enabled')) {
+		document.getElementById("multButton" + i).classList.remove('enabled');
+	}
+	if (!(document.getElementById("multButton" + i).classList.contains('disabled'))) {
+		document.getElementById("multButton" + i).classList.add('disabled');
+	}    
     }
   };
   for (i = 1; i < game.mult.power.length; i++) {
