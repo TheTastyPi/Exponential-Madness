@@ -106,20 +106,12 @@ function updateStuff() {
     } else {
       document.getElementById("multButton" + i).innerHTML = "Square Multiplier " + i + " Cost: " + findDisplayValue(game.mult.cost[i]);
     }
-    if (game.number.greaterThanOrEqualTo(game.mult.cost)) {
-	if (document.getElementById("multButton" + i).classList.contains('disabled')) {
-		document.getElementById("multButton" + i).classList.remove('disabled');
-	}
-	if (!(document.getElementById("multButton" + i).classList.contains('enabled'))) {
-		document.getElementById("multButton" + i).classList.add('enabled');
-	} 
+    if (game.number.greaterThanOrEqualTo(game.mult.cost[i])) {
+	document.getElementById("multButton" + i).classList.remove('disabled');
+	document.getElementById("multButton" + i).classList.add('enabled');
     } else {
-	if (document.getElementById("multButton" + i).classList.contains('enabled')) {
-		document.getElementById("multButton" + i).classList.remove('enabled');
-	}
-	if (!(document.getElementById("multButton" + i).classList.contains('disabled'))) {
-		document.getElementById("multButton" + i).classList.add('disabled');
-	}    
+	document.getElementById("multButton" + i).classList.remove('enabled');
+	document.getElementById("multButton" + i).classList.add('disabled');  
     }
   };
   for (i = 1; i < game.mult.power.length; i++) {
@@ -136,20 +128,12 @@ function updateStuff() {
     } else {
       document.getElementById("superMultButton" + i).innerHTML = "Square Multiplier " + i + " Cost: " + findDisplayValue(game.superMult.cost[i]);
     }
-    if (game.number.greaterThanOrEqualTo(game.superMult.cost)) {
-	if (document.getElementById("superMultButton" + i).classList.contains('disabled')) {
-		document.getElementById("superMultButton" + i).classList.remove('disabled');
-	}
-	if (!(document.getElementById("superMultButton" + i).classList.contains('enabled'))) {
-		document.getElementById("superMultButton" + i).classList.add('enabled');
-	} 
+    if (game.number.greaterThanOrEqualTo(game.superMult.cost[i])) {
+	document.getElementById("superMultButton" + i).classList.remove('disabled');
+	document.getElementById("superMultButton" + i).classList.add('enabled');
     } else {
-	if (document.getElementById("superMultButton" + i).classList.contains('enabled')) {
-		document.getElementById("superMultButton" + i).classList.remove('enabled');
-	}
-	if (!(document.getElementById("superMultButton" + i).classList.contains('disabled'))) {
-		document.getElementById("superMultButton" + i).classList.add('disabled');
-	}    
+	document.getElementById("superMultButton" + i).classList.remove('enabled');
+	document.getElementById("superMultButton" + i).classList.add('disabled');  
     }
   };
   for (i = 1; i < game.superMult.power.length; i++) {
