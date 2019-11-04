@@ -1,8 +1,30 @@
-body {
+* {
   font-family: "Lucida Console", Monaco, monospace;
 }
 button {
   background-color: white;
   color: black;
-  border: 1px solid black;
+  border: 2px solid black;
+  border-radius: 15px;
+  transition-duration: 0.2s;
+}
+button:hover {
+  background-color: black;
+  color: white;
+}
+button.buy {
+  border: 2px solid #DDFFDD;
+}
+button.buy:hover {
+  background-color: #DDFFDD;
+  color: white;
+}
+button.disabled {
+  background-color: #AAAAAA;
+  color: black;
+  border: 2px solid #AA0000;
+}
+button.disabled:hover {
+  background-color: #AA0000;
+  color: white;
 }
