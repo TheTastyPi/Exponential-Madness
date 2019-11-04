@@ -69,7 +69,7 @@ function wipeConfirm() {
 }
 
 function toggleAutoSave() {
-	autoSave = !autoSave;
+	game.autoSave = !game.autoSave;
 }
 var game;
 if (load()) {
