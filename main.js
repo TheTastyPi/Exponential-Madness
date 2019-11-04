@@ -27,6 +27,7 @@ function load() {
 			costIncrease:[0, dat.superMult.costIncrease[1], dat.superMult.costIncrease[2], dat.superMult.costIncrease[3], dat.superMult.costIncrease[4]],
 			unlocked:[0, dat.superMult.unlocked[1], dat.superMult.unlocked[2], dat.superMult.unlocked[3], dat.superMult.unlocked[4]]
 		}
+		g.autoSave = dat.autoSave;
 		return g;
 	} else {
 		return false;
@@ -55,38 +56,26 @@ function wipe() {
 			cost:[0, Decimal.fromComponents(1, 2, 9), Decimal.fromComponents(1, 3, 1), Decimal.fromComponents(1, 3, 1), Decimal.fromComponents(1, 3, 1)],
 			costIncrease:[0, 1e3, 1e4, 1e5, 1e6],
 			unlocked:[0, false, false, false, false]
-		}
+		},
+		autoSave: true
 	}
 	save();
 }
 
+function wipeConfirm() {
+	if (confirm("Are you sure you want to wipe your save?")) {
+		wipe();
+	}
+}
+
+function toggleAutoSave() {
+	autoSave = !autoSave;
+}
 var game;
 if (load()) {
 	game = load();
 } else {
-	game = {
-	  number: new Decimal(10),
-	  mult: {
-		amount:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
-		power:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
-		generation:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
-		powerPerBuy:new Decimal(2),
-		upgradeAmount:[0, new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)],
-		cost:[0, new Decimal(10), new Decimal(1e10), Decimal.fromComponents(1, 2, 2), Decimal.fromComponents(1, 2, 4)],
-		costIncrease:[0, 1e3, 1e4, 1e5, 1e6],
-		unlocked:[0, false, false, false, false]
-	  },
-	  superMult: {
-		amount:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
-		power:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
-		generation:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
-		powerPerBuy:new Decimal(2),
-		upgradeAmount:[0, new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)],
-		cost:[0, Decimal.fromComponents(1, 2, 9), Decimal.fromComponents(1, 3, 1), Decimal.fromComponents(1, 3, 1), Decimal.fromComponents(1, 3, 1)],
-		costIncrease:[0, 1e3, 1e4, 1e5, 1e6],
-		unlocked:[0, false, false, false, false]
-	  }
-	};
+	wipe();
 }
 setInterval(function() {
   game.number = game.number.mul(game.mult.generation[1].root(20));
@@ -100,7 +89,9 @@ setInterval(function() {
   updateStuff();
 }, 50);
 setInterval(function() {
-  save();
+	if (autosave) {
+  		save();
+	}
 }, 1000);
 function updateStuff() {
   for (i = 1; i < game.mult.amount.length; i++) {
@@ -147,6 +138,11 @@ function updateStuff() {
     document.getElementById("superMultPower" + i).innerHTML = "^" + findDisplayValue(game.superMult.power[i]);
     game.superMult.power[i] = game.superMult.powerPerBuy.pow(game.superMult.upgradeAmount[i]);
   };
+  if (autoSave) {
+	  document.getElementById("autoSaveButton").innerHTML = "Auto Save: ON";
+  } else {
+	  document.getElementById("autoSaveButton").innerHTML = "Auto Save: OFF";
+  }
 }
 function buyMult(n) {
   if (game.number.greaterThanOrEqualTo(game.mult.cost[n])) {
