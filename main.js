@@ -89,7 +89,7 @@ setInterval(function() {
   updateStuff();
 }, 50);
 setInterval(function() {
-	if (autoSave) {
+	if (game.autoSave) {
   		save();
 	}
 }, 1000);
