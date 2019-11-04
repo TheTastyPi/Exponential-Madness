@@ -116,9 +116,11 @@ function updateStuff() {
       document.getElementById("multButton" + i).innerHTML = "Square Multiplier " + i + " Cost: " + findDisplayValue(game.mult.cost[i]);
     }
     if (game.number.greaterThanOrEqualTo(game.mult.cost)) {
-	document.getElementById("multButton" + i).class = "buy";
+	if (document.getElementById("multButton" + i).classList.contains('disabled')) {
+		document.getElementById("multButton" + i).classList.remove('disabled');
+	}
     } else {
-	document.getElementById("multButton" + i).class = "buy disabled";    
+	document.getElementById("multButton" + i).classList.add('disabled');    
     }
   };
   for (i = 1; i < game.mult.power.length; i++) {
