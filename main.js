@@ -137,9 +137,19 @@ function updateStuff() {
       document.getElementById("superMultButton" + i).innerHTML = "Square Multiplier " + i + " Cost: " + findDisplayValue(game.superMult.cost[i]);
     }
     if (game.number.greaterThanOrEqualTo(game.superMult.cost)) {
-	document.getElementById("superMultButton" + i).class = "buy";
+	if (document.getElementById("superMultButton" + i).classList.contains('disabled')) {
+		document.getElementById("superMultButton" + i).classList.remove('disabled');
+	}
+	if (!(document.getElementById("superMultButton" + i).classList.contains('enabled'))) {
+		document.getElementById("superMultButton" + i).classList.add('enabled');
+	} 
     } else {
-	document.getElementById("superMultButton" + i).class = "buy disabled";    
+	if (document.getElementById("superMultButton" + i).classList.contains('enabled')) {
+		document.getElementById("superMultButton" + i).classList.remove('enabled');
+	}
+	if (!(document.getElementById("superMultButton" + i).classList.contains('disabled'))) {
+		document.getElementById("superMultButton" + i).classList.add('disabled');
+	}    
     }
   };
   for (i = 1; i < game.superMult.power.length; i++) {
