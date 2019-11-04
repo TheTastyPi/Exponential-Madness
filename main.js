@@ -115,6 +115,11 @@ function updateStuff() {
     } else {
       document.getElementById("multButton" + i).innerHTML = "Square Multiplier " + i + " Cost: " + findDisplayValue(game.mult.cost[i]);
     }
+    if (game.number.greaterThanOrEqualTo(game.mult.cost)) {
+	document.getElementById("multButton" + i).class = "buy";
+    } else {
+	document.getElementById("multButton" + i).class = "buy disabled";    
+    }
   };
   for (i = 1; i < game.mult.power.length; i++) {
     document.getElementById("multPower" + i).innerHTML = "^" + findDisplayValue(game.mult.power[i]);
@@ -129,6 +134,11 @@ function updateStuff() {
       document.getElementById("superMultButton" + i).innerHTML = "Unlock Super Multiplier " + i + " Cost: " + findDisplayValue(game.superMult.cost[i]);
     } else {
       document.getElementById("superMultButton" + i).innerHTML = "Square Multiplier " + i + " Cost: " + findDisplayValue(game.superMult.cost[i]);
+    }
+    if (game.number.greaterThanOrEqualTo(game.superMult.cost)) {
+	document.getElementById("superMultButton" + i).class = "buy";
+    } else {
+	document.getElementById("superMultButton" + i).class = "buy disabled";    
     }
   };
   for (i = 1; i < game.superMult.power.length; i++) {
