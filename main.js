@@ -140,7 +140,7 @@ function updateStuff() {
     document.getElementById("superMultPower" + i).innerHTML = "^" + findDisplayValue(game.superMult.power[i]);
     game.superMult.power[i] = game.superMult.powerPerBuy.pow(game.superMult.upgradeAmount[i]);
   };
-  if (autoSave) {
+  if (game.autoSave) {
 	  document.getElementById("autoSaveButton").innerHTML = "Auto Save: ON";
   } else {
 	  document.getElementById("autoSaveButton").innerHTML = "Auto Save: OFF";
