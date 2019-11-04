@@ -12,10 +12,10 @@ button:hover {
   background-color: black;
   color: white;
 }
-button.buy {
+button.enabled {
   border: 2px solid #00BB00;
 }
-button.buy:hover {
+button.enabled:hover {
   background-color: #00BB00;
   color: white;
 }
