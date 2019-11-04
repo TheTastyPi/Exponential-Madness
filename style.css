@@ -26,5 +26,5 @@ button.disabled {
 }
 button.disabled:hover {
   background-color: #AA0000;
-  color: white;
+  color: #AAAAAA;
 }
