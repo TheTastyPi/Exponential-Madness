@@ -13,10 +13,10 @@ button:hover {
   color: white;
 }
 button.buy {
-  border: 2px solid #DDFFDD;
+  border: 2px solid #AAFFAA;
 }
 button.buy:hover {
-  background-color: #DDFFDD;
+  background-color: #AAFFAA;
   color: white;
 }
 button.disabled {
