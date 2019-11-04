@@ -28,11 +28,11 @@ button.disabled:hover {
   background-color: #AA0000;
   color: #AAAAAA;
 }
-warning {
+button.warning {
   color: red;
   border: 2px solid red;
 }
-warning:hover {
+button.warning:hover {
   background-color: red;
   color: white;
 }
