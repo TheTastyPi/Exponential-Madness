@@ -89,7 +89,7 @@ function maxAllSuperMult() {
 		game.superMult.power[i] = game.superMult.power[i].pow(game.superMult.powerPerBuy.pow(x));
 		game.superMult.cost[i] = game.superMult.cost[i].pow(game.superMult.costIncrease[i].pow(x));
 		for(j = 0; j < 5; j++) {
-			game.number = game.number.div(game.superMult.cost[i].iteratedLog(game.superMult.costIncrease[i], j);
+			game.number = game.number.div(game.superMult.cost[i].iteratedLog(game.superMult.costIncrease[i], j));
 		}
 	}
 }
