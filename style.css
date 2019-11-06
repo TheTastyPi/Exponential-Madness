@@ -36,3 +36,6 @@ button.warning:hover {
   background-color: red;
   color: white;
 }
+.hidden {
+  display: none;
+}
