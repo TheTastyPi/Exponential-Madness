@@ -96,7 +96,7 @@ setInterval(function() {
 function updateStuff() {
   for (i = 1; i < game.mult.amount.length; i++) {
     game.mult.generation[i] = game.mult.amount[i].pow(game.mult.power[i]); 
-    document.getElementById("mult" + i).innerHTML = findDisplayValue(game.mult.amount[i]);
+    document.getElementById("multAmount" + i).innerHTML = findDisplayValue(game.mult.amount[i]);
   };
   document.getElementById("multPerSecond").innerHTML = findDisplayValue(game.mult.generation[1]);
   document.getElementById("number").innerHTML = findDisplayValue(game.number);
@@ -120,7 +120,7 @@ function updateStuff() {
   };
   for (i = 1; i < game.superMult.amount.length; i++) {
     game.superMult.generation[i] = game.superMult.amount[i].pow(game.superMult.power[i]); 
-    document.getElementById("superMult" + i).innerHTML = findDisplayValue(game.superMult.amount[i]);
+    document.getElementById("superMultAmount" + i).innerHTML = findDisplayValue(game.superMult.amount[i]);
   };
   for (i = 1; i < game.superMult.cost.length; i++) {
     if (game.superMult.unlocked[i] == false) {
@@ -152,6 +152,10 @@ function buyMult(n) {
     if (game.mult.unlocked[n] == false) {
       game.mult.amount[n] = new Decimal(1.25);
       game.mult.unlocked[n] = true;
+      if (n!=4) {
+      	document.getElementById("mult"+(n+1)).classList.remove('hidden');
+      } else {
+	document.getElementById("superMult1").classList.remove('hidden');
     } else {
       game.mult.upgradeAmount[n] = game.mult.upgradeAmount[n].add(1);
       game.mult.cost[n] = game.mult.cost[n].pow(game.mult.costIncrease[n]);
@@ -165,6 +169,9 @@ function buySuperMult(n) {
     if (game.superMult.unlocked[n] == false) {
       game.superMult.amount[n] = new Decimal(1.25);
       game.superMult.unlocked[n] = true;
+      if (n!=4) {
+      	document.getElementById("superMult"+(n+1)).classList.remove('hidden');
+      }
     } else {
       game.superMult.upgradeAmount[n] = game.superMult.upgradeAmount[n].add(1);
       game.superMult.cost[n] = game.superMult.cost[n].tetrate(game.superMult.costIncrease[n]);
