@@ -78,9 +78,7 @@ function toggleAutoSave() {
 
 function maxAllMult() {
 	for(let i = 1; i < game.mult.amount.length; i++) {
-		let usedNum = game.number.div(100).log10.log10;
-		let increase = game.mult.costIncrease[i].log10;
-		let buyAmount = usedNum.mul(2).div(increase).root(2).floor();
+		let buyAmount = game.number.div(100).log10.log10.mul(2).div(game.mult.costIncrease[i].log10).root(2).floor();
 		game.number = game.number.mul(0.99);
 		game.mult.upgradeAmount[i] = game.mult.upgradeAmount[i].add(buyAmount);
 		updateStuff();
