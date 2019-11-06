@@ -53,7 +53,7 @@ function wipe() {
 			generation:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
 			powerPerBuy:new Decimal(2),
 			upgradeAmount:[0, new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)],
-			cost:[0, Decimal.fromComponents(1, 2, 9), Decimal.fromComponents(1, 3, 1), Decimal.fromComponents(1, 3, 1), Decimal.fromComponents(1, 3, 1)],
+			cost:[0, Decimal.fromComponents(1, 2, 9), Decimal.fromComponents(1, 2, 15), Decimal.fromComponents(1, 2, 25), Decimal.fromComponents(1, 2, 69)],
 			costIncrease:[0, 1e3, 1e4, 1e5, 1e6],
 			unlocked:[0, false, false, false, false]
 		},
@@ -167,7 +167,7 @@ function buySuperMult(n) {
       game.superMult.unlocked[n] = true;
     } else {
       game.superMult.upgradeAmount[n] = game.superMult.upgradeAmount[n].add(1);
-      game.superMult.cost[n] = game.superMult.cost[n].pow(game.superMult.costIncrease[n]);
+      game.superMult.cost[n] = game.superMult.cost[n].tetrate(game.superMult.costIncrease[n]);
     }
     updateStuff();
   }
