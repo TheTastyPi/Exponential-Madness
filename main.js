@@ -77,9 +77,6 @@ function maxAllMult() {
 		while (game.mult.cost[i].lessThanOrEqualTo(game.number) 
 		       && !(document.getElementById("mult" + i).classList.contains('hidden'))) {
 			buyMult(i);
-			if (game.number.equals(0)) {
-				break;
-			}
 		}
 	}
 }
@@ -89,9 +86,6 @@ function maxAllSuperMult() {
 		while (game.superMult.cost[i].lessThanOrEqualTo(game.number) 
 		       && !(document.getElementById("superMult" + i).classList.contains('hidden'))) {
 			buySuperMult(i);
-			if (game.number.equals(0)) {
-				break;
-			}
 		}
 	}
 }
