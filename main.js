@@ -78,7 +78,7 @@ function maxAllMult() {
 		game.mult.power[i] = game.mult.power[i].pow(game.mult.powerPerBuy.pow(x));
 		game.mult.cost[i] = game.mult.cost[i].pow(game.mult.costIncrease[i].pow(x));
 		for(j = 0; j < 5; j++) {
-			game.number = game.number.div(game.mult.cost[i].iteratedLog(game.mult.costIncrease[i], j));
+			game.number = game.number.div(game.mult.cost[i].iteratedlog(game.mult.costIncrease[i], j));
 		}
 	}
 }
@@ -89,7 +89,7 @@ function maxAllSuperMult() {
 		game.superMult.power[i] = game.superMult.power[i].pow(game.superMult.powerPerBuy.pow(x));
 		game.superMult.cost[i] = game.superMult.cost[i].pow(game.superMult.costIncrease[i].pow(x));
 		for(j = 0; j < 5; j++) {
-			game.number = game.number.div(game.superMult.cost[i].iteratedLog(game.superMult.costIncrease[i], j));
+			game.number = game.number.div(game.superMult.cost[i].iteratedlog(game.superMult.costIncrease[i], j));
 		}
 	}
 }
@@ -220,6 +220,6 @@ function findDisplayValue(n) {
 	return "e" + findDisplayValue(n.log10());
   } else {
 	let x = new Decimal(n.mag).slog(10);
-	return "E" + new Decimal(n.mag).iteratedLog(10,x.floor()).toFixed(2) + "#" + new Decimal(n.layer).add(x);
+	return "E" + new Decimal(n.mag).iteratedlog(10,x.floor()).toFixed(2) + "#" + new Decimal(n.layer).add(x);
   }
 }
