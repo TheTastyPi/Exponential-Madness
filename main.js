@@ -136,12 +136,12 @@ function updateStuff() {
     if (game.superMult.unlocked[i] == false) {
 	document.getElementById("superMultButton" + i).innerHTML = "Unlock Super Multiplier " + i + " Cost: " + findDisplayValue(game.superMult.cost[i]);
 	if (i != 4) {
-		document.getElementById("mult"+(i+1)).classList.add('hidden');
+		document.getElementById("superMult"+(i+1)).classList.add('hidden');
 	}
     } else {
 	document.getElementById("superMultButton" + i).innerHTML = "Square Multiplier " + i + " Cost: " + findDisplayValue(game.superMult.cost[i]);
 	if (i != 4) {
-		document.getElementById("mult"+(i+1)).classList.remove('hidden');
+		document.getElementById("superMult"+(i+1)).classList.remove('hidden');
 	}
     }
     if (game.number.greaterThanOrEqualTo(game.superMult.cost[i])) {
