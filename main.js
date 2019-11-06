@@ -14,7 +14,7 @@ function load() {
 			powerPerBuy:new Decimal(dat.mult.powerPerBuy),
 			upgradeAmount:[0, new Decimal(dat.mult.upgradeAmount[1]), new Decimal(dat.mult.upgradeAmount[2]), new Decimal(dat.mult.upgradeAmount[3]), new Decimal(dat.mult.upgradeAmount[4])],
 			cost:[0, new Decimal(dat.mult.cost[1]), new Decimal(dat.mult.cost[2]), new Decimal(dat.mult.cost[3]), new Decimal(dat.mult.cost[4])],
-			costIncrease:[0, dat.mult.costIncrease[1], dat.mult.costIncrease[2], dat.mult.costIncrease[3], dat.mult.costIncrease[4]],
+			costIncrease:[0, new Decimal(dat.mult.costIncrease[1]), new Decimal(dat.mult.costIncrease[2]), new Decimal(dat.mult.costIncrease[3]), new Decimal(dat.mult.costIncrease[4])],
 			unlocked:[0, dat.mult.unlocked[1], dat.mult.unlocked[2], dat.mult.unlocked[3], dat.mult.unlocked[4]]
 		}
 		g.superMult = {
@@ -44,7 +44,7 @@ function wipe() {
 			powerPerBuy:new Decimal(2),
 			upgradeAmount:[0, new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)],
 			cost:[0, new Decimal(10), new Decimal(1e10), Decimal.fromComponents(1, 2, 2), Decimal.fromComponents(1, 2, 4)],
-			costIncrease:[0, 1e3, 1e4, 1e5, 1e6],
+			costIncrease:[0, new Decimal(1e3), new Decimal(1e4), new Decimal(1e5), new Decimal(1e6)],
 			unlocked:[0, false, false, false, false]
 		},
 		superMult: {
@@ -54,7 +54,7 @@ function wipe() {
 			powerPerBuy:new Decimal(2),
 			upgradeAmount:[0, new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)],
 			cost:[0, Decimal.fromComponents(1, 2, 9), Decimal.fromComponents(1, 2, 15), Decimal.fromComponents(1, 2, 25), Decimal.fromComponents(1, 2, 69)],
-			costIncrease:[0, 2, 3, 4, 5],
+			costIncrease:[0, new Decimal(2), new Decimal(3), new Decimal(4), new Decimal(5)],
 			unlocked:[0, false, false, false, false]
 		},
 		autoSave: true
@@ -85,11 +85,17 @@ function maxAllMult() {
 
 function maxAllSuperMult() {
 	for(i = 1; i < game.superMult.amount.length; i++) {
-		let x = game.number.log10().div(game.superMult.amount[i].log10()).floor();
-		game.superMult.power[i] = game.superMult.power[i].pow(game.superMult.powerPerBuy.pow(x));
-		game.superMult.cost[i] = game.superMult.cost[i].pow(game.superMult.costIncrease[i].pow(x));
-		for(j = 0; j < 5; j++) {
-			game.number = game.number.div(game.superMult.cost[i].iteratedlog(game.superMult.costIncrease[i], j));
+			let x = game.number.log10().div(game.superMult.amount[i].log10()).floor();
+		if (game.superMult.cost[i].pow(game.superMult.costIncrease[i].pow(x)) < game.number) {
+			game.superMult.power[i] = game.superMult.power[i].pow(game.superMult.powerPerBuy.pow(x));
+			game.superMult.cost[i] = game.superMult.cost[i].pow(game.superMult.costIncrease[i].pow(x));
+			for(j = 0; j < 5; j++) {
+				let y = game.superMult.cost[i]
+				for(k = j; k < 4; k++) {
+					y = y.slog(game.superMult.costIncrease[i])
+				}
+				game.number = game.number.div(y);
+			}
 		}
 	}
 }
