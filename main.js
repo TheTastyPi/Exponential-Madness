@@ -74,28 +74,16 @@ function toggleAutoSave() {
 
 function maxAllMult() {
 	for(i = 1; i < game.mult.amount.length; i++) {
-		let x = game.number.log10().div(game.mult.amount[i].log10()).floor();
-		game.mult.power[i] = game.mult.power[i].pow(game.mult.powerPerBuy.pow(x));
-		game.mult.cost[i] = game.mult.cost[i].pow(game.mult.costIncrease[i].pow(x));
-		for(j = 0; j < 5; j++) {
-			game.number = game.number.div(game.mult.cost[i].iteratedlog(game.mult.costIncrease[i], j));
+		while (game.mult.cost[i] < game.number) {
+			buyMult(i);
 		}
 	}
 }
 
 function maxAllSuperMult() {
 	for(i = 1; i < game.superMult.amount.length; i++) {
-			let x = game.number.log10().div(game.superMult.amount[i].log10()).floor();
-		if (game.superMult.cost[i].pow(game.superMult.costIncrease[i].pow(x)) < game.number) {
-			game.superMult.power[i] = game.superMult.power[i].pow(game.superMult.powerPerBuy.pow(x));
-			game.superMult.cost[i] = game.superMult.cost[i].pow(game.superMult.costIncrease[i].pow(x));
-			for(j = 0; j < 5; j++) {
-				let y = game.superMult.cost[i]
-				for(k = j; k < 4; k++) {
-					y = y.slog(game.superMult.costIncrease[i])
-				}
-				game.number = game.number.div(y);
-			}
+		while (game.superMult.cost[i] < game.number) {
+			buyMult(i);
 		}
 	}
 }
