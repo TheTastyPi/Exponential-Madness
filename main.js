@@ -13,6 +13,7 @@ function load() {
 			generation:[0, new Decimal(dat.mult.generation[1]), new Decimal(dat.mult.generation[2]), new Decimal(dat.mult.generation[3]), new Decimal(dat.mult.generation[4])],
 			powerPerBuy:new Decimal(dat.mult.powerPerBuy),
 			upgradeAmount:[0, new Decimal(dat.mult.upgradeAmount[1]), new Decimal(dat.mult.upgradeAmount[2]), new Decimal(dat.mult.upgradeAmount[3]), new Decimal(dat.mult.upgradeAmount[4])],
+			baseCost:[0, new Decimal(dat.mult.baseCost[1]), new Decimal(dat.mult.baseCost[2]), new Decimal(dat.mult.baseCost[3]), new Decimal(dat.mult.baseCost[4])],
 			cost:[0, new Decimal(dat.mult.cost[1]), new Decimal(dat.mult.cost[2]), new Decimal(dat.mult.cost[3]), new Decimal(dat.mult.cost[4])],
 			costIncrease:[0, new Decimal(dat.mult.costIncrease[1]), new Decimal(dat.mult.costIncrease[2]), new Decimal(dat.mult.costIncrease[3]), new Decimal(dat.mult.costIncrease[4])],
 			unlocked:[0, dat.mult.unlocked[1], dat.mult.unlocked[2], dat.mult.unlocked[3], dat.mult.unlocked[4]]
@@ -23,6 +24,7 @@ function load() {
 			generation:[0, new Decimal(dat.superMult.generation[1]), new Decimal(dat.superMult.generation[2]), new Decimal(dat.superMult.generation[3]), new Decimal(dat.superMult.generation[4])],
 			powerPerBuy:new Decimal(dat.superMult.powerPerBuy),
 			upgradeAmount:[0, new Decimal(dat.superMult.upgradeAmount[1]), new Decimal(dat.superMult.upgradeAmount[2]), new Decimal(dat.superMult.upgradeAmount[3]), new Decimal(dat.superMult.upgradeAmount[4])],
+			baseCost:[0, new Decimal(dat.superMult.baseCost[1]), new Decimal(dat.superMult.baseCost[2]), new Decimal(dat.superMult.baseCost[3]), new Decimal(dat.superMult.baseCost[4])],
 			cost:[0, new Decimal(dat.superMult.cost[1]), new Decimal(dat.superMult.cost[2]), new Decimal(dat.superMult.cost[3]), new Decimal(dat.superMult.cost[4])],
 			costIncrease:[0, dat.superMult.costIncrease[1], dat.superMult.costIncrease[2], dat.superMult.costIncrease[3], dat.superMult.costIncrease[4]],
 			unlocked:[0, dat.superMult.unlocked[1], dat.superMult.unlocked[2], dat.superMult.unlocked[3], dat.superMult.unlocked[4]]
@@ -43,6 +45,7 @@ function wipe() {
 			generation:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
 			powerPerBuy:new Decimal(2),
 			upgradeAmount:[0, new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)],
+			baseCost:[0, new Decimal(10), new Decimal(1e10), Decimal.fromComponents(1, 2, 2), Decimal.fromComponents(1, 2, 4)],
 			cost:[0, new Decimal(10), new Decimal(1e10), Decimal.fromComponents(1, 2, 2), Decimal.fromComponents(1, 2, 4)],
 			costIncrease:[0, new Decimal(1e3), new Decimal(1e4), new Decimal(1e5), new Decimal(1e6)],
 			unlocked:[0, false, false, false, false]
@@ -53,6 +56,7 @@ function wipe() {
 			generation:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
 			powerPerBuy:new Decimal(2),
 			upgradeAmount:[0, new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)],
+			baseCost:[0, Decimal.fromComponents(1, 2, 9), Decimal.fromComponents(1, 2, 15), Decimal.fromComponents(1, 2, 25), Decimal.fromComponents(1, 2, 69)],
 			cost:[0, Decimal.fromComponents(1, 2, 9), Decimal.fromComponents(1, 2, 15), Decimal.fromComponents(1, 2, 25), Decimal.fromComponents(1, 2, 69)],
 			costIncrease:[0, new Decimal(2), new Decimal(3), new Decimal(4), new Decimal(5)],
 			unlocked:[0, false, false, false, false]
@@ -74,10 +78,12 @@ function toggleAutoSave() {
 
 function maxAllMult() {
 	for(let i = 1; i < game.mult.amount.length; i++) {
-		while (game.mult.cost[i].lessThan(game.number) 
-		       && !(document.getElementById("mult" + i).classList.contains('hidden'))) {
-			buyMult(i);
-		}
+		let usedNum = game.number.div(100).log10.log10;
+		let increase = game.mult.costIncrease[i].log10;
+		let buyAmount = usedNum.mul(2).div(increase).root(2).floor();
+		game.number = game.number.mul(0.99);
+		game.mult.upgradeAmount[i] = game.mult.upgradeAmount[i].add(buyAmount);
+		updateStuff();
 	}
 }
 
@@ -114,8 +120,9 @@ setInterval(function() {
 }, 1000);
 function updateStuff() {
   for (let i = 1; i < game.mult.amount.length; i++) {
-    game.mult.generation[i] = game.mult.amount[i].pow(game.mult.power[i]); 
-    document.getElementById("multAmount" + i).innerHTML = findDisplayValue(game.mult.amount[i]);
+	game.mult.generation[i] = game.mult.amount[i].pow(game.mult.power[i]); 
+	game.mult.cost[i] = game.mult.baseCost[i].pow(game.mult.costIncrease[i].pow(game.mult.upgradeAmount[i]));
+	document.getElementById("multAmount" + i).innerHTML = findDisplayValue(game.mult.amount[i]);
   };
   document.getElementById("multPerSecond").innerHTML = findDisplayValue(game.mult.generation[1]);
   document.getElementById("number").innerHTML = findDisplayValue(game.number);
@@ -189,7 +196,6 @@ function buyMult(n) {
       game.mult.unlocked[n] = true;
     } else {
       game.mult.upgradeAmount[n] = game.mult.upgradeAmount[n].add(1);
-      game.mult.cost[n] = game.mult.cost[n].pow(game.mult.costIncrease[n]);
     }
     updateStuff();
   }
