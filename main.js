@@ -73,19 +73,19 @@ function toggleAutoSave() {
 }
 
 function maxAllMult() {
-	for(j = 1; j < game.mult.amount.length; j++) {
-		while (game.mult.cost[j].lessThan(game.number) 
-		       && !(document.getElementById("mult" + j).classList.contains('hidden'))) {
-			buyMult(j);
+	for(let i = 1; i < game.mult.amount.length; i++) {
+		while (game.mult.cost[i].lessThan(game.number) 
+		       && !(document.getElementById("mult" + i).classList.contains('hidden'))) {
+			buyMult(i);
 		}
 	}
 }
 
 function maxAllSuperMult() {
-	for(j = 1; j < game.superMult.amount.length; j++) {
-		while (game.superMult.cost[j].lessThan(game.number) 
-		       && !(document.getElementById("superMult" + j).classList.contains('hidden'))) {
-			buySuperMult(j);
+	for(let i = 1; i < game.superMult.amount.length; i++) {
+		while (game.superMult.cost[i].lessThan(game.number) 
+		       && !(document.getElementById("superMult" + i).classList.contains('hidden'))) {
+			buySuperMult(i);
 		}
 	}
 }
@@ -98,11 +98,11 @@ if (load()) {
 }
 setInterval(function() {
   game.number = game.number.mul(game.mult.generation[1].root(20));
-  for (i = 2; i < game.mult.amount.length; i++) {
+  for (let i = 2; i < game.mult.amount.length; i++) {
     game.mult.amount[i-1] = game.mult.amount[i-1].mul(game.mult.generation[i].root(20));
   };
   game.mult.powerPerBuy = game.mult.powerPerBuy.mul(game.superMult.generation[1].root(20))
-  for (i = 2; i < game.superMult.amount.length; i++) {
+  for (let i = 2; i < game.superMult.amount.length; i++) {
     game.superMult.amount[i-1] = game.superMult.amount[i-1].mul(game.superMult.generation[i].root(20));
   };
   updateStuff();
@@ -113,13 +113,13 @@ setInterval(function() {
 	}
 }, 1000);
 function updateStuff() {
-  for (i = 1; i < game.mult.amount.length; i++) {
+  for (let i = 1; i < game.mult.amount.length; i++) {
     game.mult.generation[i] = game.mult.amount[i].pow(game.mult.power[i]); 
     document.getElementById("multAmount" + i).innerHTML = findDisplayValue(game.mult.amount[i]);
   };
   document.getElementById("multPerSecond").innerHTML = findDisplayValue(game.mult.generation[1]);
   document.getElementById("number").innerHTML = findDisplayValue(game.number);
-  for (i = 1; i < game.mult.cost.length; i++) {
+  for (let i = 1; i < game.mult.cost.length; i++) {
     if (game.mult.unlocked[i] == false) {
 	document.getElementById("multButton" + i).innerHTML = "Unlock Multiplier " + i + " Cost: " + findDisplayValue(game.mult.cost[i]);
 	if (i != 4) {
@@ -143,15 +143,15 @@ function updateStuff() {
 	document.getElementById("multButton" + i).classList.add('disabled');  
     }
   };
-  for (i = 1; i < game.mult.power.length; i++) {
+  for (let i = 1; i < game.mult.power.length; i++) {
     document.getElementById("multPower" + i).innerHTML = "^" + findDisplayValue(game.mult.power[i]);
     game.mult.power[i] = game.mult.powerPerBuy.pow(game.mult.upgradeAmount[i]);
   };
-  for (i = 1; i < game.superMult.amount.length; i++) {
+  for (let i = 1; i < game.superMult.amount.length; i++) {
     game.superMult.generation[i] = game.superMult.amount[i].pow(game.superMult.power[i]); 
     document.getElementById("superMultAmount" + i).innerHTML = findDisplayValue(game.superMult.amount[i]);
   };
-  for (i = 1; i < game.superMult.cost.length; i++) {
+  for (let i = 1; i < game.superMult.cost.length; i++) {
     if (game.superMult.unlocked[i] == false) {
 	document.getElementById("superMultButton" + i).innerHTML = "Unlock Super Multiplier " + i + " Cost: " + findDisplayValue(game.superMult.cost[i]);
 	if (i != 4) {
@@ -171,7 +171,7 @@ function updateStuff() {
 	document.getElementById("superMultButton" + i).classList.add('disabled');  
     }
   };
-  for (i = 1; i < game.superMult.power.length; i++) {
+  for (let i = 1; i < game.superMult.power.length; i++) {
     document.getElementById("superMultPower" + i).innerHTML = "^" + findDisplayValue(game.superMult.power[i]);
     game.superMult.power[i] = game.superMult.powerPerBuy.pow(game.superMult.upgradeAmount[i]);
   };
