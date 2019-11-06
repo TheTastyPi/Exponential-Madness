@@ -74,7 +74,8 @@ function toggleAutoSave() {
 
 function maxAllMult() {
 	for(i = 1; i < game.mult.amount.length; i++) {
-		while (game.mult.cost[i].lessThanOrEqualTo(game.number)) {
+		while (game.mult.cost[i].lessThanOrEqualTo(game.number) || 
+		      !(document.getElementById("mult" + i).classList.include('hidden'))) {
 			buyMult(i);
 		}
 	}
@@ -82,7 +83,8 @@ function maxAllMult() {
 
 function maxAllSuperMult() {
 	for(i = 1; i < game.superMult.amount.length; i++) {
-		while (game.superMult.cost[i].lessThanOrEqualTo(game.number)) {
+		while (game.superMult.cost[i].lessThanOrEqualTo(game.number) || 
+		      !(document.getElementById("superMult" + i).classList.include('hidden'))) {
 			buySuperMult(i);
 		}
 	}
