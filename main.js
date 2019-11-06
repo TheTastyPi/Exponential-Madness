@@ -190,12 +190,13 @@ function buySuperMult(n) {
 }
 function findDisplayValue(n) {
   if (n.lessThan(1000)) {
-    return n.toFixed(2);
+	return n.toFixed(2);
   } else if (n.lessThan(1e100)) {
-    return n.m.toFixed(2) + "e" + findDisplayValue(new Decimal(n.e));
+	return n.m.toFixed(2) + "e" + findDisplayValue(new Decimal(n.e));
   } else if (n.lessThan(Decimal.fromComponents(1, 5, 1))) {
-    return "e" + findDisplayValue(n.log10());
+	return "e" + findDisplayValue(n.log10());
   } else {
-    return "E" + n.mag.toFixed(2) + "#" + n.layer;
+	let x = n.mag.slog(10);
+	return "E" + n.mag.iteratedLog(x.floor).toFixed(2) + "#" + n.layer.add(x);
   }
 }
