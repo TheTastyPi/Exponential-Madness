@@ -219,7 +219,7 @@ function findDisplayValue(n) {
   } else if (n.lessThan(Decimal.fromComponents(1, 5, 1))) {
 	return "e" + findDisplayValue(n.log10());
   } else {
-	let x = n.mag.slog(10);
+	let x = new Decimal(n.mag).slog(10);
 	return "E" + n.mag.iteratedLog(x.floor()).toFixed(2) + "#" + n.layer.add(x);
   }
 }
