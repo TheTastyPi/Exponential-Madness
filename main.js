@@ -220,6 +220,6 @@ function findDisplayValue(n) {
 	return "e" + findDisplayValue(n.log10());
   } else {
 	let x = new Decimal(n.mag).slog(10);
-	return "E" + n.mag.iteratedLog(x.floor()).toFixed(2) + "#" + n.layer.add(x);
+	return "E" + new Decimal(n.mag).iteratedLog(x.floor()).toFixed(2) + "#" + new Decimal(n.layer).add(x);
   }
 }
