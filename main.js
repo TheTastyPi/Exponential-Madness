@@ -156,6 +156,7 @@ function buyMult(n) {
       	document.getElementById("mult"+(n+1)).classList.remove('hidden');
       } else {
 	document.getElementById("superMult1").classList.remove('hidden');
+      }
     } else {
       game.mult.upgradeAmount[n] = game.mult.upgradeAmount[n].add(1);
       game.mult.cost[n] = game.mult.cost[n].pow(game.mult.costIncrease[n]);
