@@ -71,6 +71,29 @@ function wipeConfirm() {
 function toggleAutoSave() {
 	game.autoSave = !game.autoSave;
 }
+
+function maxAllMult() {
+	for(i = 1; i < game.mult.amount.length; i++) {
+		let x = game.number.log10().div(game.mult.amount[i].log10()).floor();
+		game.mult.power[i] = game.mult.power[i].pow(game.mult.powerPerBuy.pow(x));
+		game.mult.cost[i] = game.mult.cost[i].pow(game.mult.costIncrease[i].pow(x));
+		for(j = 0; j < 5; j++) {
+			game.number = game.number.div(game.mult.cost[i].iteratedLog(game.mult.costIncrease[i], j));
+		}
+	}
+}
+
+function maxAllSuperMult() {
+	for(i = 1; i < game.superMult.amount.length; i++) {
+		let x = game.number.log10().div(game.superMult.amount[i].log10()).floor();
+		game.superMult.power[i] = game.superMult.power[i].pow(game.superMult.powerPerBuy.pow(x));
+		game.superMult.cost[i] = game.superMult.cost[i].pow(game.superMult.costIncrease[i].pow(x));
+		for(j = 0; j < 5; j++) {
+			game.number = game.number.div(game.superMult.cost[i].iteratedLog(game.superMult.costIncrease[i], j);
+		}
+	}
+}
+
 var game;
 if (load()) {
 	game = load();
@@ -79,12 +102,12 @@ if (load()) {
 }
 setInterval(function() {
   game.number = game.number.mul(game.mult.generation[1].root(20));
-  for (i = 2; i < game.mult.amount.length; i++) {
-    game.mult.amount[i-1] = game.mult.amount[i-1].mul(game.mult.generation[i].root(20));
+  for (i = 1; i < game.mult.amount.length; i++) {
+    game.mult.amount[i] = game.mult.amount[i].mul(game.mult.generation[i+1].root(20));
   };
   game.mult.powerPerBuy = game.mult.powerPerBuy.mul(game.superMult.generation[1].root(20))
-  for (i = 2; i < game.superMult.amount.length; i++) {
-    game.superMult.amount[i-1] = game.superMult.amount[i-1].mul(game.superMult.generation[i].root(20));
+  for (i = 1; i < game.superMult.amount.length; i++) {
+    game.superMult.amount[i] = game.superMult.amount[i].mul(game.superMult.generation[i+1].root(20));
   };
   updateStuff();
 }, 50);
@@ -197,6 +220,6 @@ function findDisplayValue(n) {
 	return "e" + findDisplayValue(n.log10());
   } else {
 	let x = n.mag.slog(10);
-	return "E" + n.mag.iteratedLog(x.floor).toFixed(2) + "#" + n.layer.add(x);
+	return "E" + n.mag.iteratedLog(x.floor()).toFixed(2) + "#" + n.layer.add(x);
   }
 }
