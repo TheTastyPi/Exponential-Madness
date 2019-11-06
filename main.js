@@ -83,7 +83,7 @@ function maxAllMult() {
 function maxAllSuperMult() {
 	for(i = 1; i < game.superMult.amount.length; i++) {
 		while (game.superMult.cost[i] < game.number) {
-			buyMult(i);
+			buySuperMult(i);
 		}
 	}
 }
