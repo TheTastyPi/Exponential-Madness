@@ -74,18 +74,24 @@ function toggleAutoSave() {
 
 function maxAllMult() {
 	for(i = 1; i < game.mult.amount.length; i++) {
-		while (game.mult.cost[i].lessThanOrEqualTo(game.number) || 
-		      !(document.getElementById("mult" + i).classList.contains('hidden'))) {
+		while (game.mult.cost[i].lessThanOrEqualTo(game.number) 
+		       && !(document.getElementById("mult" + i).classList.contains('hidden'))) {
 			buyMult(i);
+			if (game.number.equals(0)) {
+				break;
+			}
 		}
 	}
 }
 
 function maxAllSuperMult() {
 	for(i = 1; i < game.superMult.amount.length; i++) {
-		while (game.superMult.cost[i].lessThanOrEqualTo(game.number) || 
-		      !(document.getElementById("superMult" + i).classList.contains('hidden'))) {
+		while (game.superMult.cost[i].lessThanOrEqualTo(game.number) 
+		       && !(document.getElementById("superMult" + i).classList.contains('hidden'))) {
 			buySuperMult(i);
+			if (game.number.equals(0)) {
+				break;
+			}
 		}
 	}
 }
