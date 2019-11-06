@@ -54,7 +54,7 @@ function wipe() {
 			powerPerBuy:new Decimal(2),
 			upgradeAmount:[0, new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)],
 			cost:[0, Decimal.fromComponents(1, 2, 9), Decimal.fromComponents(1, 2, 15), Decimal.fromComponents(1, 2, 25), Decimal.fromComponents(1, 2, 69)],
-			costIncrease:[0, 1e3, 1e4, 1e5, 1e6],
+			costIncrease:[0, 2, 3, 4, 5],
 			unlocked:[0, false, false, false, false]
 		},
 		autoSave: true
