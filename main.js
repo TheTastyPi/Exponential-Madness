@@ -82,16 +82,18 @@ function maxAllMult() {
 			if (game.mult.unlocked[i] == false) {
 				game.mult.amount[i] = new Decimal(1.25);
 				game.mult.unlocked[i] = true;
+				game.number = game.number.div(game.mult.cost[i]);
 			} else {
-				let num = game.number.log10().log10().add(1);
+				let num = game.number.log10().log10();
 				let increase = game.mult.costIncrease[i].log10();
 				let startCost = game.mult.cost[i].log10().log10();
-				let buyAmount = num.mul(2).div(increase).root(2).floor().add(1);
+				let buyAmount = num.sub(startCost).div(increase).ceil();
 				let endCost = startCost.add(increase.mul(buyAmount));
-				let totalCost = buyAmount.mul(endCost.sub(startCost.sub(increase))).div(2);
-				game.number = game.number.div(totalCost.iteratedexp(2, totalCost));
+				let totalCost = endCost.sub(increase);
+				game.number = game.number.div((new Decimal(10)).pow((new Decimal(10)).pow(totalCost)));
 				game.mult.upgradeAmount[i] = game.mult.upgradeAmount[i].add(buyAmount);
 			}
+			updateStuff();
 		}
 	}
 }
