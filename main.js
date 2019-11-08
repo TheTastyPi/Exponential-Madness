@@ -77,7 +77,7 @@ function toggleAutoSave() {
 }
 
 function maxAllMult() {
-	for(let i = 1; i < 2; i++) {
+	for(let i = 1; i < game.mult.amount.length; i++) {
 		if (game.number.greaterThanOrEqualTo(game.mult.cost[i])) {
 			let increase = game.mult.costIncrease[i].log10();
 			let startCost = game.mult.cost[i].log10().log10();
