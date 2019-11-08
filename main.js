@@ -84,7 +84,7 @@ function maxAllMult() {
 				game.mult.unlocked[i] = true;
 				game.number = game.number.div(game.mult.cost[i]);
 			} else {
-				let num = game.number.log10().log10();
+				let num = game.number.log10().log10().mul(0.99);
 				let increase = game.mult.costIncrease[i].log10();
 				let startCost = game.mult.cost[i].log10().log10();
 				let buyAmount = num.sub(startCost).div(increase).ceil();
