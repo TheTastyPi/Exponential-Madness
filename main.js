@@ -77,13 +77,16 @@ function toggleAutoSave() {
 }
 
 function maxAllMult() {
-	for(let i = 1; i < game.mult.amount.length; i++) {
-		let num = game.number.div(100).log10().log10()
-		let increase = game.mult.costIncrease[i].log10()
-		let buyAmount = num.mul(2).div(increase).root(2).floor();
-		game.number = game.number.mul(0.99);
-		game.mult.upgradeAmount[i] = game.mult.upgradeAmount[i].add(buyAmount);
-		updateStuff();
+	for(let i = 1; i < 2; i++) {
+		if (game.number.greaterThanOrEqualTo(game.mult.cost[i])) {
+			let increase = game.mult.costIncrease[i].log10();
+			let startCost = game.mult.cost[i].log10().log10();
+			let buyAmount = num.mul(2).div(increase).root(2).floor().add(1);
+			let endCost = startCost.add(increase.mul(buyAmount));
+			let totalCost = buyAmount.mul(endCost.sub(startCost.sub(increase))).div(2);
+			game.number = game.number.div(totalCost.iteratedexp(2, totalCost));
+			game.mult.upgradeAmount[i] = game.mult.upgradeAmount[i].add(buyAmount);
+		}
 	}
 }
 
