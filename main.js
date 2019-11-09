@@ -219,7 +219,7 @@ function buySuperMult(n) {
       game.superMult.unlocked[n] = true;
     } else {
       game.superMult.upgradeAmount[n] = game.superMult.upgradeAmount[n].add(1);
-      game.superMult.cost[n] = game.superMult.cost[n].pow(game.superMult.costIncrease[n].tetrate(game.superMult.costIncrease[n].log10));
+      game.superMult.cost[n] = game.superMult.cost[n].pow(game.superMult.costIncrease[n].tetrate(game.superMult.costIncrease[n].log10()));
     }
     updateStuff();
   }
