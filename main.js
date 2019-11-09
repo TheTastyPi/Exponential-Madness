@@ -26,7 +26,7 @@ function load() {
 			upgradeAmount:[0, new Decimal(dat.superMult.upgradeAmount[1]), new Decimal(dat.superMult.upgradeAmount[2]), new Decimal(dat.superMult.upgradeAmount[3]), new Decimal(dat.superMult.upgradeAmount[4])],
 			baseCost:[0, new Decimal(dat.superMult.baseCost[1]), new Decimal(dat.superMult.baseCost[2]), new Decimal(dat.superMult.baseCost[3]), new Decimal(dat.superMult.baseCost[4])],
 			cost:[0, new Decimal(dat.superMult.cost[1]), new Decimal(dat.superMult.cost[2]), new Decimal(dat.superMult.cost[3]), new Decimal(dat.superMult.cost[4])],
-			costIncrease:[0, dat.superMult.costIncrease[1], dat.superMult.costIncrease[2], dat.superMult.costIncrease[3], dat.superMult.costIncrease[4]],
+			costIncrease:[0, new Decimal(dat.superMult.costIncrease[1]), new Decimal(dat.superMult.costIncrease[2]), new Decimal(dat.superMult.costIncrease[3]), new Decimal(dat.superMult.costIncrease[4])],
 			unlocked:[0, dat.superMult.unlocked[1], dat.superMult.unlocked[2], dat.superMult.unlocked[3], dat.superMult.unlocked[4]]
 		}
 		g.autoSave = dat.autoSave;
