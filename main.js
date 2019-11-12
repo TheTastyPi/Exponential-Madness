@@ -1,76 +1,203 @@
+function save() {
+	localStorage.setItem('emsave', JSON.stringify(game));
+}
 
-var game = {
-  number: new Decimal(10),
-  mult: {
-    amount:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
-    power:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
-    generation:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
-    powerPerBuy:new Decimal(2),
-    upgradeAmount:[0, new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)],
-    cost:[0, new Decimal(10), new Decimal(1e10), Decimal.fromComponents(1, 2, 2), Decimal.fromComponents(1, 2, 3)],
-    costIncrease:[0, 1e3, 1e4, 1e5, 1e6],
-    unlocked:[0, false, false, false, false]
-  },
-  superMult: {
-    amount:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
-    power:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
-    generation:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
-    powerPerBuy:new Decimal(2),
-    upgradeAmount:[0, new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)],
-    cost:[0, Decimal.fromComponents(1, 2, 9), Decimal.fromComponents(1, 3, 1), Decimal.fromComponents(1, 3, 1), Decimal.fromComponents(1, 3, 1)],
-    costIncrease:[0, 1e3, 1e4, 1e5, 1e6],
-    unlocked:[0, false, false, false, false]
-  }
-};
+function load() {
+	if (localStorage.getItem('emsave')) {
+		let dat = JSON.parse(localStorage.getItem('emsave'));
+		let g = {};
+		g.number = new Decimal(dat.number);
+		g.mult = {
+			amount:[0, new Decimal(dat.mult.amount[1]), new Decimal(dat.mult.amount[2]), new Decimal(dat.mult.amount[3]), new Decimal(dat.mult.amount[4])],
+			power:[0, new Decimal(dat.mult.power[1]), new Decimal(dat.mult.power[2]), new Decimal(dat.mult.power[3]), new Decimal(dat.mult.power[4])],
+			generation:[0, new Decimal(dat.mult.generation[1]), new Decimal(dat.mult.generation[2]), new Decimal(dat.mult.generation[3]), new Decimal(dat.mult.generation[4])],
+			powerPerBuy:new Decimal(dat.mult.powerPerBuy),
+			upgradeAmount:[0, new Decimal(dat.mult.upgradeAmount[1]), new Decimal(dat.mult.upgradeAmount[2]), new Decimal(dat.mult.upgradeAmount[3]), new Decimal(dat.mult.upgradeAmount[4])],
+			baseCost:[0, new Decimal(dat.mult.baseCost[1]), new Decimal(dat.mult.baseCost[2]), new Decimal(dat.mult.baseCost[3]), new Decimal(dat.mult.baseCost[4])],
+			cost:[0, new Decimal(dat.mult.cost[1]), new Decimal(dat.mult.cost[2]), new Decimal(dat.mult.cost[3]), new Decimal(dat.mult.cost[4])],
+			costIncrease:[0, new Decimal(dat.mult.costIncrease[1]), new Decimal(dat.mult.costIncrease[2]), new Decimal(dat.mult.costIncrease[3]), new Decimal(dat.mult.costIncrease[4])],
+			unlocked:[0, dat.mult.unlocked[1], dat.mult.unlocked[2], dat.mult.unlocked[3], dat.mult.unlocked[4]]
+		}
+		g.superMult = {
+			amount:[0, new Decimal(dat.superMult.amount[1]), new Decimal(dat.superMult.amount[2]), new Decimal(dat.superMult.amount[3]), new Decimal(dat.superMult.amount[4])],
+			power:[0, new Decimal(dat.superMult.power[1]), new Decimal(dat.superMult.power[2]), new Decimal(dat.superMult.power[3]), new Decimal(dat.superMult.power[4])],
+			generation:[0, new Decimal(dat.superMult.generation[1]), new Decimal(dat.superMult.generation[2]), new Decimal(dat.superMult.generation[3]), new Decimal(dat.superMult.generation[4])],
+			powerPerBuy:new Decimal(dat.superMult.powerPerBuy),
+			upgradeAmount:[0, new Decimal(dat.superMult.upgradeAmount[1]), new Decimal(dat.superMult.upgradeAmount[2]), new Decimal(dat.superMult.upgradeAmount[3]), new Decimal(dat.superMult.upgradeAmount[4])],
+			baseCost:[0, new Decimal(dat.superMult.baseCost[1]), new Decimal(dat.superMult.baseCost[2]), new Decimal(dat.superMult.baseCost[3]), new Decimal(dat.superMult.baseCost[4])],
+			cost:[0, new Decimal(dat.superMult.cost[1]), new Decimal(dat.superMult.cost[2]), new Decimal(dat.superMult.cost[3]), new Decimal(dat.superMult.cost[4])],
+			costIncrease:[0, new Decimal(dat.superMult.costIncrease[1]), new Decimal(dat.superMult.costIncrease[2]), new Decimal(dat.superMult.costIncrease[3]), new Decimal(dat.superMult.costIncrease[4])],
+			unlocked:[0, dat.superMult.unlocked[1], dat.superMult.unlocked[2], dat.superMult.unlocked[3], dat.superMult.unlocked[4]]
+		}
+		g.autoSave = dat.autoSave;
+		return g;
+	} else {
+		return false;
+	}
+}
+
+function wipe() {
+	game = {
+		number: new Decimal(10),
+		mult: {
+			amount:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
+			power:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
+			generation:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
+			powerPerBuy:new Decimal(2),
+			upgradeAmount:[0, new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)],
+			baseCost:[0, new Decimal(10), new Decimal(1e10), Decimal.fromComponents(1, 2, 2), Decimal.fromComponents(1, 2, 4)],
+			cost:[0, new Decimal(10), new Decimal(1e10), Decimal.fromComponents(1, 2, 2), Decimal.fromComponents(1, 2, 4)],
+			costIncrease:[0, new Decimal(1e3), new Decimal(1e4), new Decimal(1e5), new Decimal(1e6)],
+			unlocked:[0, false, false, false, false]
+		},
+		superMult: {
+			amount:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
+			power:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
+			generation:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
+			powerPerBuy:new Decimal(2),
+			upgradeAmount:[0, new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)],
+			baseCost:[0, Decimal.fromComponents(1, 2, 9), Decimal.fromComponents(1, 2, 15), Decimal.fromComponents(1, 2, 25), Decimal.fromComponents(1, 2, 69)],
+			cost:[0, Decimal.fromComponents(1, 2, 9), Decimal.fromComponents(1, 2, 15), Decimal.fromComponents(1, 2, 25), Decimal.fromComponents(1, 2, 69)],
+			costIncrease:[0, new Decimal(1e2), new Decimal(1e3), new Decimal(1e4), new Decimal(1e5)],
+			unlocked:[0, false, false, false, false]
+		},
+		autoSave: true
+	}
+	save();
+}
+
+function wipeConfirm() {
+	if (confirm("Are you sure you want to wipe your save?")) {
+		wipe();
+	}
+}
+
+function toggleAutoSave() {
+	game.autoSave = !game.autoSave;
+}
+
+function maxAllMult() {
+	for(let i = 1; i < game.mult.amount.length; i++) {
+		if (game.number.greaterThanOrEqualTo(game.mult.cost[i])) {
+			if (game.mult.unlocked[i] == false) {
+				game.mult.amount[i] = new Decimal(1.25);
+				game.mult.unlocked[i] = true;
+				game.number = game.number.div(game.mult.cost[i]);
+			} else {
+				let num = game.number.log10().log10().mul(0.99);
+				let increase = game.mult.costIncrease[i].log10();
+				let startCost = game.mult.cost[i].log10().log10();
+				let buyAmount = num.sub(startCost).div(increase).ceil();
+				let endCost = startCost.add(increase.mul(buyAmount));
+				let totalCost = endCost.sub(increase);
+				game.number = game.number.div((new Decimal(10)).pow((new Decimal(10)).pow(totalCost)));
+				game.mult.upgradeAmount[i] = game.mult.upgradeAmount[i].add(buyAmount);
+			}
+			updateStuff();
+		}
+	}
+}
+
+function maxAllSuperMult() {
+	for(let i = 1; i < game.superMult.amount.length; i++) {
+		while (game.superMult.cost[i].lessThan(game.number) 
+		       && !(document.getElementById("superMult" + i).classList.contains('hidden'))) {
+			buySuperMult(i);
+		}
+	}
+}
+
+var game;
+if (load()) {
+	game = load();
+} else {
+	wipe();
+}
 setInterval(function() {
-  game.number = game.number.mul(game.mult.generation[1].root(100));
-  for (i = 2; i < game.mult.amount.length; i++) {
-    game.mult.amount[i-1] = game.mult.amount[i-1].mul(game.mult.generation[i].root(100));
+  game.number = game.number.mul(game.mult.generation[1].root(20));
+  for (let i = 2; i < game.mult.amount.length; i++) {
+    game.mult.amount[i-1] = game.mult.amount[i-1].mul(game.mult.generation[i].root(20));
   };
-  game.mult.powerPerBuy = game.mult.powerPerBuy.mul(game.superMult.generation[1].root(100))
-  for (i = 2; i < game.superMult.amount.length; i++) {
-    game.superMult.amount[i-1] = game.superMult.amount[i-1].mul(game.superMult.generation[i].root(100));
+  game.mult.powerPerBuy = game.mult.powerPerBuy.mul(game.superMult.generation[1].root(20))
+  for (let i = 2; i < game.superMult.amount.length; i++) {
+    game.superMult.amount[i-1] = game.superMult.amount[i-1].mul(game.superMult.generation[i].root(20));
   };
   updateStuff();
 }, 50);
 setInterval(function() {
-  if (player.autoSave == true) {
-    saveGame();
-  }
-}, 60000);
+	if (game.autoSave) {
+  		save();
+	}
+}, 1000);
 function updateStuff() {
-  for (i = 1; i < game.mult.amount.length; i++) {
-    game.mult.generation[i] = game.mult.amount[i].pow(game.mult.power[i]); 
-    document.getElementById("mult" + i).innerHTML = findDisplayValue(game.mult.amount[i]);
+  for (let i = 1; i < game.mult.amount.length; i++) {
+	game.mult.generation[i] = game.mult.amount[i].pow(game.mult.power[i]); 
+	game.mult.cost[i] = game.mult.baseCost[i].pow(game.mult.costIncrease[i].pow(game.mult.upgradeAmount[i]));
+	document.getElementById("multAmount" + i).innerHTML = findDisplay(game.mult.amount[i]);
   };
-  document.getElementById("multPerSecond").innerHTML = findDisplayValue(game.mult.generation[1]);
-  document.getElementById("number").innerHTML = findDisplayValue(game.number);
-  for (i = 1; i < game.mult.cost.length; i++) {
+  document.getElementById("multPerSecond").innerHTML = findDisplay(game.mult.generation[1]);
+  document.getElementById("number").innerHTML = findDisplay(game.number);
+  for (let i = 1; i < game.mult.cost.length; i++) {
     if (game.mult.unlocked[i] == false) {
-      document.getElementById("multButton" + i).innerHTML = "Unlock Multiplier " + i + " Cost: " + findDisplayValue(game.mult.cost[i]);
+	document.getElementById("multButton" + i).innerHTML = "Unlock Multiplier " + i + " Cost: " + findDisplay(game.mult.cost[i]);
+	if (i != 4) {
+		document.getElementById("mult"+(i+1)).classList.add('hidden');
+	} else {
+		document.getElementById("superMult1").classList.add('hidden');
+	}
     } else {
-      document.getElementById("multButton" + i).innerHTML = "Square Multiplier " + i + " Cost: " + findDisplayValue(game.mult.cost[i]);
+	document.getElementById("multButton" + i).innerHTML = "Square Multiplier " + i + " Cost: " + findDisplay(game.mult.cost[i]);
+	if (i != 4) {
+		document.getElementById("mult"+(i+1)).classList.remove('hidden');
+	} else {
+		document.getElementById("superMult1").classList.remove('hidden');
+	}
+    }
+    if (game.number.greaterThanOrEqualTo(game.mult.cost[i])) {
+	document.getElementById("multButton" + i).classList.remove('disabled');
+	document.getElementById("multButton" + i).classList.add('enabled');
+    } else {
+	document.getElementById("multButton" + i).classList.remove('enabled');
+	document.getElementById("multButton" + i).classList.add('disabled');  
     }
   };
-  for (i = 1; i < game.mult.power.length; i++) {
-    document.getElementById("multPower" + i).innerHTML = "^" + findDisplayValue(game.mult.power[i]);
+  for (let i = 1; i < game.mult.power.length; i++) {
+    document.getElementById("multPower" + i).innerHTML = "^" + findDisplay(game.mult.power[i]);
     game.mult.power[i] = game.mult.powerPerBuy.pow(game.mult.upgradeAmount[i]);
   };
-  for (i = 1; i < game.superMult.amount.length; i++) {
+  for (let i = 1; i < game.superMult.amount.length; i++) {
     game.superMult.generation[i] = game.superMult.amount[i].pow(game.superMult.power[i]); 
-    document.getElementById("superMult" + i).innerHTML = findDisplayValue(game.superMult.amount[i]);
+    document.getElementById("superMultAmount" + i).innerHTML = findDisplay(game.superMult.amount[i]);
   };
-  for (i = 1; i < game.superMult.cost.length; i++) {
+  for (let i = 1; i < game.superMult.cost.length; i++) {
     if (game.superMult.unlocked[i] == false) {
-      document.getElementById("superMultButton" + i).innerHTML = "Unlock Super Multiplier " + i + " Cost: " + findDisplayValue(game.superMult.cost[i]);
+	document.getElementById("superMultButton" + i).innerHTML = "Unlock Super Multiplier " + i + " Cost: " + findDisplay(game.superMult.cost[i]);
+	if (i != 4) {
+		document.getElementById("superMult"+(i+1)).classList.add('hidden');
+	}
     } else {
-      document.getElementById("superMultButton" + i).innerHTML = "Square Multiplier " + i + " Cost: " + findDisplayValue(game.superMult.cost[i]);
+	document.getElementById("superMultButton" + i).innerHTML = "Square Multiplier " + i + " Cost: " + findDisplay(game.superMult.cost[i]);
+	if (i != 4) {
+		document.getElementById("superMult"+(i+1)).classList.remove('hidden');
+	}
+    }
+    if (game.number.greaterThanOrEqualTo(game.superMult.cost[i])) {
+	document.getElementById("superMultButton" + i).classList.remove('disabled');
+	document.getElementById("superMultButton" + i).classList.add('enabled');
+    } else {
+	document.getElementById("superMultButton" + i).classList.remove('enabled');
+	document.getElementById("superMultButton" + i).classList.add('disabled');  
     }
   };
-  for (i = 1; i < game.superMult.power.length; i++) {
-    document.getElementById("superMultPower" + i).innerHTML = "^" + findDisplayValue(game.superMult.power[i]);
+  for (let i = 1; i < game.superMult.power.length; i++) {
+    document.getElementById("superMultPower" + i).innerHTML = "^" + findDisplay(game.superMult.power[i]);
     game.superMult.power[i] = game.superMult.powerPerBuy.pow(game.superMult.upgradeAmount[i]);
   };
+  if (game.autoSave) {
+	  document.getElementById("autoSaveButton").innerHTML = "Auto Save: ON";
+  } else {
+	  document.getElementById("autoSaveButton").innerHTML = "Auto Save: OFF";
+  }
 }
 function buyMult(n) {
   if (game.number.greaterThanOrEqualTo(game.mult.cost[n])) {
@@ -80,7 +207,6 @@ function buyMult(n) {
       game.mult.unlocked[n] = true;
     } else {
       game.mult.upgradeAmount[n] = game.mult.upgradeAmount[n].add(1);
-      game.mult.cost[n] = game.mult.cost[n].pow(game.mult.costIncrease[n]);
     }
     updateStuff();
   }
@@ -93,101 +219,20 @@ function buySuperMult(n) {
       game.superMult.unlocked[n] = true;
     } else {
       game.superMult.upgradeAmount[n] = game.superMult.upgradeAmount[n].add(1);
-      game.superMult.cost[n] = game.superMult.cost[n].pow(game.superMult.costIncrease[n]);
+      game.superMult.cost[n] = game.superMult.cost[n].pow(game.superMult.costIncrease[n].tetrate(game.superMult.costIncrease[n].log10()));
     }
     updateStuff();
   }
 }
-function findDisplayValue(n) {
+function findDisplay(n) {
   if (n.lessThan(1000)) {
-    return n.toFixed(2);
+	return n.toFixed(2);
   } else if (n.lessThan(1e100)) {
-    return n.m.toFixed(2) + "e" + findDisplayValue(new Decimal(n.e));
-  } else if (n.lessThan(Decimal.fromComponents(1, 10, 1))) {
-    return "e" + findDisplayValue(new Decimal(n.e));
+	return n.m.toFixed(2) + "e" + findDisplay(new Decimal(n.e));
+  } else if (n.lessThan(Decimal.fromComponents(1, 5, 1))) {
+	return "e" + findDisplay(n.log10());
   } else {
-    return "E" + n.mag.toFixed(2) + "#" + n.layer;
+	let x = new Decimal(n.mag).slog(10);
+	return "E" + (new Decimal(n.mag)).iteratedlog(10,x.floor()).toFixed(2) + "#" + (new Decimal(n.layer)).add(x.floor());
   }
 }
-let saveName = "expMadnessSave"
-let initPlayerFunctionName = "getInitPlayer"
-let playerVarName = "game"
-
-function onImportError() {
-    alert("Error: Imported save is in invalid format, please make sure you've copied the save correctly and isn't just typing gibberish.")
-}
-
-function onLoadError() {
-    alert("I think you got your save messed up so bad we can't load it, the save have been exported automatically to your clipboard for debug purpose, please send it to the developer(Nyan cat) to see what's wrong!")
-    copyStringToClipboard(save)
-}
-
-function onImportSuccess() {
-    alert("Save imported successfully.")
-}
-// Only change things above to fit your game UNLESS you know what you're doing
-
-Array.prototype.diff = function(a) {
-    return this.filter(function(i) {return a.indexOf(i) < 0;});
-};
-
-function saveGame() {
-  localStorage.setItem(saveName,btoa(JSON.stringify(window[playerVarName])))
-}
-
-function loadGame(save,imported=false) {
-  let reference = window[initPlayerFunctionName]()
-  try {
-    save = JSON.parse(atob(save))
-  } catch(err) {
-    if (imported) {
-      onImportError()
-      return
-    } else {
-      onLoadError()
-      return
-    }
-  }
-  let temp = listItems(reference)
-  let decimalList = temp[0]
-  let itemList = temp[1]
-  let missingItem = itemList.diff(listItems(save)[1])
-  if (missingItem.includes("save")) {
-      console.log("Unrecoverable corrupted save detected, loading default save...")
-      return
-  }
-  if (missingItem.length != 0 && imported) {
-    if (!confirm("Your imported save seems to be missing some values, which means importing this save might be destructive, if you have made a backup of your current save and are sure about importing this save please press OK, if not, press cancel and the save will not be imported.")) {
-      return
-    }
-  }
-  missingItem.forEach(function(value) {
-    eval(`save.${value} = reference.${value}`) // No one will exploit their browser with localStorage right
-  })
-  
-  decimalList.forEach(function(value) {
-    eval(`save.${value} = new Decimal(save.${value})`)
-  })
-  
-  window[playerVarName] = save
-  if (imported) onImportSuccess()
-}
-
-function listItems(data,nestIndex="") {
-  let decimalList = []
-  let itemList = []
-  Object.keys(data).forEach(function (index) {
-    let value = data[index]
-    itemList.push(nestIndex + (nestIndex===""?"":".") + index)
-    if (typeof value == 'object') {
-      if (value instanceof Decimal) {
-        decimalList.push(nestIndex + (nestIndex===""?"":".") + index)
-      } else {
-        let temp = listItems(value, nestIndex + (nestIndex===""?"":".") + index)
-        decimalList = decimalList.concat(temp[0])
-        itemList = itemList.concat(temp[1])
-      }
-    }
-  });
-  return [decimalList,itemList]
-};
