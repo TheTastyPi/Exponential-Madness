@@ -1,4 +1,3 @@
-var pastGame;
 var game;
 
 load();
@@ -26,11 +25,11 @@ function save() {
 }
 
 function load() {
-	newGame();
+	let baseSave = newGame();
 	if (localStorage.getItem('emsave')) {
-		pastGame = JSON.parse(localStorage.getItem('emsave'));
-		objectToDecimal(pastGame);
-		game = {...game, ...pastGame};
+		game = JSON.parse(localStorage.getItem('emsave'));
+		objectToDecimal(game);
+		game = {...baseSave, ...game};
 	}
 }
 
@@ -47,8 +46,7 @@ function objectToDecimal(object) {
 }
 
 function newGame() {
-	game = {
-		number: new Decimal(10),
+	let save = {number: new Decimal(10),
 		mult: {
 			amount:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
 			power:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
@@ -74,10 +72,11 @@ function newGame() {
 		autoSave: true,
 		updateSpeed: 50
 	}
+	return save;
 }
 
 function wipe() {
-	newGame();
+	game = newGame();
 	save();
 }
 
