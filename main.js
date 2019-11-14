@@ -1,9 +1,28 @@
+var pastGame;
 var game;
+wipe();
+
 if (load()) {
-	game = load();
-} else {
-	wipe();
+	mergeToGame(pastGame);
 }
+
+setInterval(function() {
+	game.number = game.number.mul(game.mult.generation[1].root(1000/game.updateSpeed));
+	for (let i = 2; i < game.mult.amount.length; i++) {
+		game.mult.amount[i-1] = game.mult.amount[i-1].mul(game.mult.generation[i].root(1000/game.updateSpeed));
+	};
+	game.mult.powerPerBuy = game.mult.powerPerBuy.mul(game.superMult.generation[1].root(1000/game.updateSpeed))
+	for (let i = 2; i < game.superMult.amount.length; i++) {
+		game.superMult.amount[i-1] = game.superMult.amount[i-1].mul(game.superMult.generation[i].root(1000/game.updateSpeed));
+	};
+	updateAll();
+}, game.updateSpeed);
+
+setInterval(function() {
+	if (game.autoSave) {
+  		save();
+	}
+}, 1000);
 
 function save() {
 	localStorage.setItem('emsave', JSON.stringify(game));
@@ -11,9 +30,9 @@ function save() {
 
 function load() {
 	if (localStorage.getItem('emsave')) {
-		game = JSON.parse(localStorage.getItem('emsave'));
-		objectToDecimal(game);
-		return game;
+		pastGame = JSON.parse(localStorage.getItem('emsave'));
+		objectToDecimal(pastGame);
+		return pastGame;
 	} else {
 		return false;
 	}
@@ -29,6 +48,16 @@ function objectToDecimal(object) {
 		objectToDecimal(object[i]);
 	}
     }
+}
+
+function mergeToGame(object) {
+	for (i in object) {
+		if (typeof(object[i]) == "object") {
+			mergeToGame(object[i]);
+		} else {
+			game[i] = object[i];
+		}
+	}
 }
 
 function wipe() {
@@ -56,7 +85,8 @@ function wipe() {
 			costIncrease:[0, new Decimal(1e2), new Decimal(1e3), new Decimal(1e4), new Decimal(1e5)],
 			unlocked:[0, false, false, false, false]
 		},
-		autoSave: true
+		autoSave: true,
+		updateSpeed: 50
 	}
 	save();
 }
@@ -101,23 +131,6 @@ function maxAllSuperMult() {
 		}
 	}
 }
-
-setInterval(function() {
-  game.number = game.number.mul(game.mult.generation[1].root(20));
-  for (let i = 2; i < game.mult.amount.length; i++) {
-    game.mult.amount[i-1] = game.mult.amount[i-1].mul(game.mult.generation[i].root(20));
-  };
-  game.mult.powerPerBuy = game.mult.powerPerBuy.mul(game.superMult.generation[1].root(20))
-  for (let i = 2; i < game.superMult.amount.length; i++) {
-    game.superMult.amount[i-1] = game.superMult.amount[i-1].mul(game.superMult.generation[i].root(20));
-  };
-  updateAll();
-}, 50);
-setInterval(function() {
-	if (game.autoSave) {
-  		save();
-	}
-}, 1000);
 
 function updateMult() {
 	for (let i = 1; i < game.mult.amount.length; i++) {
