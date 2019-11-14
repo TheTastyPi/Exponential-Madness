@@ -3,7 +3,7 @@ var game;
 wipe();
 
 if (load()) {
-	mergeToGame(pastGame);
+	game = {...game, ...pastGame};
 }
 
 setInterval(function() {
@@ -48,16 +48,6 @@ function objectToDecimal(object) {
 		objectToDecimal(object[i]);
 	}
     }
-}
-
-function mergeToGame(object) {
-	for (i in object) {
-		if (typeof(object[i]) == "object") {
-			mergeToGame(object[i]);
-		} else {
-			game[i] = object[i];
-		}
-	}
 }
 
 function wipe() {
