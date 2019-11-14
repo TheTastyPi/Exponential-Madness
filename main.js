@@ -1,6 +1,6 @@
 var pastGame;
 var game;
-wipe();
+newGame();
 
 if (load()) {
 	game = {...game, ...pastGame};
@@ -50,7 +50,7 @@ function objectToDecimal(object) {
     }
 }
 
-function wipe() {
+function newGame() {
 	game = {
 		number: new Decimal(10),
 		mult: {
@@ -78,6 +78,10 @@ function wipe() {
 		autoSave: true,
 		updateSpeed: 50
 	}
+}
+
+function wipe() {
+	newGame();
 	save();
 }
 
