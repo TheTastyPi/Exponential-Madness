@@ -1,21 +1,36 @@
+var pastGame;
 var game;
-if (load()) {
-	game = load();
-} else {
-	wipe();
-}
+
+load();
+
+setInterval(function() {
+	game.number = game.number.mul(game.mult.generation[1].root(1000/game.updateSpeed));
+	for (let i = 2; i < game.mult.amount.length; i++) {
+		game.mult.amount[i-1] = game.mult.amount[i-1].mul(game.mult.generation[i].root(1000/game.updateSpeed));
+	};
+	game.mult.powerPerBuy = game.mult.powerPerBuy.mul(game.superMult.generation[1].root(1000/game.updateSpeed))
+	for (let i = 2; i < game.superMult.amount.length; i++) {
+		game.superMult.amount[i-1] = game.superMult.amount[i-1].mul(game.superMult.generation[i].root(1000/game.updateSpeed));
+	};
+	updateAll();
+}, game.updateSpeed);
+
+setInterval(function() {
+	if (game.autoSave) {
+  		save();
+	}
+}, 1000);
 
 function save() {
 	localStorage.setItem('emsave', JSON.stringify(game));
 }
 
 function load() {
+	newGame();
 	if (localStorage.getItem('emsave')) {
-		game = JSON.parse(localStorage.getItem('emsave'));
-		objectToDecimal(game);
-		return game;
-	} else {
-		return false;
+		pastGame = JSON.parse(localStorage.getItem('emsave'));
+		objectToDecimal(pastGame);
+		game = {...game, ...pastGame};
 	}
 }
 
@@ -31,7 +46,7 @@ function objectToDecimal(object) {
     }
 }
 
-function wipe() {
+function newGame() {
 	game = {
 		number: new Decimal(10),
 		mult: {
@@ -56,8 +71,13 @@ function wipe() {
 			costIncrease:[0, new Decimal(1e2), new Decimal(1e3), new Decimal(1e4), new Decimal(1e5)],
 			unlocked:[0, false, false, false, false]
 		},
-		autoSave: true
+		autoSave: true,
+		updateSpeed: 50
 	}
+}
+
+function wipe() {
+	newGame();
 	save();
 }
 
@@ -101,23 +121,6 @@ function maxAllSuperMult() {
 		}
 	}
 }
-
-setInterval(function() {
-  game.number = game.number.mul(game.mult.generation[1].root(20));
-  for (let i = 2; i < game.mult.amount.length; i++) {
-    game.mult.amount[i-1] = game.mult.amount[i-1].mul(game.mult.generation[i].root(20));
-  };
-  game.mult.powerPerBuy = game.mult.powerPerBuy.mul(game.superMult.generation[1].root(20))
-  for (let i = 2; i < game.superMult.amount.length; i++) {
-    game.superMult.amount[i-1] = game.superMult.amount[i-1].mul(game.superMult.generation[i].root(20));
-  };
-  updateAll();
-}, 50);
-setInterval(function() {
-	if (game.autoSave) {
-  		save();
-	}
-}, 1000);
 
 function updateMult() {
 	for (let i = 1; i < game.mult.amount.length; i++) {
