@@ -1,10 +1,7 @@
 var pastGame;
 var game;
-newGame();
 
-if (load()) {
-	game = {...game, ...pastGame};
-}
+load();
 
 setInterval(function() {
 	game.number = game.number.mul(game.mult.generation[1].root(1000/game.updateSpeed));
@@ -29,12 +26,11 @@ function save() {
 }
 
 function load() {
+	newGame();
 	if (localStorage.getItem('emsave')) {
 		pastGame = JSON.parse(localStorage.getItem('emsave'));
 		objectToDecimal(pastGame);
-		return pastGame;
-	} else {
-		return false;
+		game = {...game, ...pastGame};
 	}
 }
 
