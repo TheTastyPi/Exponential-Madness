@@ -1,3 +1,10 @@
+var game;
+if (load()) {
+	game = load();
+} else {
+	wipe();
+}
+
 function save() {
 	localStorage.setItem('emsave', JSON.stringify(game));
 }
@@ -81,7 +88,7 @@ function maxAllMult() {
 				game.number = game.number.div((new Decimal(10)).pow((new Decimal(10)).pow(totalCost)));
 				game.mult.upgradeAmount[i] = game.mult.upgradeAmount[i].add(buyAmount);
 			}
-			updateStuff();
+			updateAll();
 		}
 	}
 }
@@ -95,12 +102,6 @@ function maxAllSuperMult() {
 	}
 }
 
-var game;
-if (load()) {
-	game = load();
-} else {
-	wipe();
-}
 setInterval(function() {
   game.number = game.number.mul(game.mult.generation[1].root(20));
   for (let i = 2; i < game.mult.amount.length; i++) {
@@ -110,7 +111,7 @@ setInterval(function() {
   for (let i = 2; i < game.superMult.amount.length; i++) {
     game.superMult.amount[i-1] = game.superMult.amount[i-1].mul(game.superMult.generation[i].root(20));
   };
-  updateStuff();
+  updateAll();
 }, 50);
 setInterval(function() {
 	if (game.autoSave) {
@@ -118,113 +119,109 @@ setInterval(function() {
 	}
 }, 1000);
 
-function updateStuff() {
-  for (let i = 1; i < game.mult.amount.length; i++) {
-	game.mult.generation[i] = game.mult.amount[i].pow(game.mult.power[i]); 
-	game.mult.cost[i] = game.mult.baseCost[i].pow(game.mult.costIncrease[i].pow(game.mult.upgradeAmount[i]));
-	document.getElementById("multAmount" + i).innerHTML = findDisplay(game.mult.amount[i]);
-  };
-  document.getElementById("multPerSecond").innerHTML = findDisplay(game.mult.generation[1]);
-  document.getElementById("number").innerHTML = findDisplay(game.number);
-  for (let i = 1; i < game.mult.cost.length; i++) {
-    if (game.mult.unlocked[i] == false) {
-	document.getElementById("multButton" + i).innerHTML = "Unlock Multiplier " + i + " Cost: " + findDisplay(game.mult.cost[i]);
-	if (i != 4) {
-		document.getElementById("mult"+(i+1)).classList.add('hidden');
+function updateMult() {
+	for (let i = 1; i < game.mult.amount.length; i++) {
+		game.mult.generation[i] = game.mult.amount[i].pow(game.mult.power[i]); 
+		game.mult.cost[i] = game.mult.baseCost[i].pow(game.mult.costIncrease[i].pow(game.mult.upgradeAmount[i]));
+		game.mult.power[i] = game.mult.powerPerBuy.pow(game.mult.upgradeAmount[i]);
+		document.getElementById("multAmount" + i).innerHTML = findDisplay(game.mult.amount[i]);
+		document.getElementById("multPower" + i).innerHTML = "^" + findDisplay(game.mult.power[i]);
+		if (game.mult.unlocked[i] == false) {
+			document.getElementById("multButton" + i).innerHTML = "Unlock Multiplier " + i + " Cost: " + findDisplay(game.mult.cost[i]);
+			if (i != game.mult.amount.length - 1) {
+				document.getElementById("mult"+(i+1)).classList.add('hidden');
+			}
+		} else {
+			document.getElementById("multButton" + i).innerHTML = "Square Multiplier " + i + " Cost: " + findDisplay(game.mult.cost[i]);
+			if (i != game.mult.amount.length - 1) {
+				document.getElementById("mult"+(i+1)).classList.remove('hidden');
+			}
+		}
+		if (game.number.greaterThanOrEqualTo(game.mult.cost[i])) {
+			document.getElementById("multButton" + i).classList.remove('disabled');
+			document.getElementById("multButton" + i).classList.add('enabled');
+		} else {
+			document.getElementById("multButton" + i).classList.remove('enabled');
+			document.getElementById("multButton" + i).classList.add('disabled');  
+		}
+	}
+}
+
+function updateSuperMult() {
+	for (let i = 1; i < game.superMult.amount.length; i++) {
+		game.superMult.generation[i] = game.superMult.amount[i].pow(game.superMult.power[i]);
+		game.superMult.power[i] = game.superMult.powerPerBuy.pow(game.superMult.upgradeAmount[i]);
+		document.getElementById("superMultAmount" + i).innerHTML = findDisplay(game.superMult.amount[i]);
+		document.getElementById("superMultPower" + i).innerHTML = "^" + findDisplay(game.superMult.power[i]);
+		if (game.superMult.unlocked[i] == false) {
+			document.getElementById("superMultButton" + i).innerHTML = "Unlock Super Multiplier " + i + " Cost: " + findDisplay(game.superMult.cost[i]);
+			if (i != 4) {
+				document.getElementById("superMult"+(i+1)).classList.add('hidden');
+			}
+		} else {
+			document.getElementById("superMultButton" + i).innerHTML = "Square Multiplier " + i + " Cost: " + findDisplay(game.superMult.cost[i]);
+			if (i != 4) {
+				document.getElementById("superMult"+(i+1)).classList.remove('hidden');
+			}
+		}
+		if (game.number.greaterThanOrEqualTo(game.superMult.cost[i])) {
+			document.getElementById("superMultButton" + i).classList.remove('disabled');
+			document.getElementById("superMultButton" + i).classList.add('enabled');
+		} else {
+			document.getElementById("superMultButton" + i).classList.remove('enabled');
+			document.getElementById("superMultButton" + i).classList.add('disabled');  
+		}
+	}
+}
+
+function updateAll() {
+	document.getElementById("multPerSecond").innerHTML = findDisplay(game.mult.generation[1]);
+	document.getElementById("number").innerHTML = findDisplay(game.number);
+	updateMult();
+	updateSuperMult();
+	if (game.autoSave) {
+		document.getElementById("autoSaveButton").innerHTML = "Auto Save: ON";
 	} else {
-		document.getElementById("superMult1").classList.add('hidden');
+		document.getElementById("autoSaveButton").innerHTML = "Auto Save: OFF";
 	}
-    } else {
-	document.getElementById("multButton" + i).innerHTML = "Square Multiplier " + i + " Cost: " + findDisplay(game.mult.cost[i]);
-	if (i != 4) {
-		document.getElementById("mult"+(i+1)).classList.remove('hidden');
-	} else {
-		document.getElementById("superMult1").classList.remove('hidden');
-	}
-    }
-    if (game.number.greaterThanOrEqualTo(game.mult.cost[i])) {
-	document.getElementById("multButton" + i).classList.remove('disabled');
-	document.getElementById("multButton" + i).classList.add('enabled');
-    } else {
-	document.getElementById("multButton" + i).classList.remove('enabled');
-	document.getElementById("multButton" + i).classList.add('disabled');  
-    }
-  };
-  for (let i = 1; i < game.mult.power.length; i++) {
-    document.getElementById("multPower" + i).innerHTML = "^" + findDisplay(game.mult.power[i]);
-    game.mult.power[i] = game.mult.powerPerBuy.pow(game.mult.upgradeAmount[i]);
-  };
-  for (let i = 1; i < game.superMult.amount.length; i++) {
-    game.superMult.generation[i] = game.superMult.amount[i].pow(game.superMult.power[i]); 
-    document.getElementById("superMultAmount" + i).innerHTML = findDisplay(game.superMult.amount[i]);
-  };
-  for (let i = 1; i < game.superMult.cost.length; i++) {
-    if (game.superMult.unlocked[i] == false) {
-	document.getElementById("superMultButton" + i).innerHTML = "Unlock Super Multiplier " + i + " Cost: " + findDisplay(game.superMult.cost[i]);
-	if (i != 4) {
-		document.getElementById("superMult"+(i+1)).classList.add('hidden');
-	}
-    } else {
-	document.getElementById("superMultButton" + i).innerHTML = "Square Multiplier " + i + " Cost: " + findDisplay(game.superMult.cost[i]);
-	if (i != 4) {
-		document.getElementById("superMult"+(i+1)).classList.remove('hidden');
-	}
-    }
-    if (game.number.greaterThanOrEqualTo(game.superMult.cost[i])) {
-	document.getElementById("superMultButton" + i).classList.remove('disabled');
-	document.getElementById("superMultButton" + i).classList.add('enabled');
-    } else {
-	document.getElementById("superMultButton" + i).classList.remove('enabled');
-	document.getElementById("superMultButton" + i).classList.add('disabled');  
-    }
-  };
-  for (let i = 1; i < game.superMult.power.length; i++) {
-    document.getElementById("superMultPower" + i).innerHTML = "^" + findDisplay(game.superMult.power[i]);
-    game.superMult.power[i] = game.superMult.powerPerBuy.pow(game.superMult.upgradeAmount[i]);
-  };
-  if (game.autoSave) {
-	  document.getElementById("autoSaveButton").innerHTML = "Auto Save: ON";
-  } else {
-	  document.getElementById("autoSaveButton").innerHTML = "Auto Save: OFF";
-  }
 }
 
 function buyMult(n) {
-  if (game.number.greaterThanOrEqualTo(game.mult.cost[n])) {
-    game.number = game.number.div(game.mult.cost[n]);
-    if (game.mult.unlocked[n] == false) {
-      game.mult.amount[n] = new Decimal(1.25);
-      game.mult.unlocked[n] = true;
-    } else {
-      game.mult.upgradeAmount[n] = game.mult.upgradeAmount[n].add(1);
-    }
-    updateStuff();
-  }
+	if (game.number.greaterThanOrEqualTo(game.mult.cost[n])) {
+		game.number = game.number.div(game.mult.cost[n]);
+		if (game.mult.unlocked[n] == false) {
+			game.mult.amount[n] = new Decimal(1.25);
+			game.mult.unlocked[n] = true;
+		} else {
+			game.mult.upgradeAmount[n] = game.mult.upgradeAmount[n].add(1);
+		}
+		updateAll();
+	}
 }
 
 function buySuperMult(n) {
-  if (game.number.greaterThanOrEqualTo(game.superMult.cost[n])) {
-    game.number = game.number.div(game.superMult.cost[n]);
-    if (game.superMult.unlocked[n] == false) {
-      game.superMult.amount[n] = new Decimal(1.25);
-      game.superMult.unlocked[n] = true;
-    } else {
-      game.superMult.upgradeAmount[n] = game.superMult.upgradeAmount[n].add(1);
-      game.superMult.cost[n] = game.superMult.cost[n].pow(game.superMult.costIncrease[n].tetrate(game.superMult.costIncrease[n].log10()));
-    }
-    updateStuff();
-  }
+	if (game.number.greaterThanOrEqualTo(game.superMult.cost[n])) {
+		game.number = game.number.div(game.superMult.cost[n]);
+		if (game.superMult.unlocked[n] == false) {
+			game.superMult.amount[n] = new Decimal(1.25);
+			game.superMult.unlocked[n] = true;
+		} else {
+			game.superMult.upgradeAmount[n] = game.superMult.upgradeAmount[n].add(1);
+			game.superMult.cost[n] = game.superMult.cost[n].pow(game.superMult.costIncrease[n].tetrate(game.superMult.costIncrease[n].log10()));
+		}
+		updateAll();
+	}
 }
 
 function findDisplay(n) {
-  if (n.lessThan(1000)) {
-	return n.toFixed(2);
-  } else if (n.lessThan(1e100)) {
-	return n.m.toFixed(2) + "e" + findDisplay(new Decimal(n.e));
-  } else if (n.lessThan(Decimal.fromComponents(1, 5, 1))) {
-	return "e" + findDisplay(n.log10());
-  } else {
-	let x = new Decimal(n.mag).slog(10);
-	return "E" + (new Decimal(n.mag)).iteratedlog(10,x.floor()).toFixed(2) + "#" + (new Decimal(n.layer)).add(x.floor());
-  }
+	if (n.lessThan(1000)) {
+		return n.toFixed(2);
+	} else if (n.lessThan(1e100)) {
+		return n.m.toFixed(2) + "e" + findDisplay(new Decimal(n.e));
+	} else if (n.lessThan(Decimal.fromComponents(1, 5, 1))) {
+		return "e" + findDisplay(n.log10());
+	} else {
+		let x = new Decimal(n.mag).slog(10);
+		return "E" + (new Decimal(n.mag)).iteratedlog(10,x.floor()).toFixed(2) + "#" + (new Decimal(n.layer)).add(x.floor());
+	}
 }
