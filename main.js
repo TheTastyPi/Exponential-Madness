@@ -18,7 +18,7 @@ setInterval(function() {
 	if (game.autoSave) {
   		save();
 	}
-}, 1000);
+}, game.autoSaveSpeed);
 
 function save() {
 	localStorage.setItem('emsave', JSON.stringify(game));
@@ -46,7 +46,8 @@ function objectToDecimal(object) {
 }
 
 function newGame() {
-	let save = {number: new Decimal(10),
+	let save = {
+		number: new Decimal(10),
 		mult: {
 			amount:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
 			power:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
@@ -70,7 +71,8 @@ function newGame() {
 			unlocked:[0, false, false, false, false]
 		},
 		autoSave: true,
-		updateSpeed: 50
+		updateSpeed: 50,
+		autoSaveSpeed: 1000
 	}
 	return save;
 }
