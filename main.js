@@ -34,7 +34,7 @@ function load() {
 }
 
 function exportSave() {
-	document.getElementById("exportArea").innerHTML = atob(JSON.stringify(game));
+	document.getElementById("exportArea").innerHTML = btoa(JSON.stringify(game));
 	let exportedSave = document.getElementById("exportArea");
 	exportedSave.select();
 	document.execCommand("copy");
@@ -45,7 +45,7 @@ function exportSave() {
 }
 
 function importSave() {
-	let save = btoa(prompt("Please enter export text.\nWarning: Your current save will be over written if you enter a save."));
+	let save = atob(prompt("Please enter export text.\nWarning: Your current save will be over written if you enter a save."));
 	if (save != null) {
 		localStorage.setItem('emsave', JSON.stringify(save));
 		load();
