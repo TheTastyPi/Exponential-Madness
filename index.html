@@ -23,7 +23,7 @@
     <span id="mult1">
       <span id="multPower1"> ^1 </span>
       Multiplier 1: <span id="multAmount1"> 1 </span>
-      <button type="button" onclick="buyMult(1)" style="margin: 0 auto;" id="multButton1">
+      <button type="button" onclick="buyMult(1)" id="multButton1">
         Unlock Multiplier 1 Cost: 10
       </button>
     </span>
@@ -31,27 +31,35 @@
       <br>
       <span id="multPower2"> ^1 </span>
       Multiplier 2: <span id="multAmount2"> 1 </span>
-      <button type="button" onclick="buyMult(2)" style="margin: 0 auto;" id="multButton2">
-        Unlock Multiplier 2 Cost: 1e5
+      <button type="button" onclick="buyMult(2)" id="multButton2">
+        Unlock Multiplier 2 Cost: 1e10
       </button>
     </span>
     <span class="hidden" id="mult3">
       <br>
       <span id="multPower3"> ^1 </span>
       Multiplier 3: <span id="multAmount3"> 1 </span>
-      <button type="button" onclick="buyMult(3)" style="margin: 0 auto;" id="multButton3">
-        Unlock Multiplier 3 Cost: 1e1e3
+      <button type="button" onclick="buyMult(3)"  id="multButton3">
+        Unlock Multiplier 3 Cost: e1000
       </button>
     </span>
     <span class="hidden" id="mult4">
       <br>
       <span id="multPower4"> ^1 </span>
       Multiplier 4: <span id="multAmount4"> 1 </span>
-      <button type="button" onclick="buyMult(4)" style="margin: 0 auto;" id="multButton4">
-        Unlock Multiplier 4 Cost: 1e1000
+      <button type="button" onclick="buyMult(4)" id="multButton4">
+        Unlock Multiplier 4 Cost: e1e5
+      </button>
+    </span>
+    <span class="hidden" id="shopUnlock">
+      <br>
+      <br>
+      <button type="button" onclick="unlockShop()" id="shopUnlockButton"> 
+        ??? Cost: ee11
       </button>
     </span>
     <span class="hidden" id="superMult1">
+      <br>
       <br>
       <button type="button" onclick="maxAllSuperMult()">
         Max All
@@ -59,15 +67,15 @@
       <br>
       <span id="superMultPower1"> ^1 </span>
       Super Multiplier 1: <span id="superMultAmount1"> 1 </span>
-      <button type="button" onclick="buySuperMult(1)" style="margin: 0 auto;" id="superMultButton1">
-        Unlock Super Multiplier 1 Cost: 1e1e9
+      <button type="button" onclick="buySuperMult(1)" id="superMultButton1">
+        Unlock Super Multiplier 1 Cost: ???
       </button>
     </span>
     <span class="hidden" id="superMult2">
       <br>
       <span id="superMultPower2"> ^1 </span>
       Super Multiplier 2: <span id="superMultAmount2"> 1 </span>
-      <button type="button" onclick="buySuperMult(2)" style="margin: 0 auto;" id="superMultButton2">
+      <button type="button" onclick="buySuperMult(2)" id="superMultButton2">
         Unlock Super Multiplier 2 Cost: ???
       </button>
     </span>
@@ -75,7 +83,7 @@
       <br>
       <span id="superMultPower3"> ^1 </span>
       Super Multiplier 3: <span id="superMultAmount3"> 1 </span>
-      <button type="button" onclick="buySuperMult(3)" style="margin: 0 auto;" id="superMultButton3">
+      <button type="button" onclick="buySuperMult(3)" id="superMultButton3">
         Unlock Super Multiplier 3 Cost: ???
       </button>
     </span>
@@ -83,7 +91,7 @@
       <br>
       <span id="superMultPower4"> ^1 </span>
       Super Multiplier 4: <span id="superMultAmount4"> 1 </span>
-      <button type="button" onclick="buySuperMult(4)" style="margin: 0 auto;" id="superMultButton4">
+      <button type="button" onclick="buySuperMult(4)" id="superMultButton4">
         Unlock Super Multiplier 4 Cost: ???
       </button>
     </span>
@@ -98,8 +106,15 @@
     <button type="button" onclick="toggleAutoSave()" id="autoSaveButton">
       Auto Save: ON
     </button>
+    <button type="button" onclick="exportSave()" id="exportButton">
+      Export
+    </button>
+    <button type="button" onclick="importSave()" id="importButton">
+      Import
+    </button>
     <button type="button" class="warning" onclick="wipeConfirm()">
       WIPE SAVE
     </button>
+    <textarea class="hidden" id="exportArea"></textarea>
   </body>
 </html>
