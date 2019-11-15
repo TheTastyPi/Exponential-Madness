@@ -35,19 +35,18 @@ function load() {
 
 function exportSave() {
 	document.getElementById("exportArea").innerHTML = btoa(JSON.stringify(game));
-	let exportedSave = document.getElementById("exportArea");
-	exportedSave.select();
+	document.getElementById("exportArea").select;
 	document.execCommand("copy");
-	document.getElementById("exportButton").innerHTML = "Copied to clipboard!";
+	document.getElementById("exportButton").innerHTML = "Copied to Clipboard!";
 	setTimeout(function(){
 		document.getElementById("exportButton").innerHTML = "Export"
 	}, 1000);
 }
 
 function importSave() {
-	let save = atob(prompt("Please enter export text.\nWarning: Your current save will be over written if you enter a save."));
+	let save = prompt("Please enter export text.\nWarning: Your current save will be over-written.");
 	if (save != null) {
-		localStorage.setItem('emsave', JSON.stringify(save));
+		localStorage.setItem('emsave', atob(save));
 		load();
 	}
 }
