@@ -1,5 +1,5 @@
 var game;
-
+var baseGame = newGame();
 load();
 
 setInterval(function() {
@@ -25,11 +25,10 @@ function save() {
 }
 
 function load() {
-	let baseSave = newGame();
 	if (localStorage.getItem('emsave')) {
 		game = JSON.parse(localStorage.getItem('emsave'));
 		objectToDecimal(game);
-		game = {...baseSave, ...game};
+		mergeToGame(game);
 	}
 }
 
@@ -55,14 +54,34 @@ function importSave() {
 
 // totally didn't copy this from somewhere else
 function objectToDecimal(object) { 
-    for(i in object) {
-        if(typeof(object[i]) == "string" && !isNaN(new Decimal(object[i]).mag)) {
-		object[i] = new Decimal(object[i]);
+	for(i in object) {
+		if(typeof(object[i]) == "string" && !isNaN(new Decimal(object[i]).mag)) {
+			object[i] = new Decimal(object[i]);
+		}
+		if(typeof(object[i]) == "object") {
+			objectToDecimal(object[i]);
+		}
 	}
-        if(typeof(object[i]) == "object") {
-		objectToDecimal(object[i]);
+}
+//I have no idea what I'm doing
+function mergeToGame(object, parent) {
+	if (parent) {
+		for(i in baseGame) {
+			if(typeof(baseGame[i]) == "object") {
+				mergeToGame(object[i], i]);
+			} else {
+				baseGame[parent][i] = object[i];
+			}
+		}
+	} else {
+		for(i in baseGame) {
+			if(typeof(baseGame[i]) == "object") {
+				mergeToGame(object[i], i]);
+			} else {
+				baseGame[i] = object[i];
+			}
+		}
 	}
-    }
 }
 
 function newGame() {
