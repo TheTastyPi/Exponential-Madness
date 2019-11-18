@@ -1,4 +1,3 @@
-var pastGame;
 var game;
 
 load();
@@ -19,18 +18,36 @@ setInterval(function() {
 	if (game.autoSave) {
   		save();
 	}
-}, 1000);
+}, game.autoSaveSpeed);
 
 function save() {
 	localStorage.setItem('emsave', JSON.stringify(game));
 }
 
 function load() {
-	newGame();
+	let baseSave = newGame();
 	if (localStorage.getItem('emsave')) {
-		pastGame = JSON.parse(localStorage.getItem('emsave'));
-		objectToDecimal(pastGame);
-		game = {...game, ...pastGame};
+		game = JSON.parse(localStorage.getItem('emsave'));
+		objectToDecimal(game);
+		game = {...baseSave, ...game};
+	}
+}
+
+function exportSave() {
+	document.getElementById("exportArea").innerHTML = btoa(JSON.stringify(game));
+	document.getElementById("exportArea").select();
+	document.execCommand("copy");
+	document.getElementById("exportButton").innerHTML = "Copied to Clipboard!";
+	setTimeout(function(){
+		document.getElementById("exportButton").innerHTML = "Export"
+	}, 1000);
+}
+
+function importSave() {
+	let save = prompt("Please enter export text.\nWarning: Your current save will be over-written.");
+	if (save != null) {
+		localStorage.setItem('emsave', atob(save));
+		load();
 	}
 }
 
@@ -47,7 +64,7 @@ function objectToDecimal(object) {
 }
 
 function newGame() {
-	game = {
+	let save = {
 		number: new Decimal(10),
 		mult: {
 			amount:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
@@ -72,12 +89,14 @@ function newGame() {
 			unlocked:[0, false, false, false, false]
 		},
 		autoSave: true,
-		updateSpeed: 50
+		updateSpeed: 50,
+		autoSaveSpeed: 1000
 	}
+	return save;
 }
 
 function wipe() {
-	newGame();
+	game = newGame();
 	save();
 }
 
@@ -91,6 +110,7 @@ function toggleAutoSave() {
 	game.autoSave = !game.autoSave;
 }
 
+// how am I supposed to do this? i can't figure it out! Edit: nvm
 function maxAllMult() {
 	for(let i = 1; i < game.mult.amount.length; i++) {
 		if (game.number.greaterThanOrEqualTo(game.mult.cost[i])) {
@@ -99,7 +119,7 @@ function maxAllMult() {
 				game.mult.unlocked[i] = true;
 				game.number = game.number.div(game.mult.cost[i]);
 			} else {
-				let num = game.number.log10().log10().mul(0.99);
+				let num = game.number.log10().log10().mul(0.99999); // lol just add more 9s
 				let increase = game.mult.costIncrease[i].log10();
 				let startCost = game.mult.cost[i].log10().log10();
 				let buyAmount = num.sub(startCost).div(increase).ceil();
@@ -119,6 +139,19 @@ function maxAllSuperMult() {
 		       && !(document.getElementById("superMult" + i).classList.contains('hidden'))) {
 			buySuperMult(i);
 		}
+	}
+}
+
+function findDisplay(n) {
+	if (n.lessThan(1000)) {
+		return n.toFixed(2);
+	} else if (n.lessThan(1e100)) {
+		return n.m.toFixed(2) + "e" + findDisplay(new Decimal(n.e));
+	} else if (n.lessThan(Decimal.fromComponents(1, 5, 1))) {
+		return "e" + findDisplay(n.log10());
+	} else {
+		let x = new Decimal(n.mag).slog(10);
+		return "E" + (new Decimal(n.mag)).iteratedlog(10,x.floor()).toFixed(2) + "#" + (new Decimal(n.layer)).add(x.floor());
 	}
 }
 
@@ -213,18 +246,5 @@ function buySuperMult(n) {
 			game.superMult.cost[n] = game.superMult.cost[n].pow(game.superMult.costIncrease[n].tetrate(game.superMult.costIncrease[n].log10()));
 		}
 		updateAll();
-	}
-}
-
-function findDisplay(n) {
-	if (n.lessThan(1000)) {
-		return n.toFixed(2);
-	} else if (n.lessThan(1e100)) {
-		return n.m.toFixed(2) + "e" + findDisplay(new Decimal(n.e));
-	} else if (n.lessThan(Decimal.fromComponents(1, 5, 1))) {
-		return "e" + findDisplay(n.log10());
-	} else {
-		let x = new Decimal(n.mag).slog(10);
-		return "E" + (new Decimal(n.mag)).iteratedlog(10,x.floor()).toFixed(2) + "#" + (new Decimal(n.layer)).add(x.floor());
 	}
 }
