@@ -34,7 +34,7 @@ function load() {
 }
 
 function exportSave() {
-	document.getElementById("exportArea").innerHTML = btoa(JSON.stringify(game));
+	document.getElementById("exportArea").value = btoa(JSON.stringify(game));
 	document.getElementById("exportArea").select;
 	document.execCommand("copy");
 	document.getElementById("exportButton").innerHTML = "Copied to Clipboard!";
