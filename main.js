@@ -68,7 +68,7 @@ function mergeToGame(object, parent) {
 	if (parent) {
 		for(i in baseGame) {
 			if(typeof(baseGame[i]) == "object") {
-				mergeToGame(object[i], i]);
+				mergeToGame(object[i], i);
 			} else {
 				baseGame[parent][i] = object[i];
 			}
