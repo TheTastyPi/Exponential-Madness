@@ -110,7 +110,7 @@ function toggleAutoSave() {
 	game.autoSave = !game.autoSave;
 }
 
-// how am I supposed to do this? i can't figure it out
+// how am I supposed to do this? i can't figure it out! Edit: nvm
 function maxAllMult() {
 	for(let i = 1; i < game.mult.amount.length; i++) {
 		if (game.number.greaterThanOrEqualTo(game.mult.cost[i])) {
@@ -119,7 +119,7 @@ function maxAllMult() {
 				game.mult.unlocked[i] = true;
 				game.number = game.number.div(game.mult.cost[i]);
 			} else {
-				let num = game.number.log10().log10().mul(0.99999);
+				let num = game.number.log10().log10().mul(0.99999); // lol just add more 9s
 				let increase = game.mult.costIncrease[i].log10();
 				let startCost = game.mult.cost[i].log10().log10();
 				let buyAmount = num.sub(startCost).div(increase).ceil();
