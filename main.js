@@ -34,9 +34,11 @@ function load() {
 }
 
 function exportSave() {
+	document.getElementById("exportArea").classList.remove('hidden');
 	document.getElementById("exportArea").innerHTML = btoa(JSON.stringify(game));
 	document.getElementById("exportArea").select();
 	document.execCommand("copy");
+	document.getElementById("exportArea").classList.add('hidden');
 	document.getElementById("exportButton").innerHTML = "Copied to Clipboard!";
 	setTimeout(function(){
 		document.getElementById("exportButton").innerHTML = "Export"
@@ -75,7 +77,7 @@ function newGame() {
 			baseCost:[0, new Decimal(10), new Decimal(1e10), Decimal.fromComponents(1, 2, 2), Decimal.fromComponents(1, 2, 4)],
 			cost:[0, new Decimal(10), new Decimal(1e10), Decimal.fromComponents(1, 2, 2), Decimal.fromComponents(1, 2, 4)],
 			costIncrease:[0, new Decimal(1e3), new Decimal(1e4), new Decimal(1e5), new Decimal(1e6)],
-			unlocked:[0, false, false, false, false]
+			unlocked:[0, false, false, false, false, false]
 		},
 		superMult: {
 			amount:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
