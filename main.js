@@ -110,7 +110,6 @@ function newGame() {
 			unlocked:[0, false, false, false, false]
 		},
 		autoSave: true,
-		updateSpeed: 50,
 		autoSaveSpeed: 1000
 	}
 	return save;
