@@ -1,5 +1,5 @@
-var game;
-var baseGame = newGame();
+var pastGame;
+var game = newGame();
 load();
 
 setInterval(function() {
@@ -26,9 +26,10 @@ function save() {
 
 function load() {
 	if (localStorage.getItem('emsave')) {
-		game = JSON.parse(localStorage.getItem('emsave'));
-		objectToDecimal(game);
-		mergeToGame(game, false);
+		pastGame = JSON.parse(localStorage.getItem('emsave'));
+		objectToDecimal(pastGame);
+		mergeToGame(pastGame, false);
+		
 	}
 }
 
@@ -71,7 +72,7 @@ function mergeToGame(object, parent) {
 				if(typeof(baseGame[i]) == "object") {
 					mergeToGame(object[i], parent[i]);
 				} else {
-					baseGame[parent][i] = object[i];
+					game[parent][i] = object[i];
 				}
 			}
 		}
