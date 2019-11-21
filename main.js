@@ -1,5 +1,5 @@
-var game;
-
+var pastGame;
+var game = newGame();
 load();
 
 setInterval(function() {
@@ -25,18 +25,20 @@ function save() {
 }
 
 function load() {
-	let baseSave = newGame();
 	if (localStorage.getItem('emsave')) {
-		game = JSON.parse(localStorage.getItem('emsave'));
-		objectToDecimal(game);
-		game = {...baseSave, ...game};
+		pastGame = JSON.parse(localStorage.getItem('emsave'));
+		objectToDecimal(pastGame);
+		mergeToGame(pastGame, false);
+		
 	}
 }
 
 function exportSave() {
+	document.getElementById("exportArea").classList.remove('hidden');
 	document.getElementById("exportArea").innerHTML = btoa(JSON.stringify(game));
 	document.getElementById("exportArea").select();
 	document.execCommand("copy");
+	document.getElementById("exportArea").classList.add('hidden');
 	document.getElementById("exportButton").innerHTML = "Copied to Clipboard!";
 	setTimeout(function(){
 		document.getElementById("exportButton").innerHTML = "Export"
@@ -53,14 +55,38 @@ function importSave() {
 
 // totally didn't copy this from somewhere else
 function objectToDecimal(object) { 
-    for(i in object) {
-        if(typeof(object[i]) == "string" && !isNaN(new Decimal(object[i]).mag)) {
-		object[i] = new Decimal(object[i]);
+	for(i in object) {
+		if(typeof(object[i]) == "string" && !isNaN(new Decimal(object[i]).mag)) {
+			object[i] = new Decimal(object[i]);
+		}
+		if(typeof(object[i]) == "object") {
+			objectToDecimal(object[i]);
+		}
 	}
-        if(typeof(object[i]) == "object") {
-		objectToDecimal(object[i]);
+}
+//I have no idea what I'm doing
+function mergeToGame(object, parent) {
+	if (parent) {
+		for(i in game[parent]) {
+			if(object[i] != undefined) {
+				if(typeof(game[i]) == "object") {
+					mergeToGame(object[i], parent[i]);
+				} else {
+					game[parent][i] = object[i];
+				}
+			}
+		}
+	} else {
+		for(i in game) {
+			if(object[i] != undefined) {
+				if(typeof(game[i]) == "object") {
+					mergeToGame(object[i], i);
+				} else {
+					game[i] = object[i];
+				}
+			}
+		}
 	}
-    }
 }
 
 function newGame() {
@@ -75,7 +101,7 @@ function newGame() {
 			baseCost:[0, new Decimal(10), new Decimal(1e10), Decimal.fromComponents(1, 2, 2), Decimal.fromComponents(1, 2, 4)],
 			cost:[0, new Decimal(10), new Decimal(1e10), Decimal.fromComponents(1, 2, 2), Decimal.fromComponents(1, 2, 4)],
 			costIncrease:[0, new Decimal(1e3), new Decimal(1e4), new Decimal(1e5), new Decimal(1e6)],
-			unlocked:[0, false, false, false, false]
+			unlocked:[0, false, false, false, false, false]
 		},
 		superMult: {
 			amount:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
@@ -89,7 +115,8 @@ function newGame() {
 			unlocked:[0, false, false, false, false]
 		},
 		autoSave: true,
-		autoSaveSpeed: 1000
+		autoSaveSpeed: 1000,
+		updateSpeed: 50
 	}
 	return save;
 }
