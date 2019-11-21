@@ -66,19 +66,23 @@ function objectToDecimal(object) {
 //I have no idea what I'm doing
 function mergeToGame(object, parent) {
 	if (parent) {
-		for(i in baseGame) {
-			if(typeof(baseGame[i]) == "object") {
-				mergeToGame(object[i], i);
-			} else {
-				baseGame[parent][i] = object[i];
+		for(i in baseGame[parent]) {
+			if(object[i] != undefined) {
+				if(typeof(baseGame[i]) == "object") {
+					mergeToGame(object[i], parent[i]);
+				} else {
+					baseGame[parent][i] = object[i];
+				}
 			}
 		}
 	} else {
 		for(i in baseGame) {
-			if(typeof(baseGame[i]) == "object") {
-				mergeToGame(object[i], i);
-			} else {
-				baseGame[i] = object[i];
+			if(object[i] != undefined) {
+				if(typeof(baseGame[i]) == "object") {
+					mergeToGame(object[i], i);
+				} else {
+					baseGame[i] = object[i];
+				}
 			}
 		}
 	}
