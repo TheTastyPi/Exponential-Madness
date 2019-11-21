@@ -67,9 +67,9 @@ function objectToDecimal(object) {
 //I have no idea what I'm doing
 function mergeToGame(object, parent) {
 	if (parent) {
-		for(i in baseGame[parent]) {
+		for(i in game[parent]) {
 			if(object[i] != undefined) {
-				if(typeof(baseGame[i]) == "object") {
+				if(typeof(game[i]) == "object") {
 					mergeToGame(object[i], parent[i]);
 				} else {
 					game[parent][i] = object[i];
@@ -77,12 +77,12 @@ function mergeToGame(object, parent) {
 			}
 		}
 	} else {
-		for(i in baseGame) {
+		for(i in game) {
 			if(object[i] != undefined) {
-				if(typeof(baseGame[i]) == "object") {
+				if(typeof(game[i]) == "object") {
 					mergeToGame(object[i], i);
 				} else {
-					baseGame[i] = object[i];
+					game[i] = object[i];
 				}
 			}
 		}
