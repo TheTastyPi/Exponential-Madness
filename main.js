@@ -113,8 +113,7 @@ function newGame() {
 			costIncrease:[0, new Decimal(1e2), new Decimal(1e3), new Decimal(1e4), new Decimal(1e5)],
 			unlocked:[0, false, false, false, false]
 		},
-		autoSave: true,
-		autoSaveSpeed: 1000
+		autoSave: true
 	}
 	return save;
 }
