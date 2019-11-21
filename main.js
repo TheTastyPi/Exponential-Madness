@@ -112,8 +112,7 @@ function newGame() {
 			baseCost:[0, Decimal.fromComponents(1, 2, 9), Decimal.fromComponents(1, 2, 15), Decimal.fromComponents(1, 2, 25), Decimal.fromComponents(1, 2, 69)],
 			cost:[0, Decimal.fromComponents(1, 2, 9), Decimal.fromComponents(1, 2, 15), Decimal.fromComponents(1, 2, 25), Decimal.fromComponents(1, 2, 69)],
 			costIncrease:[0, new Decimal(1e2), new Decimal(1e3), new Decimal(1e4), new Decimal(1e5)],
-			unlocked:[0, false, false, false, false],
-			test:123
+			unlocked:[0, false, false, false, false]
 		},
 		autoSave: true,
 		autoSaveSpeed: 1000,
