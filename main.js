@@ -28,7 +28,7 @@ function load() {
 	if (localStorage.getItem('emsave')) {
 		game = JSON.parse(localStorage.getItem('emsave'));
 		objectToDecimal(game);
-		mergeToGame(game);
+		mergeToGame(game, false);
 	}
 }
 
