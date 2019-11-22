@@ -15,7 +15,7 @@
     <br>
     <br>
     Multiplying by <span id="multPerSecond"> 1 </span> every second
-    <button type="button" onclick="maxAllMult()">
+    <button type="button" onclick="maxAll("normal")">
       Max All
     </button>
     <br>
@@ -23,7 +23,7 @@
     <span id="mult1">
       <span id="multPower1"> ^1 </span>
       Multiplier 1: <span id="multAmount1"> 1 </span>
-      <button type="button" onclick="buyMult(1)" id="multButton1">
+      <button type="button" onclick="buyMult(1, "normal")" id="multButton1">
         Unlock Multiplier 1 Cost: 10
       </button>
     </span>
@@ -31,7 +31,7 @@
       <br>
       <span id="multPower2"> ^1 </span>
       Multiplier 2: <span id="multAmount2"> 1 </span>
-      <button type="button" onclick="buyMult(2)" id="multButton2">
+      <button type="button" onclick="buyMult(2, "normal")" id="multButton2">
         Unlock Multiplier 2 Cost: 1e10
       </button>
     </span>
@@ -39,7 +39,7 @@
       <br>
       <span id="multPower3"> ^1 </span>
       Multiplier 3: <span id="multAmount3"> 1 </span>
-      <button type="button" onclick="buyMult(3)"  id="multButton3">
+      <button type="button" onclick="buyMult(3, "normal")"  id="multButton3">
         Unlock Multiplier 3 Cost: e1000
       </button>
     </span>
@@ -47,7 +47,7 @@
       <br>
       <span id="multPower4"> ^1 </span>
       Multiplier 4: <span id="multAmount4"> 1 </span>
-      <button type="button" onclick="buyMult(4)" id="multButton4">
+      <button type="button" onclick="buyMult(4, "normal")" id="multButton4">
         Unlock Multiplier 4 Cost: e1e5
       </button>
     </span>
@@ -61,13 +61,13 @@
     <span class="hidden" id="superMult1">
       <br>
       <br>
-      <button type="button" onclick="maxAllSuperMult()">
+      <button type="button" onclick="maxAll("super")">
         Max All
       </button>
       <br>
       <span id="superMultPower1"> ^1 </span>
       Super Multiplier 1: <span id="superMultAmount1"> 1 </span>
-      <button type="button" onclick="buySuperMult(1)" id="superMultButton1">
+      <button type="button" onclick="buyMult(1, "super")" id="superMultButton1">
         Unlock Super Multiplier 1 Cost: ???
       </button>
     </span>
@@ -75,7 +75,7 @@
       <br>
       <span id="superMultPower2"> ^1 </span>
       Super Multiplier 2: <span id="superMultAmount2"> 1 </span>
-      <button type="button" onclick="buySuperMult(2)" id="superMultButton2">
+      <button type="button" onclick="buyMult(2, "super")" id="superMultButton2">
         Unlock Super Multiplier 2 Cost: ???
       </button>
     </span>
@@ -83,7 +83,7 @@
       <br>
       <span id="superMultPower3"> ^1 </span>
       Super Multiplier 3: <span id="superMultAmount3"> 1 </span>
-      <button type="button" onclick="buySuperMult(3)" id="superMultButton3">
+      <button type="button" onclick="buyMult(3, "super")" id="superMultButton3">
         Unlock Super Multiplier 3 Cost: ???
       </button>
     </span>
@@ -91,7 +91,7 @@
       <br>
       <span id="superMultPower4"> ^1 </span>
       Super Multiplier 4: <span id="superMultAmount4"> 1 </span>
-      <button type="button" onclick="buySuperMult(4)" id="superMultButton4">
+      <button type="button" onclick="buyMult(4, "super")" id="superMultButton4">
         Unlock Super Multiplier 4 Cost: ???
       </button>
     </span>
