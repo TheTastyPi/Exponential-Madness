@@ -227,7 +227,7 @@ function maxAll(type) {
 		break;
 		case "super":
 			for(let i = 1; i <= game.superMult.maxMult; i++) {
-				while (game.superMult.cost[i]).lessThan(game.number) 
+				while (game.superMult.cost[i].lessThan(game.number)
 				       && !(document.getElementById("superMult" + i).classList.contains('hidden'))) {
 					buyMult(i, "super");
 				}
