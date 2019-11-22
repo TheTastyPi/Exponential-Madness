@@ -1,4 +1,5 @@
-var lastFrame = 0
+var lastFrame = 0;
+var lastSave = 0;
 window.requestAnimationFrame(nextFrame);
 
 var pastGame;
@@ -6,8 +7,9 @@ var game = newGame();
 load();
 
 function nextFrame(timeStamp) {
-	let time = timeStamp - lastFrame;
-	if (time >= game.updateSpeed) {
+	let sinceLastFrame = timeStamp - lastFrame;
+	let sinceLastSave = timeStamp - lastSave;
+	if (sinceLastFrame >= game.updateSpeed) {
 		game.number = game.number.mul(game.mult.generation[1].root(1000/game.updateSpeed));
 		for (let i = 2; i < game.mult.amount.length; i++) {
 			game.mult.amount[i-1] = game.mult.amount[i-1].mul(game.mult.generation[i].root(1000/game.updateSpeed));
@@ -17,12 +19,13 @@ function nextFrame(timeStamp) {
 			game.superMult.amount[i-1] = game.superMult.amount[i-1].mul(game.superMult.generation[i].root(1000/game.updateSpeed));
 		};
 		updateAll();
-		lastFrame = time;
+		lastFrame = timeStamp;
 	}
-	if (time >= game.autoSaveSpeed) {
+	if (sinceLastSave >= game.autoSaveSpeed) {
 		if (game.autoSave) {
 			save();
 		}
+		lastSave = timeStamp;
 	}
 	window.requestAnimationFrame(nextFrame);
 }
