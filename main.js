@@ -1,24 +1,31 @@
+var lastFrame = 0
+window.requestAnimationFrame(nextFrame);
+
 var pastGame;
 var game = newGame();
 load();
 
-setInterval(function() {
-	game.number = game.number.mul(game.mult.generation[1].root(1000/game.updateSpeed));
-	for (let i = 2; i < game.mult.amount.length; i++) {
-		game.mult.amount[i-1] = game.mult.amount[i-1].mul(game.mult.generation[i].root(1000/game.updateSpeed));
-	};
-	game.mult.powerPerBuy = game.mult.powerPerBuy.mul(game.superMult.generation[1].root(1000/game.updateSpeed))
-	for (let i = 2; i < game.superMult.amount.length; i++) {
-		game.superMult.amount[i-1] = game.superMult.amount[i-1].mul(game.superMult.generation[i].root(1000/game.updateSpeed));
-	};
-	updateAll();
-}, game.updateSpeed);
-
-setInterval(function() {
-	if (game.autoSave) {
-  		save();
+function nextFrame(timeStamp) {
+	let time = timeStamp - lastFrame;
+	if (time >= game.updateSpeed) {
+		game.number = game.number.mul(game.mult.generation[1].root(1000/game.updateSpeed));
+		for (let i = 2; i < game.mult.amount.length; i++) {
+			game.mult.amount[i-1] = game.mult.amount[i-1].mul(game.mult.generation[i].root(1000/game.updateSpeed));
+		};
+		game.mult.powerPerBuy = game.mult.powerPerBuy.mul(game.superMult.generation[1].root(1000/game.updateSpeed))
+		for (let i = 2; i < game.superMult.amount.length; i++) {
+			game.superMult.amount[i-1] = game.superMult.amount[i-1].mul(game.superMult.generation[i].root(1000/game.updateSpeed));
+		};
+		updateAll();
+		lastFrame = time;
 	}
-}, game.autoSaveSpeed);
+	if (time >= game.autoSaveSpeed) {
+		if (game.autoSave) {
+			save();
+		}
+	}
+	window.requestAnimationFrame(nextFrame);
+}
 
 function save() {
 	localStorage.setItem('emsave', JSON.stringify(game));
@@ -29,7 +36,6 @@ function load() {
 		pastGame = JSON.parse(localStorage.getItem('emsave'));
 		objectToDecimal(pastGame);
 		mergeToGame(pastGame, false);
-		
 	}
 }
 
@@ -55,11 +61,11 @@ function importSave() {
 
 // totally didn't copy this from somewhere else
 function objectToDecimal(object) { 
-	for(i in object) {
-		if(typeof(object[i]) == "string" && !isNaN(new Decimal(object[i]).mag)) {
+	for (i in object) {
+		if (typeof(object[i]) == "string" && !isNaN(new Decimal(object[i]).mag)) {
 			object[i] = new Decimal(object[i]);
 		}
-		if(typeof(object[i]) == "object") {
+		if (typeof(object[i]) == "object") {
 			objectToDecimal(object[i]);
 		}
 	}
@@ -67,9 +73,9 @@ function objectToDecimal(object) {
 //I have no idea what I'm doing
 function mergeToGame(object, parent) {
 	if (parent) {
-		for(i in game[parent]) {
-			if(object[i] != undefined) {
-				if(typeof(game[i]) == "object") {
+		for (i in game[parent]) {
+			if (object[i] != undefined) {
+				if (typeof(game[i]) == "object") {
 					mergeToGame(object[i], parent[i]);
 				} else {
 					game[parent][i] = object[i];
@@ -77,9 +83,9 @@ function mergeToGame(object, parent) {
 			}
 		}
 	} else {
-		for(i in game) {
-			if(object[i] != undefined) {
-				if(typeof(game[i]) == "object") {
+		for (i in game) {
+			if (object[i] != undefined) {
+				if (typeof(game[i]) == "object") {
 					mergeToGame(object[i], i);
 				} else {
 					game[i] = object[i];
@@ -91,6 +97,7 @@ function mergeToGame(object, parent) {
 
 function newGame() {
 	let save = {
+		timePlayed: 0,
 		number: new Decimal(10),
 		mult: {
 			amount:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
@@ -136,7 +143,6 @@ function toggleAutoSave() {
 	game.autoSave = !game.autoSave;
 }
 
-// how am I supposed to do this? i can't figure it out! Edit: nvm
 function maxAllMult() {
 	for(let i = 1; i < game.mult.amount.length; i++) {
 		if (game.number.greaterThanOrEqualTo(game.mult.cost[i])) {
