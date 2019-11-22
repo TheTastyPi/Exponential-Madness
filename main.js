@@ -20,6 +20,7 @@ function nextFrame(timeStamp) {
 		};
 		updateAll();
 		lastFrame = timeStamp;
+		game.timePlayed += sinceLastFrame;
 	}
 	if (sinceLastSave >= game.autoSaveSpeed) {
 		if (game.autoSave) {
@@ -28,6 +29,26 @@ function nextFrame(timeStamp) {
 		lastSave = timeStamp;
 	}
 	window.requestAnimationFrame(nextFrame);
+}
+
+function changeUpdateSpeed() {
+	let newSpeed = prompt("Please enter new update speed in milliseconds.\n(integer from 33 to 1000)");
+	if (newSpeed != null) {
+		newSpeed = Number(newSpeed);
+		if (!isNaN(newSpeed) && newSpeed >= 33 && newSpeed <= 1000) {
+			game.updateSpeed = newSpeed;
+		}
+	}
+}
+
+function changeAutoSaveSpeed() {
+	let newSpeed = prompt("Please enter new auto-save speed in milliseconds.\n(integer from 200 to 60000)");
+	if (newSpeed != null) {
+		newSpeed = Number(newSpeed);
+		if (!isNaN(newSpeed) && newSpeed >= 200 && newSpeed <= 60000) {
+			game.autoSaveSpeed = newSpeed;
+		}
+	}
 }
 
 function save() {
@@ -73,6 +94,7 @@ function objectToDecimal(object) {
 		}
 	}
 }
+
 //I have no idea what I'm doing
 function mergeToGame(object, parent) {
 	if (parent) {
