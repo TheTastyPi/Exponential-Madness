@@ -10,17 +10,9 @@ function nextFrame(timeStamp) {
 	let sinceLastFrame = timeStamp - lastFrame;
 	let sinceLastSave = timeStamp - lastSave;
 	if (sinceLastFrame >= game.updateSpeed) {
-		game.number = game.number.mul(game.mult.generation[1].root(1000/game.updateSpeed));
-		for (let i = 2; i < game.mult.amount.length; i++) {
-			game.mult.amount[i-1] = game.mult.amount[i-1].mul(game.mult.generation[i].root(1000/game.updateSpeed));
-		};
-		game.mult.powerPerBuy = game.mult.powerPerBuy.mul(game.superMult.generation[1].root(1000/game.updateSpeed))
-		for (let i = 2; i < game.superMult.amount.length; i++) {
-			game.superMult.amount[i-1] = game.superMult.amount[i-1].mul(game.superMult.generation[i].root(1000/game.updateSpeed));
-		};
-		updateAll();
-		lastFrame = timeStamp;
+		nextFrameCalc()
 		game.timePlayed += sinceLastFrame;
+		lastFrame = timeStamp;
 	}
 	if (sinceLastSave >= game.autoSaveSpeed) {
 		if (game.autoSave) {
@@ -29,6 +21,18 @@ function nextFrame(timeStamp) {
 		lastSave = timeStamp;
 	}
 	window.requestAnimationFrame(nextFrame);
+}
+
+function nextFrameCalc() {
+	game.number = game.number.mul(getGen(1, "normal").root(1000/game.updateSpeed));
+	for (let i = 1; i < game.mult.maxMult; i++) {
+		game.mult.amount[i] = game.mult.amount[i].mul(getGen((i+1), "normal").root(1000/game.updateSpeed));
+	};
+	game.mult.powerPerBuy = game.mult.powerPerBuy.mul(game.superMult.generation[1].root(1000/game.updateSpeed))
+	for (let i = 1; i < game.superMult.maxMult; i++) {
+		game.superMult.amount[i] = game.superMult.amount[i].mul(getGen((i+1), "normal").root(1000/game.updateSpeed));
+	};
+	updateAll();
 }
 
 function changeUpdateSpeed() {
@@ -126,25 +130,22 @@ function newGame() {
 		number: new Decimal(10),
 		mult: {
 			amount:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
-			power:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
-			generation:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
 			powerPerBuy:new Decimal(2),
 			upgradeAmount:[0, new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)],
 			baseCost:[0, new Decimal(10), new Decimal(1e10), Decimal.fromComponents(1, 2, 2), Decimal.fromComponents(1, 2, 4)],
-			cost:[0, new Decimal(10), new Decimal(1e10), Decimal.fromComponents(1, 2, 2), Decimal.fromComponents(1, 2, 4)],
 			costIncrease:[0, new Decimal(1e3), new Decimal(1e4), new Decimal(1e5), new Decimal(1e6)],
-			unlocked:[0, false, false, false, false, false]
+			unlocked:[0, false, false, false, false, false, false],
+			maxMult:4
 		},
 		superMult: {
 			amount:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
-			power:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
-			generation:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
 			powerPerBuy:new Decimal(2),
 			upgradeAmount:[0, new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)],
 			baseCost:[0, Decimal.fromComponents(1, 2, 9), Decimal.fromComponents(1, 2, 15), Decimal.fromComponents(1, 2, 25), Decimal.fromComponents(1, 2, 69)],
 			cost:[0, Decimal.fromComponents(1, 2, 9), Decimal.fromComponents(1, 2, 15), Decimal.fromComponents(1, 2, 25), Decimal.fromComponents(1, 2, 69)],
 			costIncrease:[0, new Decimal(1e2), new Decimal(1e3), new Decimal(1e4), new Decimal(1e5)],
-			unlocked:[0, false, false, false, false]
+			unlocked:[0, false, false, false, false],
+			maxMult:0
 		},
 		autoSave: true,
 		autoSaveSpeed: 1000,
@@ -168,25 +169,54 @@ function toggleAutoSave() {
 	game.autoSave = !game.autoSave;
 }
 
-function getProduction(n, type){
-	
+function getGen(n, type){
+	switch (type) {
+		case "normal":
+			return game.mult.amount[n].pow(getPower(n, "normal"));
+		break;
+		case "super":
+			return game.superMult.amount[n].pow(getPower(n, "normal"));
+		break;
+	}
+}
+
+function getPower(n, type){
+	switch (type) {
+		case "normal":
+			return game.mult.powerPerBuy.pow(game.mult.upgradeAmount[n]);
+		break;
+		case "super":
+			return game.superMult.powerPerBuy.pow(game.superMult.upgradeAmount[n]);
+		break;
+	}
+}
+
+function getCost(n, type){
+	switch (type) {
+		case "normal":
+			return game.mult.baseCost[n].pow(game.mult.costIncrease[n].pow(game.mult.upgradeAmount[n]));
+		break;
+		case "super":
+			return "idk"
+		break;
+	}
 }
 
 function maxAll(type) {
 	switch (type) {
 		case "normal":
-			for(let i = 1; i < game.mult.amount.length; i++) {
+			for(let i = 1; i <= game.mult.maxMult; i++) {
 				let num = game.number.log10().log10().mul(0.99999);
 				let increase = game.mult.costIncrease[i].log10();
-				let startCost = game.mult.cost[i].log10().log10();
+				let startCost = getCost(i, "normal").log10().log10();
 				let buyAmount = num.sub(startCost).div(increase).ceil();
 				let endCost = startCost.add(increase.mul(buyAmount));
 				let totalCost = endCost.sub(increase);
-				if (num.greaterThanOrEqualTo(game.mult.cost[i])) {
+				if (num.greaterThanOrEqualTo(getCost(i, "normal"))) {
 					if (game.mult.unlocked[i] == false) {
 						game.mult.amount[i] = new Decimal(1.25);
 						game.mult.unlocked[i] = true;
-						game.number = game.number.div(game.mult.cost[i]);
+						game.number = game.number.div(getCost(i, "normal"));
 					} else {
 						game.number = game.number.div((new Decimal(10)).pow((new Decimal(10)).pow(totalCost)));
 						game.mult.upgradeAmount[i] = game.mult.upgradeAmount[i].add(buyAmount);
@@ -196,8 +226,8 @@ function maxAll(type) {
 			}
 		break;
 		case "super":
-			for(let i = 1; i < game.superMult.amount.length; i++) {
-				while (game.superMult.cost[i].lessThan(game.number) 
+			for(let i = 1; i <= game.superMult.maxMult; i++) {
+				while (game.superMult.cost[i]).lessThan(game.number) 
 				       && !(document.getElementById("superMult" + i).classList.contains('hidden'))) {
 					buyMult(i, "super");
 				}
@@ -220,24 +250,21 @@ function findDisplay(n) {
 }
 
 function updateMult() {
-	for (let i = 1; i < game.mult.amount.length; i++) {
-		game.mult.generation[i] = game.mult.amount[i].pow(game.mult.power[i]); 
-		game.mult.cost[i] = game.mult.baseCost[i].pow(game.mult.costIncrease[i].pow(game.mult.upgradeAmount[i]));
-		game.mult.power[i] = game.mult.powerPerBuy.pow(game.mult.upgradeAmount[i]);
+	for (let i = 1; i <= game.mult.maxMult; i++) {
 		document.getElementById("multAmount" + i).innerHTML = findDisplay(game.mult.amount[i]);
-		document.getElementById("multPower" + i).innerHTML = "^" + findDisplay(game.mult.power[i]);
+		document.getElementById("multPower" + i).innerHTML = "^" + findDisplay(getPower(i, "normal"));
 		if (game.mult.unlocked[i] == false) {
-			document.getElementById("multButton" + i).innerHTML = "Unlock Multiplier " + i + " Cost: " + findDisplay(game.mult.cost[i]);
-			if (i != game.mult.amount.length - 1) {
+			document.getElementById("multButton" + i).innerHTML = "Unlock Multiplier " + i + " Cost: " + findDisplay(getCost(i, "normal"));
+			if (i != game.mult.maxMult) {
 				document.getElementById("mult"+(i+1)).classList.add('hidden');
 			}
 		} else {
-			document.getElementById("multButton" + i).innerHTML = "Square Multiplier " + i + " Cost: " + findDisplay(game.mult.cost[i]);
-			if (i != game.mult.amount.length - 1) {
+			document.getElementById("multButton" + i).innerHTML = "Square Multiplier " + i + " Cost: " + findDisplay(getCost(i, "normal"));
+			if (i != game.mult.maxMult) {
 				document.getElementById("mult"+(i+1)).classList.remove('hidden');
 			}
 		}
-		if (game.number.greaterThanOrEqualTo(game.mult.cost[i])) {
+		if (game.number.greaterThanOrEqualTo(getCost(i, "normal"))) {
 			document.getElementById("multButton" + i).classList.remove('disabled');
 			document.getElementById("multButton" + i).classList.add('enabled');
 		} else {
@@ -248,11 +275,9 @@ function updateMult() {
 }
 
 function updateSuperMult() {
-	for (let i = 1; i < game.superMult.amount.length; i++) {
-		game.superMult.generation[i] = game.superMult.amount[i].pow(game.superMult.power[i]);
-		game.superMult.power[i] = game.superMult.powerPerBuy.pow(game.superMult.upgradeAmount[i]);
+	for (let i = 1; i <= game.superMult.maxMult; i++) {
 		document.getElementById("superMultAmount" + i).innerHTML = findDisplay(game.superMult.amount[i]);
-		document.getElementById("superMultPower" + i).innerHTML = "^" + findDisplay(game.superMult.power[i]);
+		document.getElementById("superMultPower" + i).innerHTML = "^" + findDisplay(getPower(i, "super"));
 		if (game.superMult.unlocked[i] == false) {
 			document.getElementById("superMultButton" + i).innerHTML = "Unlock Super Multiplier " + i + " Cost: " + findDisplay(game.superMult.cost[i]);
 			if (i != 4) {
@@ -275,7 +300,7 @@ function updateSuperMult() {
 }
 
 function updateAll() {
-	document.getElementById("multPerSecond").innerHTML = findDisplay(game.mult.generation[1]);
+	document.getElementById("multPerSecond").innerHTML = findDisplay(findGen(1, "normal"));
 	document.getElementById("number").innerHTML = findDisplay(game.number);
 	updateMult();
 	updateSuperMult();
@@ -289,8 +314,8 @@ function updateAll() {
 function buyMult(n, type) {
 	switch (type) {
 		case "normal":
-			if (game.number.greaterThanOrEqualTo(game.mult.cost[n])) {
-				game.number = game.number.div(game.mult.cost[n]);
+			if (game.number.greaterThanOrEqualTo(findCost(n, "normal"))) {
+				game.number = game.number.div(findCost(n, "normal"));
 				if (game.mult.unlocked[n] == false) {
 					game.mult.amount[n] = new Decimal(1.25);
 					game.mult.unlocked[n] = true;
