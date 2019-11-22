@@ -300,7 +300,7 @@ function updateSuperMult() {
 }
 
 function updateAll() {
-	document.getElementById("multPerSecond").innerHTML = findDisplay(findGen(1, "normal"));
+	document.getElementById("multPerSecond").innerHTML = findDisplay(getGen(1, "normal"));
 	document.getElementById("number").innerHTML = findDisplay(game.number);
 	updateMult();
 	updateSuperMult();
