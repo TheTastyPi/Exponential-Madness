@@ -28,7 +28,7 @@ function nextFrameCalc() {
 	for (let i = 1; i < game.mult.maxMult; i++) {
 		game.mult.amount[i] = game.mult.amount[i].mul(getGen((i+1), "normal").root(1000/game.updateSpeed));
 	};
-	game.mult.powerPerBuy = game.mult.powerPerBuy.mul(game.superMult.generation[1].root(1000/game.updateSpeed))
+	game.mult.powerPerBuy = game.mult.powerPerBuy.mul(getGen(1, "super").root(1000/game.updateSpeed))
 	for (let i = 1; i < game.superMult.maxMult; i++) {
 		game.superMult.amount[i] = game.superMult.amount[i].mul(getGen((i+1), "normal").root(1000/game.updateSpeed));
 	};
