@@ -314,8 +314,8 @@ function updateAll() {
 function buyMult(n, type) {
 	switch (type) {
 		case "normal":
-			if (game.number.greaterThanOrEqualTo(findCost(n, "normal"))) {
-				game.number = game.number.div(findCost(n, "normal"));
+			if (game.number.greaterThanOrEqualTo(getCost(n, "normal"))) {
+				game.number = game.number.div(getCost(n, "normal"));
 				if (game.mult.unlocked[n] == false) {
 					game.mult.amount[n] = new Decimal(1.25);
 					game.mult.unlocked[n] = true;
