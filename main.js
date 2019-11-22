@@ -168,34 +168,41 @@ function toggleAutoSave() {
 	game.autoSave = !game.autoSave;
 }
 
-function maxAllMult() {
-	for(let i = 1; i < game.mult.amount.length; i++) {
-		if (game.number.greaterThanOrEqualTo(game.mult.cost[i])) {
-			if (game.mult.unlocked[i] == false) {
-				game.mult.amount[i] = new Decimal(1.25);
-				game.mult.unlocked[i] = true;
-				game.number = game.number.div(game.mult.cost[i]);
-			} else {
-				let num = game.number.log10().log10().mul(0.99999); // lol just add more 9s
+function getProduction(n, type){
+	
+}
+
+function maxAll(type) {
+	switch (type) {
+		case "normal":
+			for(let i = 1; i < game.mult.amount.length; i++) {
+				let num = game.number.log10().log10().mul(0.99999);
 				let increase = game.mult.costIncrease[i].log10();
 				let startCost = game.mult.cost[i].log10().log10();
 				let buyAmount = num.sub(startCost).div(increase).ceil();
 				let endCost = startCost.add(increase.mul(buyAmount));
 				let totalCost = endCost.sub(increase);
-				game.number = game.number.div((new Decimal(10)).pow((new Decimal(10)).pow(totalCost)));
-				game.mult.upgradeAmount[i] = game.mult.upgradeAmount[i].add(buyAmount);
+				if (num.greaterThanOrEqualTo(game.mult.cost[i])) {
+					if (game.mult.unlocked[i] == false) {
+						game.mult.amount[i] = new Decimal(1.25);
+						game.mult.unlocked[i] = true;
+						game.number = game.number.div(game.mult.cost[i]);
+					} else {
+						game.number = game.number.div((new Decimal(10)).pow((new Decimal(10)).pow(totalCost)));
+						game.mult.upgradeAmount[i] = game.mult.upgradeAmount[i].add(buyAmount);
+					}
+					updateAll();
+				}
 			}
-			updateAll();
-		}
-	}
-}
-
-function maxAllSuperMult() {
-	for(let i = 1; i < game.superMult.amount.length; i++) {
-		while (game.superMult.cost[i].lessThan(game.number) 
-		       && !(document.getElementById("superMult" + i).classList.contains('hidden'))) {
-			buySuperMult(i);
-		}
+		break;
+		case "super":
+			for(let i = 1; i < game.superMult.amount.length; i++) {
+				while (game.superMult.cost[i].lessThan(game.number) 
+				       && !(document.getElementById("superMult" + i).classList.contains('hidden'))) {
+					buyMult(i, "super");
+				}
+			}
+		break;
 	}
 }
 
@@ -279,29 +286,32 @@ function updateAll() {
 	}
 }
 
-function buyMult(n) {
-	if (game.number.greaterThanOrEqualTo(game.mult.cost[n])) {
-		game.number = game.number.div(game.mult.cost[n]);
-		if (game.mult.unlocked[n] == false) {
-			game.mult.amount[n] = new Decimal(1.25);
-			game.mult.unlocked[n] = true;
-		} else {
-			game.mult.upgradeAmount[n] = game.mult.upgradeAmount[n].add(1);
-		}
-		updateAll();
-	}
-}
-
-function buySuperMult(n) {
-	if (game.number.greaterThanOrEqualTo(game.superMult.cost[n])) {
-		game.number = game.number.div(game.superMult.cost[n]);
-		if (game.superMult.unlocked[n] == false) {
-			game.superMult.amount[n] = new Decimal(1.25);
-			game.superMult.unlocked[n] = true;
-		} else {
-			game.superMult.upgradeAmount[n] = game.superMult.upgradeAmount[n].add(1);
-			game.superMult.cost[n] = game.superMult.cost[n].pow(game.superMult.costIncrease[n].tetrate(game.superMult.costIncrease[n].log10()));
-		}
-		updateAll();
+function buyMult(n, type) {
+	switch (type) {
+		case "normal":
+			if (game.number.greaterThanOrEqualTo(game.mult.cost[n])) {
+				game.number = game.number.div(game.mult.cost[n]);
+				if (game.mult.unlocked[n] == false) {
+					game.mult.amount[n] = new Decimal(1.25);
+					game.mult.unlocked[n] = true;
+				} else {
+					game.mult.upgradeAmount[n] = game.mult.upgradeAmount[n].add(1);
+				}
+				updateAll();
+			}
+		break;
+		case "super":
+			if (game.number.greaterThanOrEqualTo(game.superMult.cost[n])) {
+				game.number = game.number.div(game.superMult.cost[n]);
+				if (game.superMult.unlocked[n] == false) {
+					game.superMult.amount[n] = new Decimal(1.25);
+					game.superMult.unlocked[n] = true;
+				} else {
+					game.superMult.upgradeAmount[n] = game.superMult.upgradeAmount[n].add(1);
+					game.superMult.cost[n] = game.superMult.cost[n].pow(game.superMult.costIncrease[n].tetrate(game.superMult.costIncrease[n].log10()));
+				}
+				updateAll();
+			}
+		break;
 	}
 }
