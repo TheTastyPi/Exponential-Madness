@@ -11,12 +11,12 @@ function nextFrame(timeStamp) {
 	let sinceLastSave = timeStamp - lastSave;
 	if (sinceLastFrame >= game.updateSpeed) {
 		game.number = game.number.mul(game.mult.generation[1].root(1000/game.updateSpeed));
-		for (let i = 2; i < game.mult.amount.length; i++) {
-			game.mult.amount[i-1] = game.mult.amount[i-1].mul(game.mult.generation[i].root(1000/game.updateSpeed));
+		for (let i = 1; i < game.mult.maxMult; i++) {
+			game.mult.amount[i] = game.mult.amount[i].mul(game.mult.generation[i+1].root(1000/game.updateSpeed));
 		};
 		game.mult.powerPerBuy = game.mult.powerPerBuy.mul(game.superMult.generation[1].root(1000/game.updateSpeed))
-		for (let i = 2; i < game.superMult.amount.length; i++) {
-			game.superMult.amount[i-1] = game.superMult.amount[i-1].mul(game.superMult.generation[i].root(1000/game.updateSpeed));
+		for (let i = 1; i < game.superMult.maxMult; i++) {
+			game.superMult.amount[i] = game.superMult.amount[i].mul(game.superMult.generation[i+1].root(1000/game.updateSpeed));
 		};
 		updateAll();
 		lastFrame = timeStamp;
@@ -95,7 +95,6 @@ function objectToDecimal(object) {
 	}
 }
 
-//I have no idea what I'm doing
 function mergeToGame(object, parent) {
 	if (parent) {
 		for (i in game[parent]) {
@@ -133,7 +132,8 @@ function newGame() {
 			baseCost:[0, new Decimal(10), new Decimal(1e10), Decimal.fromComponents(1, 2, 2), Decimal.fromComponents(1, 2, 4)],
 			cost:[0, new Decimal(10), new Decimal(1e10), Decimal.fromComponents(1, 2, 2), Decimal.fromComponents(1, 2, 4)],
 			costIncrease:[0, new Decimal(1e3), new Decimal(1e4), new Decimal(1e5), new Decimal(1e6)],
-			unlocked:[0, false, false, false, false, false]
+			unlocked:[0, false, false, false, false, false],
+			maxMult: 4
 		},
 		superMult: {
 			amount:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
@@ -144,7 +144,8 @@ function newGame() {
 			baseCost:[0, Decimal.fromComponents(1, 2, 9), Decimal.fromComponents(1, 2, 15), Decimal.fromComponents(1, 2, 25), Decimal.fromComponents(1, 2, 69)],
 			cost:[0, Decimal.fromComponents(1, 2, 9), Decimal.fromComponents(1, 2, 15), Decimal.fromComponents(1, 2, 25), Decimal.fromComponents(1, 2, 69)],
 			costIncrease:[0, new Decimal(1e2), new Decimal(1e3), new Decimal(1e4), new Decimal(1e5)],
-			unlocked:[0, false, false, false, false]
+			unlocked:[0, false, false, false, false],
+			maxMult: 4
 		},
 		autoSave: true,
 		autoSaveSpeed: 1000,
@@ -171,7 +172,7 @@ function toggleAutoSave() {
 function maxAll(type) {
 	switch (type) {
 		case "normal":
-			for(let i = 1; i < game.mult.amount.length; i++) {
+			for(let i = 1; i <= game.mult.maxMult; i++) {
 				let num = game.number.log10().log10().mul(0.99999);
 				let increase = game.mult.costIncrease[i].log10();
 				let startCost = game.mult.cost[i].log10().log10();
@@ -216,7 +217,7 @@ function findDisplay(n) {
 }
 
 function updateMult() {
-	for (let i = 1; i < game.mult.amount.length; i++) {
+	for (let i = 1; i <= game.mult.maxMult; i++) {
 		game.mult.generation[i] = game.mult.amount[i].pow(game.mult.power[i]); 
 		game.mult.cost[i] = game.mult.baseCost[i].pow(game.mult.costIncrease[i].pow(game.mult.upgradeAmount[i]));
 		game.mult.power[i] = game.mult.powerPerBuy.pow(game.mult.upgradeAmount[i]);
@@ -244,7 +245,7 @@ function updateMult() {
 }
 
 function updateSuperMult() {
-	for (let i = 1; i < game.superMult.amount.length; i++) {
+	for (let i = 1; i <= game.superMult.maxMult; i++) {
 		game.superMult.generation[i] = game.superMult.amount[i].pow(game.superMult.power[i]);
 		game.superMult.power[i] = game.superMult.powerPerBuy.pow(game.superMult.upgradeAmount[i]);
 		document.getElementById("superMultAmount" + i).innerHTML = findDisplay(game.superMult.amount[i]);
