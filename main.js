@@ -1,55 +1,24 @@
-var lastFrame = 0;
-var lastSave = 0;
-window.requestAnimationFrame(nextFrame);
-
 var pastGame;
 var game = newGame();
 load();
 
-function nextFrame(timeStamp) {
-	let sinceLastFrame = timeStamp - lastFrame;
-	let sinceLastSave = timeStamp - lastSave;
-	if (sinceLastFrame >= game.updateSpeed) {
-		game.number = game.number.mul(game.mult.generation[1].root(1000/game.updateSpeed));
-		for (let i = 2; i < game.mult.amount.length; i++) {
-			game.mult.amount[i-1] = game.mult.amount[i-1].mul(game.mult.generation[i].root(1000/game.updateSpeed));
-		};
-		game.mult.powerPerBuy = game.mult.powerPerBuy.mul(game.superMult.generation[1].root(1000/game.updateSpeed))
-		for (let i = 2; i < game.superMult.amount.length; i++) {
-			game.superMult.amount[i-1] = game.superMult.amount[i-1].mul(game.superMult.generation[i].root(1000/game.updateSpeed));
-		};
-		updateAll();
-		lastFrame = timeStamp;
-		game.timePlayed += sinceLastFrame;
-	}
-	if (sinceLastSave >= game.autoSaveSpeed) {
-		if (game.autoSave) {
-			save();
-		}
-		lastSave = timeStamp;
-	}
-	window.requestAnimationFrame(nextFrame);
-}
+setInterval(function() {
+	game.number = game.number.mul(game.mult.generation[1].root(1000/game.updateSpeed));
+	for (let i = 2; i < game.mult.amount.length; i++) {
+		game.mult.amount[i-1] = game.mult.amount[i-1].mul(game.mult.generation[i].root(1000/game.updateSpeed));
+	};
+	game.mult.powerPerBuy = game.mult.powerPerBuy.mul(game.superMult.generation[1].root(1000/game.updateSpeed))
+	for (let i = 2; i < game.superMult.amount.length; i++) {
+		game.superMult.amount[i-1] = game.superMult.amount[i-1].mul(game.superMult.generation[i].root(1000/game.updateSpeed));
+	};
+	updateAll();
+}, game.updateSpeed);
 
-function changeUpdateSpeed() {
-	let newSpeed = prompt("Please enter new update speed in milliseconds.\n(integer from 33 to 1000)");
-	if (newSpeed != null) {
-		newSpeed = Number(newSpeed);
-		if (!isNaN(newSpeed) && newSpeed >= 33 && newSpeed <= 1000) {
-			game.updateSpeed = newSpeed;
-		}
+setInterval(function() {
+	if (game.autoSave) {
+  		save();
 	}
-}
-
-function changeAutoSaveSpeed() {
-	let newSpeed = prompt("Please enter new auto-save speed in milliseconds.\n(integer from 200 to 60000)");
-	if (newSpeed != null) {
-		newSpeed = Number(newSpeed);
-		if (!isNaN(newSpeed) && newSpeed >= 200 && newSpeed <= 60000) {
-			game.autoSaveSpeed = newSpeed;
-		}
-	}
-}
+}, game.autoSaveSpeed);
 
 function save() {
 	localStorage.setItem('emsave', JSON.stringify(game));
@@ -60,6 +29,7 @@ function load() {
 		pastGame = JSON.parse(localStorage.getItem('emsave'));
 		objectToDecimal(pastGame);
 		mergeToGame(pastGame, false);
+		
 	}
 }
 
@@ -85,22 +55,21 @@ function importSave() {
 
 // totally didn't copy this from somewhere else
 function objectToDecimal(object) { 
-	for (i in object) {
-		if (typeof(object[i]) == "string" && !isNaN(new Decimal(object[i]).mag)) {
+	for(i in object) {
+		if(typeof(object[i]) == "string" && !isNaN(new Decimal(object[i]).mag)) {
 			object[i] = new Decimal(object[i]);
 		}
-		if (typeof(object[i]) == "object") {
+		if(typeof(object[i]) == "object") {
 			objectToDecimal(object[i]);
 		}
 	}
 }
-
 //I have no idea what I'm doing
 function mergeToGame(object, parent) {
 	if (parent) {
-		for (i in game[parent]) {
-			if (object[i] != undefined) {
-				if (typeof(game[i]) == "object") {
+		for(i in game[parent]) {
+			if(object[i] != undefined) {
+				if(typeof(game[i]) == "object") {
 					mergeToGame(object[i], parent[i]);
 				} else {
 					game[parent][i] = object[i];
@@ -108,9 +77,9 @@ function mergeToGame(object, parent) {
 			}
 		}
 	} else {
-		for (i in game) {
-			if (object[i] != undefined) {
-				if (typeof(game[i]) == "object") {
+		for(i in game) {
+			if(object[i] != undefined) {
+				if(typeof(game[i]) == "object") {
 					mergeToGame(object[i], i);
 				} else {
 					game[i] = object[i];
@@ -122,7 +91,6 @@ function mergeToGame(object, parent) {
 
 function newGame() {
 	let save = {
-		timePlayed: 0,
 		number: new Decimal(10),
 		mult: {
 			amount:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
@@ -168,37 +136,35 @@ function toggleAutoSave() {
 	game.autoSave = !game.autoSave;
 }
 
-function maxAll(type) {
-	switch (type) {
-		case "normal":
-			for(let i = 1; i < game.mult.amount.length; i++) {
-				let num = game.number.log10().log10().mul(0.99999);
+// how am I supposed to do this? i can't figure it out! Edit: nvm
+function maxAllMult() {
+	for(let i = 1; i < game.mult.amount.length; i++) {
+		if (game.number.greaterThanOrEqualTo(game.mult.cost[i])) {
+			if (game.mult.unlocked[i] == false) {
+				game.mult.amount[i] = new Decimal(1.25);
+				game.mult.unlocked[i] = true;
+				game.number = game.number.div(game.mult.cost[i]);
+			} else {
+				let num = game.number.log10().log10().mul(0.99999); // lol just add more 9s
 				let increase = game.mult.costIncrease[i].log10();
 				let startCost = game.mult.cost[i].log10().log10();
 				let buyAmount = num.sub(startCost).div(increase).ceil();
 				let endCost = startCost.add(increase.mul(buyAmount));
 				let totalCost = endCost.sub(increase);
-				if (num.greaterThanOrEqualTo(game.mult.cost[i])) {
-					if (game.mult.unlocked[i] == false) {
-						game.mult.amount[i] = new Decimal(1.25);
-						game.mult.unlocked[i] = true;
-						game.number = game.number.div(game.mult.cost[i]);
-					} else {
-						game.number = game.number.div((new Decimal(10)).pow((new Decimal(10)).pow(totalCost)));
-						game.mult.upgradeAmount[i] = game.mult.upgradeAmount[i].add(buyAmount);
-					}
-					updateAll();
-				}
+				game.number = game.number.div((new Decimal(10)).pow((new Decimal(10)).pow(totalCost)));
+				game.mult.upgradeAmount[i] = game.mult.upgradeAmount[i].add(buyAmount);
 			}
-		break;
-		case "super":
-			for(let i = 1; i < game.superMult.amount.length; i++) {
-				while (game.superMult.cost[i].lessThan(game.number) 
-				       && !(document.getElementById("superMult" + i).classList.contains('hidden'))) {
-					buyMult(i, "super");
-				}
-			}
-		break;
+			updateAll();
+		}
+	}
+}
+
+function maxAllSuperMult() {
+	for(let i = 1; i < game.superMult.amount.length; i++) {
+		while (game.superMult.cost[i].lessThan(game.number) 
+		       && !(document.getElementById("superMult" + i).classList.contains('hidden'))) {
+			buySuperMult(i);
+		}
 	}
 }
 
@@ -282,32 +248,29 @@ function updateAll() {
 	}
 }
 
-function buyMult(n, type) {
-	switch (type) {
-		case "normal":
-			if (game.number.greaterThanOrEqualTo(game.mult.cost[n])) {
-				game.number = game.number.div(game.mult.cost[n]);
-				if (game.mult.unlocked[n] == false) {
-					game.mult.amount[n] = new Decimal(1.25);
-					game.mult.unlocked[n] = true;
-				} else {
-					game.mult.upgradeAmount[n] = game.mult.upgradeAmount[n].add(1);
-				}
-				updateAll();
-			}
-		break;
-		case "super":
-			if (game.number.greaterThanOrEqualTo(game.superMult.cost[n])) {
-				game.number = game.number.div(game.superMult.cost[n]);
-				if (game.superMult.unlocked[n] == false) {
-					game.superMult.amount[n] = new Decimal(1.25);
-					game.superMult.unlocked[n] = true;
-				} else {
-					game.superMult.upgradeAmount[n] = game.superMult.upgradeAmount[n].add(1);
-					game.superMult.cost[n] = game.superMult.cost[n].pow(game.superMult.costIncrease[n].tetrate(game.superMult.costIncrease[n].log10()));
-				}
-				updateAll();
-			}
-		break;
+function buyMult(n) {
+	if (game.number.greaterThanOrEqualTo(game.mult.cost[n])) {
+		game.number = game.number.div(game.mult.cost[n]);
+		if (game.mult.unlocked[n] == false) {
+			game.mult.amount[n] = new Decimal(1.25);
+			game.mult.unlocked[n] = true;
+		} else {
+			game.mult.upgradeAmount[n] = game.mult.upgradeAmount[n].add(1);
+		}
+		updateAll();
+	}
+}
+
+function buySuperMult(n) {
+	if (game.number.greaterThanOrEqualTo(game.superMult.cost[n])) {
+		game.number = game.number.div(game.superMult.cost[n]);
+		if (game.superMult.unlocked[n] == false) {
+			game.superMult.amount[n] = new Decimal(1.25);
+			game.superMult.unlocked[n] = true;
+		} else {
+			game.superMult.upgradeAmount[n] = game.superMult.upgradeAmount[n].add(1);
+			game.superMult.cost[n] = game.superMult.cost[n].pow(game.superMult.costIncrease[n].tetrate(game.superMult.costIncrease[n].log10()));
+		}
+		updateAll();
 	}
 }
