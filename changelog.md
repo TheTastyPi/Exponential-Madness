@@ -3,13 +3,13 @@
 ### v0.02: Bigger numbers
 * Added mult 5-8
 * Totally didn't copy Antimatter Dimension
+## Past updates
 ### v0.012: Superduper code refactoring kinda lol part 2
 * Created change log
 * Code refactoring
 * More code refactoring
 * R.I.P. setInterval()
 * Option to change update speed & auto-save speed
-## Past updates
 ### v0.011: Superduper code refactoring kinda lol part 1
 * Code refactoring
 * More code refactoring
