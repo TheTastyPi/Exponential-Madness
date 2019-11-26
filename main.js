@@ -233,12 +233,12 @@ function updateMult() {
 		document.getElementById("multPower" + i).innerHTML = "^" + findDisplay(game.mult.power[i]);
 		if (game.mult.unlocked[i] == false) {
 			document.getElementById("multButton" + i).innerHTML = "Unlock Multiplier " + i + " Cost: " + findDisplay(game.mult.cost[i]);
-			if (i != game.mult.amount.length - 1) {
+			if (i != game.mult.maxMult) {
 				document.getElementById("mult"+(i+1)).classList.add('hidden');
 			}
 		} else {
 			document.getElementById("multButton" + i).innerHTML = "Square Multiplier " + i + " Cost: " + findDisplay(game.mult.cost[i]);
-			if (i != game.mult.amount.length - 1) {
+			if (i != game.mult.maxMult) {
 				document.getElementById("mult"+(i+1)).classList.remove('hidden');
 			}
 		}
