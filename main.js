@@ -341,7 +341,7 @@ function buyMult(n, type) {
 
 //:O New mechanic
 function reset(level) {
-	switch {
+	switch (level) {
 		case 0:
 			if (game.number.greaterThanOrEqualTo(game.reset.cost)
 			   && game.mult.maxMult.lessThan(new Decimal(6))) {
