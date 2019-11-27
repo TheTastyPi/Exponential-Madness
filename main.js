@@ -257,7 +257,7 @@ function updateSuperMult() {
 function updateReset() {
 	let r = game.reset;
 	r.totalBoost = r.boost.pow(r.amount);
-	r.costIncrease = r.baseCostIncrease.mul(r.costScaling.pow(r.amount));
+	r.costIncrease = r.baseCostIncrease.mul(r.costScaling.pow(r.amount.div(2).ceil()));
 	r.cost = r.baseCost.pow(r.costIncrease.pow(r.amount))
 	if (game.number.greaterThan(Decimal.fromComponents(1, 2, 8))) {
 		game.reset.unlocked = true;
