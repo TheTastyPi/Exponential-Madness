@@ -192,17 +192,21 @@ function maxAll(type) {
 				let buyAmount = num.sub(startCost).div(increase).ceil();
 				let endCost = startCost.add(increase.mul(buyAmount));
 				let totalCost = endCost.sub(increase);
+				console.log(buyAmount);
+				console.log(totalCost);
 				if (num.greaterThanOrEqualTo(game.mult.cost[i])) {
 					if (game.mult.unlocked[i] == false) {
+						console.log("LOCKED")
 						game.mult.amount[i] = new Decimal(1.25);
 						game.mult.unlocked[i] = true;
 						game.number = game.number.div(game.mult.cost[i]);
 					} else {
+						console.log("UNLOCKED");
 						game.number = game.number.div((new Decimal(10)).pow((new Decimal(10)).pow(totalCost)));
 						game.mult.upgradeAmount[i] = game.mult.upgradeAmount[i].add(buyAmount);
 					}
-					updateAll();
 				}
+				updateAll();
 			}
 		break;
 		case "super":
