@@ -133,7 +133,8 @@ function newGame() {
 			cost:[0, new Decimal(10), new Decimal(1e10), Decimal.fromComponents(1, 2, 2), Decimal.fromComponents(1, 2, 4), Decimal.fromComponents(1, 2, 9), Decimal.fromComponents(1, 2, 15)],
 			costIncrease:[0, new Decimal(1e3), new Decimal(1e4), new Decimal(1e5), new Decimal(1e6), new Decimal(1e8), new Decimal(1e10)],
 			unlocked:[0, false, false, false, false, false],
-			maxMult: 4
+			maxMult: 4,
+			actualMaxMult: 6
 		},
 		reset: {
 			amount: new Decimal(0),
@@ -237,12 +238,12 @@ function updateMult() {
 		document.getElementById("multPower" + i).innerHTML = "^" + findDisplay(game.mult.power[i]);
 		if (game.mult.unlocked[i] == false) {
 			document.getElementById("multButton" + i).innerHTML = "Unlock Multiplier " + i + " Cost: " + findDisplay(game.mult.cost[i]);
-			if (i != game.mult.maxMult) {
+			if (i != game.mult.actualMaxMult) {
 				document.getElementById("mult"+(i+1)).classList.add('hidden');
 			}
 		} else {
 			document.getElementById("multButton" + i).innerHTML = "Square Multiplier " + i + " Cost: " + findDisplay(game.mult.cost[i]);
-			if (i != game.mult.maxMult) {
+			if (i != game.mult.actualMaxMult) {
 				document.getElementById("mult"+(i+1)).classList.remove('hidden');
 			}
 		}
