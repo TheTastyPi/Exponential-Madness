@@ -143,7 +143,7 @@ function newGame() {
 			cost: Decimal.fromComponents(1, 2, 11),
 			baseCostIncrease: new Decimal(1e7),
 			costIncrease: new Decimal(1e7),
-			costScaling: new Decimal(1e5),
+			costScaling: new Decimal(1e2),
 			unlocked: false
 		},
 		superMult: {
