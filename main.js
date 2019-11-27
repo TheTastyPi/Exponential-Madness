@@ -352,9 +352,8 @@ function reset(level) {
 		case 0:
 			if (game.number.greaterThanOrEqualTo(game.reset.cost)
 			   && game.mult.maxMult < 6) {
-				game.mult.amount = newGame().mult.amount;
-				game.mult.upgradeAmount = newGame().mult.upgradeAmount;
-				game.mult.unlocked = newGame().mult.unlocked;
+				game.number = newGame().number;
+				game.mult = newGame().mult;
 				game.mult.maxMult++;
 				game.reset.amount++;
 				updateAll();
