@@ -10,13 +10,13 @@ function nextFrame(timeStamp) {
 	let sinceLastFrame = timeStamp - lastFrame;
 	let sinceLastSave = timeStamp - lastSave;
 	if (sinceLastFrame >= game.updateSpeed) {
-		game.number = game.number.mul(game.mult.generation[1].root(game.gameSpeed/game.updateSpeed));
+		game.number = game.number.mul(game.mult.generation[1].root(1000/game.updateSpeed/game.gameSpeed));
 		for (let i = 1; i < game.mult.maxMult; i++) {
-			game.mult.amount[i] = game.mult.amount[i].mul(game.mult.generation[i+1].root(game.gameSpeed/game.updateSpeed));
+			game.mult.amount[i] = game.mult.amount[i].mul(game.mult.generation[i+1].root(1000/game.updateSpeed/game.gameSpeed));
 		};
-		game.mult.powerPerBuy = game.mult.powerPerBuy.mul(game.superMult.generation[1].root(game.gameSpeed/game.updateSpeed))
+		game.mult.powerPerBuy = game.mult.powerPerBuy.mul(game.superMult.generation[1].root(1000/game.updateSpeed/game.gameSpeed))
 		for (let i = 1; i < game.superMult.maxMult; i++) {
-			game.superMult.amount[i] = game.superMult.amount[i].mul(game.superMult.generation[i+1].root(game.gameSpeed/game.updateSpeed));
+			game.superMult.amount[i] = game.superMult.amount[i].mul(game.superMult.generation[i+1].root(1000/game.updateSpeed/game.gameSpeed));
 		};
 		updateAll();
 		lastFrame = timeStamp;
