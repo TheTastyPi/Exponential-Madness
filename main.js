@@ -194,6 +194,7 @@ function maxAll(type) {
 				let totalCost = endCost.sub(increase);
 				console.log(buyAmount);
 				console.log(totalCost);
+				console.log(num.greaterThanOrEqualTo(game.mult.cost[i]));
 				if (num.greaterThanOrEqualTo(game.mult.cost[i])) {
 					console.log("ENOUGH TO BUY");
 					if (game.mult.unlocked[i] == false) {
