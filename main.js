@@ -141,7 +141,8 @@ function newGame() {
 			totalBoost: new Decimal(1),
 			baseCost: Decimal.fromComponents(1, 2, 11),
 			cost: Decimal.fromComponents(1, 2, 11),
-			costIncrease: new Decimal(1e14)
+			costIncrease: new Decimal(1e14),
+			unlocked: false
 		},
 		superMult: {
 			amount:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
@@ -285,7 +286,12 @@ function updateReset() {
 	r.totalBoost = r.boost.pow(r.amount);
 	r.cost = r.baseCost.pow(r.costIncrease.pow(r.amount))
 	if (game.number.greaterThan(Decimal.fromComponents(1, 2, 8))) {
+		game.reset.unlocked = true;
+	}
+	if (game.reset.unlocked == true) {
 		document.getElementById("reset").classList.remove('hidden');
+	} else {
+		document.getElementById("reset").classList.add('hidden');
 	}
 	document.getElementById("resetButton").innerHTML = "Reset the game for a new multiplier and a boost to all multipliers Requires: " + findDisplay(game.reset.cost);
 	if (game.number.greaterThanOrEqualTo(r.cost)) {
