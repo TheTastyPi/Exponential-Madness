@@ -195,8 +195,9 @@ function maxAll(type) {
 				console.log(buyAmount);
 				console.log(totalCost);
 				if (num.greaterThanOrEqualTo(game.mult.cost[i])) {
+					console.log("ENOUGH TO BUY");
 					if (game.mult.unlocked[i] == false) {
-						console.log("LOCKED")
+						console.log("LOCKED");
 						game.mult.amount[i] = new Decimal(1.25);
 						game.mult.unlocked[i] = true;
 						game.number = game.number.div(game.mult.cost[i]);
