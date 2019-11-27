@@ -138,7 +138,7 @@ function newGame() {
 		},
 		reset: {
 			amount: new Decimal(0),
-			boost: new Decimal(2),
+			boost: new Decimal(3),
 			totalBoost: new Decimal(1),
 			baseCost: Decimal.fromComponents(1, 2, 11),
 			cost: Decimal.fromComponents(1, 2, 11),
