@@ -182,40 +182,6 @@ function toggleAutoSave() {
 	game.autoSave = !game.autoSave;
 }
 
-function maxAll(type) {
-	switch (type) {
-		case "normal":
-			for(let i = 1; i <= game.mult.maxMult; i++) {
-				let num = game.number.log10().log10().mul(0.99999);
-				let increase = game.mult.costIncrease[i].log10();
-				let startCost = game.mult.cost[i].log10().log10();
-				let buyAmount = num.sub(startCost).div(increase).ceil();
-				let endCost = startCost.add(increase.mul(buyAmount));
-				let totalCost = endCost.sub(increase);
-				if (num.greaterThanOrEqualTo(startCost)) {
-					if (game.mult.unlocked[i] == false) {
-						game.mult.amount[i] = new Decimal(1.25);
-						game.mult.unlocked[i] = true;
-						game.number = game.number.div(game.mult.cost[i]);
-					} else {
-						game.number = game.number.div((new Decimal(10)).pow((new Decimal(10)).pow(totalCost)));
-						game.mult.upgradeAmount[i] = game.mult.upgradeAmount[i].add(buyAmount);
-					}
-				}
-				updateAll();
-			}
-		break;
-		case "super":
-			for(let i = 1; i < game.superMult.amount.length; i++) {
-				while (game.superMult.cost[i].lessThan(game.number) 
-				       && !(document.getElementById("superMult" + i).classList.contains('hidden'))) {
-					buyMult(i, "super");
-				}
-			}
-		break;
-	}
-}
-
 function findDisplay(n) {
 	if (n.lessThan(1000)) {
 		return n.toFixed(2);
@@ -349,6 +315,41 @@ function buyMult(n, type) {
 					game.superMult.cost[n] = game.superMult.cost[n].pow(game.superMult.costIncrease[n].tetrate(game.superMult.costIncrease[n].log10()));
 				}
 				updateAll();
+			}
+		break;
+	}
+}
+
+function maxAll(type) {
+	switch (type) {
+		case "normal":
+			for(let i = 1; i <= game.mult.maxMult; i++) {
+				let num = game.number.log10().log10().mul(0.99999);
+				let increase = game.mult.costIncrease[i].log10();
+				let startCost = game.mult.cost[i].log10().log10();
+				let buyAmount = num.sub(startCost).div(increase).ceil();
+				let endCost = startCost.add(increase.mul(buyAmount));
+				let totalCost = endCost.sub(increase);
+				if (num.greaterThanOrEqualTo(startCost)) {
+					if (game.mult.unlocked[i] == false) {
+						game.mult.amount[i] = new Decimal(1.25);
+						game.mult.unlocked[i] = true;
+						game.number = game.number.div(game.mult.cost[i]);
+						maxAll("normal");
+					} else {
+						game.number = game.number.div((new Decimal(10)).pow((new Decimal(10)).pow(totalCost)));
+						game.mult.upgradeAmount[i] = game.mult.upgradeAmount[i].add(buyAmount);
+					}
+				}
+				updateAll();
+			}
+		break;
+		case "super":
+			for(let i = 1; i < game.superMult.amount.length; i++) {
+				while (game.superMult.cost[i].lessThan(game.number) 
+				       && !(document.getElementById("superMult" + i).classList.contains('hidden'))) {
+					buyMult(i, "super");
+				}
 			}
 		break;
 	}
