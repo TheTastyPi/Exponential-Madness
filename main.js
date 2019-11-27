@@ -158,7 +158,7 @@ function newGame() {
 		autoSave: true,
 		autoSaveSpeed: 1000,
 		updateSpeed: 50,
-		gameSpeed: 1000
+		gameSpeed: 1
 	}
 	return save;
 }
