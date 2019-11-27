@@ -243,7 +243,7 @@ function updateMult() {
 			}
 		} else {
 			document.getElementById("multButton" + i).innerHTML = "Square Multiplier " + i + " Cost: " + findDisplay(game.mult.cost[i]);
-			if (i != game.mult.actualMaxMult) {
+			if (i != game.mult.maxMult) {
 				document.getElementById("mult"+(i+1)).classList.remove('hidden');
 			}
 		}
