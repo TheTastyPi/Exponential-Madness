@@ -351,7 +351,7 @@ function reset(level) {
 	switch (level) {
 		case 0:
 			if (game.number.greaterThanOrEqualTo(game.reset.cost)
-			   && game.mult.maxMult.lessThan(new Decimal(6))) {
+			   && game.mult.maxMult < 6) {
 				game.mult.amount = newGame().mult.amount;
 				game.mult.upgradeAmount = newGame().mult.upgradeAmount;
 				game.mult.unlocked = newGame().mult.unlocked;
