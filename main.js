@@ -131,7 +131,7 @@ function newGame() {
 			upgradeAmount:[0, new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)],
 			baseCost:[0, new Decimal(10), new Decimal(1e10), Decimal.fromComponents(1, 2, 2), Decimal.fromComponents(1, 2, 4), Decimal.fromComponents(1, 2, 9), Decimal.fromComponents(1, 2, 15)],
 			cost:[0, new Decimal(10), new Decimal(1e10), Decimal.fromComponents(1, 2, 2), Decimal.fromComponents(1, 2, 4), Decimal.fromComponents(1, 2, 9), Decimal.fromComponents(1, 2, 15)],
-			costIncrease:[0, new Decimal(1e3), new Decimal(1e4), new Decimal(1e5), new Decimal(1e6), new Decimal(1e8), new Decimal(1e11)],
+			costIncrease:[0, new Decimal(1e3), new Decimal(1e4), new Decimal(1e5), new Decimal(1e6), new Decimal(1e8), new Decimal(1e10)],
 			unlocked:[0, false, false, false, false, false],
 			maxMult: 4
 		},
@@ -141,7 +141,9 @@ function newGame() {
 			totalBoost: new Decimal(1),
 			baseCost: Decimal.fromComponents(1, 2, 11),
 			cost: Decimal.fromComponents(1, 2, 11),
-			costIncrease: new Decimal(1e14),
+			baseCostIncrease: new Decimal(1e7),
+			costIncrease: new Decimal(1e7),
+			costScaling: new Decimal(1e5),
 			unlocked: false
 		},
 		superMult: {
@@ -284,6 +286,7 @@ function updateSuperMult() {
 function updateReset() {
 	let r = game.reset;
 	r.totalBoost = r.boost.pow(r.amount);
+	r.costIncrease = r.baseCostIncrease.mul(r.costScaling.pow(r.amount));
 	r.cost = r.baseCost.pow(r.costIncrease.pow(r.amount))
 	if (game.number.greaterThan(Decimal.fromComponents(1, 2, 8))) {
 		game.reset.unlocked = true;
