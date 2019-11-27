@@ -234,6 +234,10 @@ function updateMult() {
 		game.mult.generation[i] = game.mult.amount[i].pow(game.mult.power[i]); 
 		game.mult.cost[i] = game.mult.baseCost[i].pow(game.mult.costIncrease[i].pow(game.mult.upgradeAmount[i]));
 		game.mult.power[i] = game.mult.powerPerBuy.pow(game.mult.upgradeAmount[i]).mul(game.reset.totalBoost);
+		game.mult.maxMult = (new Decimal(4)).add(game.reset.amount);
+		if ((new Decimal(game.mult.maxMult)).greaterThan(game.mult.actualMaxMult)) {
+			game.mult.maxMult = game.mult.actualMaxMult;
+		}
 		document.getElementById("multAmount" + i).innerHTML = findDisplay(game.mult.amount[i]);
 		document.getElementById("multPower" + i).innerHTML = "^" + findDisplay(game.mult.power[i]);
 		if (game.mult.unlocked[i] == false) {
@@ -355,10 +359,9 @@ function reset(level) {
 	switch (level) {
 		case 0:
 			if (game.number.greaterThanOrEqualTo(game.reset.cost)
-			   && game.mult.maxMult < 6) {
+			   && game.mult.maxMult < game.mult.actualMaxMult) {
 				game.number = newGame().number;
 				game.mult = newGame().mult;
-				game.mult.maxMult++;
 				game.reset.amount++;
 				updateAll();
 			}
