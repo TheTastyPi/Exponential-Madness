@@ -228,9 +228,9 @@ function findDisplay(n) {
 
 function updateMult() {
 	for (let i = 1; i <= game.mult.maxMult; i++) {
-		game.mult.generation[i] = game.mult.amount[i].pow(game.mult.power[i].mul(game.reset.totalBoost)); 
+		game.mult.generation[i] = game.mult.amount[i].pow(game.mult.power[i]); 
 		game.mult.cost[i] = game.mult.baseCost[i].pow(game.mult.costIncrease[i].pow(game.mult.upgradeAmount[i]));
-		game.mult.power[i] = game.mult.powerPerBuy.pow(game.mult.upgradeAmount[i]);
+		game.mult.power[i] = game.mult.powerPerBuy.pow(game.mult.upgradeAmount[i]).mul(game.reset.totalBoost);
 		document.getElementById("multAmount" + i).innerHTML = findDisplay(game.mult.amount[i]);
 		document.getElementById("multPower" + i).innerHTML = "^" + findDisplay(game.mult.power[i]);
 		if (game.mult.unlocked[i] == false) {
