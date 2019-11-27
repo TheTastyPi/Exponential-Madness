@@ -359,8 +359,7 @@ function maxAll(type) {
 function reset(level) {
 	switch (level) {
 		case 0:
-			if (game.number.greaterThanOrEqualTo(game.reset.cost)
-			   && game.mult.maxMult < game.mult.actualMaxMult) {
+			if (game.number.greaterThanOrEqualTo(game.reset.cost)) {
 				game.number = newGame().number;
 				game.mult = newGame().mult;
 				game.reset.amount++;
