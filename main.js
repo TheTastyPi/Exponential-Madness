@@ -286,7 +286,7 @@ function updateReset() {
 	} else {
 		document.getElementById("reset").classList.add('hidden');
 	}
-	document.getElementById("resetBoost").innerHTML = "^" + r.totalBoost;
+	document.getElementById("resetPower").innerHTML = "^" + r.totalBoost;
 	document.getElementById("resetAmount").innerHTML = r.amount;
 	if (game.mult.maxMult < game.mult.actualMaxMult) {
 		document.getElementById("resetButton").innerHTML = "Reset the game for a new multiplier and a boost to all multipliers Requires: " + findDisplay(game.reset.cost);
