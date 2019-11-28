@@ -32,27 +32,34 @@ function nextFrame(timeStamp) {
 }
 
 function changeUpdateSpeed() {
-	let newSpeed = prompt("Please enter new update speed in milliseconds.\n(integer from 33 to 1000)");
+	let newSpeed = prompt("Please enter new update speed in milliseconds.\n(Number from 33 to 2000, inclusive)");
 	if (newSpeed != null) {
 		newSpeed = Number(newSpeed);
-		if (!isNaN(newSpeed) && newSpeed >= 33 && newSpeed <= 1000) {
+		if (!isNaN(newSpeed) && newSpeed >= 33 && newSpeed <= 2000) {
 			game.updateSpeed = newSpeed;
 		}
+		document.getElementById("updateSpeedButton").innerHTML = "Update Speed: " + newSpeed + "ms";
 	}
 }
 
 function changeAutoSaveSpeed() {
-	let newSpeed = prompt("Please enter new auto-save speed in milliseconds.\n(integer from 200 to 60000)");
+	let newSpeed = prompt("Please enter new auto-save speed in seconds.\n(Number from 0.2 to 300, inclusive)");
 	if (newSpeed != null) {
 		newSpeed = Number(newSpeed);
-		if (!isNaN(newSpeed) && newSpeed >= 200 && newSpeed <= 60000) {
-			game.autoSaveSpeed = newSpeed;
+		if (!isNaN(newSpeed) && newSpeed >= 0.2 && newSpeed <= 300) {
+			let newSpeedMs = newSpeed * 1000
+			game.autoSaveSpeed = newSpeedMs;
 		}
+		document.getElementById("saveSpeedButton").innerHTML = "Save Speed: " + newSpeed + "s";
 	}
 }
 
 function save() {
 	localStorage.setItem('emsave', JSON.stringify(game));
+	document.getElementById("saveButton").innerHTML = "Saved!";
+	setTimeout(function(){
+		document.getElementById("saveButton").innerHTML = "Save"
+	}, 1000);
 }
 
 function load() {
@@ -60,6 +67,10 @@ function load() {
 		pastGame = JSON.parse(localStorage.getItem('emsave'));
 		objectToDecimal(pastGame);
 		mergeToGame(pastGame, false);
+		document.getElementById("loadButton").innerHTML = "Loaded!";
+		setTimeout(function(){
+			document.getElementById("LoadButton").innerHTML = "Load"
+		}, 1000);
 	}
 }
 
@@ -69,7 +80,7 @@ function exportSave() {
 	document.getElementById("exportArea").select();
 	document.execCommand("copy");
 	document.getElementById("exportArea").classList.add('hidden');
-	document.getElementById("exportButton").innerHTML = "Copied to Clipboard!";
+	document.getElementById("exportButton").innerHTML = "Exported to Clipboard!";
 	setTimeout(function(){
 		document.getElementById("exportButton").innerHTML = "Export"
 	}, 1000);
@@ -80,6 +91,10 @@ function importSave() {
 	if (save != null) {
 		localStorage.setItem('emsave', atob(save));
 		load();
+		document.getElementById("importButton").innerHTML = "Imported!";
+		setTimeout(function(){
+			document.getElementById("ImportButton").innerHTML = "Import"
+		}, 1000);
 	}
 }
 
