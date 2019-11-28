@@ -15,7 +15,7 @@
     <br>
     <br>
     Multiplying by <span id="multPerSecond"> 1 </span> every second
-    <button type="button" onclick="maxAll("normal")">
+    <button type="button" onclick="maxAll('normal')">
       Max All
     </button>
     <br>
@@ -51,11 +51,61 @@
         Unlock Multiplier 4 Cost: e1e5
       </button>
     </span>
+    <span class="hidden" id="mult5">
+      <br>
+      <span id="multPower5"> ^1 </span>
+      Multiplier 5: <span id="multAmount5"> 1 </span>
+      <button type="button" onclick="buyMult(5, 'normal')" id="multButton5">
+        Unlock Multiplier 5 Cost: e1e5
+      </button>
+    </span>
+    <span class="hidden" id="mult6">
+      <br>
+      <span id="multPower6"> ^1 </span>
+      Multiplier 6: <span id="multAmount6"> 1 </span>
+      <button type="button" onclick="buyMult(6, 'normal')" id="multButton6">
+        Unlock Multiplier 6 Cost: e1e5
+      </button>
+    </span>
+    <span class="hidden" id="mult7">
+      <br>
+      <span id="multPower7"> ^1 </span>
+      Multiplier 7: <span id="multAmount7"> 1 </span>
+      <button type="button" onclick="buyMult(7, 'normal')" id="multButton7">
+        Unlock Multiplier 7 Cost: e1e5
+      </button>
+    </span>
+    <span class="hidden" id="mult8">
+      <br>
+      <span id="multPower8"> ^1 </span>
+      Multiplier 8: <span id="multAmount8"> 1 </span>
+      <button type="button" onclick="buyMult(8, 'normal')" id="multButton8">
+        Unlock Multiplier 8 Cost: e1e5
+      </button>
+    </span>
+    <span class="hidden" id="mult9">
+      <br>
+      <span id="multPower9"> ^1 </span>
+      Multiplier 9: <span id="multAmount9"> 1 </span>
+      <button type="button" onclick="buyMult(9, 'normal')" id="multButton9">
+        Unlock Multiplier 9 Cost: e1e5
+      </button>
+    </span>
+    <span class="hidden" id="mult10">
+      <br>
+      <span id="multPower10"> ^1 </span>
+      Multiplier 10: <span id="multAmount10"> 1 </span>
+      <button type="button" onclick="buyMult(10, 'normal')" id="multButton10">
+        Unlock Multiplier 10 Cost: e1e5
+      </button>
+    </span>
     <span class="hidden" id="reset">
       <br>
       <br>
-      <button type="button" onclick="reset()" id="shopUnlockButton"> 
-        Reset the game for a new multiplier Cost: ee11
+      <span id="resetPower"> ^1 </span>
+      Reset: <span id="resetAmount"> 0 </span>
+      <button type="button" onclick="reset(0)" id="resetButton"> 
+        Reset the game for a new multiplier Requires: ee11
       </button>
     </span>
     <span class="hidden" id="superMult1">
@@ -97,26 +147,26 @@
     </span>
     <br>
     <br>
-    <button type="button" onclick="save()">
+    <button type="button" onclick="save()" id="saveButton">
       Save
     </button>
-    <button type="button" onclick="load()">
+    <button type="button" onclick="load()" id="loadButton">
       Load
     </button>
     <button type="button" onclick="toggleAutoSave()" id="autoSaveButton">
       Auto-Save: ON
     </button>
-    <button type="button" onclick="changeAutoSaveSpeed()">
-      Change Auto-Save Speed
+    <button type="button" onclick="changeAutoSaveSpeed()" id="autoSaveSpeedButton">
+      Auto-Save Speed: 1s
     </button>
     <button type="button" onclick="exportSave()" id="exportButton">
       Export
     </button>
-    <button type="button" onclick="importSave()">
+    <button type="button" onclick="importSave()" id="importButton">
       Import
     </button>
-    <button type="button" onclick="changeUpdateSpeed()">
-      Change Update Speed
+    <button type="button" onclick="changeUpdateSpeed()" id="updateSpeedButton">
+      Update Speed: 50ms
     </button>
     <button type="button" class="warning" onclick="wipeConfirm()">
       WIPE SAVE
