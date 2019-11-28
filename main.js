@@ -286,7 +286,11 @@ function updateReset() {
 	} else {
 		document.getElementById("reset").classList.add('hidden');
 	}
-	document.getElementById("resetButton").innerHTML = "Reset the game for a new multiplier and a boost to all multipliers Requires: " + findDisplay(game.reset.cost);
+	if (game.mult.maxMult < game.mult.actualMaxMult) {
+		document.getElementById("resetButton").innerHTML = "Reset the game for a new multiplier and a boost to all multipliers Requires: " + findDisplay(game.reset.cost);
+	} else {
+		document.getElementById("resetButton").innerHTML = "Reset the game for a boost to all multipliers Requires: " + findDisplay(game.reset.cost);
+	}
 	if (game.number.greaterThanOrEqualTo(r.cost)) {
 		document.getElementById("resetButton").classList.remove('disabled');
 		document.getElementById("resetButton").classList.add('enabled');
