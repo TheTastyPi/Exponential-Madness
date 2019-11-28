@@ -1,7 +1,7 @@
 # Change Log
 ## v0.02: Dial It Up To... 10?
 * Added mult 5-10
-* Added reset level 0
+* Added reset mechanic
 ## v0.012: Superduper code refactoring kinda lol part 2
 * Created change log
 * Code refactoring
