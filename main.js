@@ -50,7 +50,7 @@ function changeAutoSaveSpeed() {
 			let newSpeedMs = newSpeed * 1000
 			game.autoSaveSpeed = newSpeedMs;
 		}
-		document.getElementById("saveSpeedButton").innerHTML = "Auto-Save Speed: " + newSpeed + "s";
+		document.getElementById("autoSaveSpeedButton").innerHTML = "Auto-Save Speed: " + newSpeed + "s";
 	}
 }
 
