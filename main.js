@@ -161,8 +161,8 @@ function newGame() {
 			totalBoost: new Decimal(1),
 			baseCost: Decimal.fromComponents(1, 2, 11),
 			cost: Decimal.fromComponents(1, 2, 11),
-			baseCostIncrease: new Decimal(1e7),
-			costIncrease: new Decimal(1e7),
+			baseCostIncrease: new Decimal(1e6),
+			costIncrease: new Decimal(1e6),
 			costScaling: new Decimal(1e1),
 			unlocked: false
 		},
@@ -276,7 +276,7 @@ function updateSuperMult() {
 function updateReset() {
 	let r = game.reset;
 	r.totalBoost = r.boost.pow(r.amount);
-	r.costIncrease = r.baseCostIncrease.mul(r.costScaling.pow(Math.ceil(r.amount / 2)));
+	r.costIncrease = r.baseCostIncrease.mul(r.costScaling.pow(Math.floor(r.amount / 2)));
 	r.cost = r.baseCost.pow(r.costIncrease.pow(r.amount))
 	if (game.number.greaterThan(Decimal.fromComponents(1, 2, 8))) {
 		game.reset.unlocked = true;
