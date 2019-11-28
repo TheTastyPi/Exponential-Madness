@@ -4,7 +4,7 @@ window.requestAnimationFrame(nextFrame);
 
 var pastGame;
 var game = newGame();
-load();
+load(true);
 
 function nextFrame(timeStamp) {
 	let sinceLastFrame = timeStamp - lastFrame;
@@ -24,7 +24,7 @@ function nextFrame(timeStamp) {
 	}
 	if (sinceLastSave >= game.autoSaveSpeed) {
 		if (game.autoSave) {
-			save();
+			save(true);
 		}
 		lastSave = timeStamp;
 	}
@@ -54,23 +54,27 @@ function changeAutoSaveSpeed() {
 	}
 }
 
-function save() {
+function save(auto) {
 	localStorage.setItem('emsave', JSON.stringify(game));
-	document.getElementById("saveButton").innerHTML = "Saved!";
-	setTimeout(function(){
-		document.getElementById("saveButton").innerHTML = "Save"
-	}, 1000);
+	if (!auto) {
+		document.getElementById("saveButton").innerHTML = "Saved!";
+		setTimeout(function(){
+			document.getElementById("saveButton").innerHTML = "Save"
+		}, 1000);
+	}
 }
 
-function load() {
+function load(auto) {
 	if (localStorage.getItem('emsave')) {
 		pastGame = JSON.parse(localStorage.getItem('emsave'));
 		objectToDecimal(pastGame);
 		mergeToGame(pastGame, false);
-		document.getElementById("loadButton").innerHTML = "Loaded!";
-		setTimeout(function(){
-			document.getElementById("LoadButton").innerHTML = "Load"
-		}, 1000);
+		if(!auto) {
+			document.getElementById("loadButton").innerHTML = "Loaded!";
+			setTimeout(function(){
+				document.getElementById("loadButton").innerHTML = "Load"
+			}, 1000);
+		}
 	}
 }
 
