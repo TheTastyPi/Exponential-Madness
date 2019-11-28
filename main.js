@@ -37,8 +37,8 @@ function changeUpdateSpeed() {
 		newSpeed = Number(newSpeed);
 		if (!isNaN(newSpeed) && newSpeed >= 33 && newSpeed <= 2000) {
 			game.updateSpeed = newSpeed;
+			document.getElementById("updateSpeedButton").innerHTML = "Update Speed: " + newSpeed + "ms";
 		}
-		document.getElementById("updateSpeedButton").innerHTML = "Update Speed: " + newSpeed + "ms";
 	}
 }
 
@@ -49,8 +49,8 @@ function changeAutoSaveSpeed() {
 		if (!isNaN(newSpeed) && newSpeed >= 0.2 && newSpeed <= 300) {
 			let newSpeedMs = newSpeed * 1000
 			game.autoSaveSpeed = newSpeedMs;
+			document.getElementById("autoSaveSpeedButton").innerHTML = "Auto-Save Speed: " + newSpeed + "s";
 		}
-		document.getElementById("autoSaveSpeedButton").innerHTML = "Auto-Save Speed: " + newSpeed + "s";
 	}
 }
 
