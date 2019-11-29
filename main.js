@@ -331,16 +331,18 @@ function updatePlexal() {
 	   || game.number.greaterThan(Decimal.fromComponents(1, 2, 80))) {
 		game.plexal.unlocked = true;
 	}
+	if (game.plexal.amount.greaterThan(new Decimal(0))) {
+		document.getElementById("plexalTabButton").classList.remove('hidden');
+	}
 	if (game.plexal.unlocked == true) {
 		document.getElementById("plexButton").classList.remove('hidden');
 	}
 	if (game.number.greaterThanOrEqualTo(Decimal.fromComponents(1, 2, 100))) {
 		document.getElementById("plexButton").innerHTML = "Reset all of your progress so far to gain " + findDisplay(game.plexal.gain) + " plexal essence";
-	}
-	if (game.number.greaterThanOrEqualTo(Decimal.fromComponents(1, 2, 100))) {
 		document.getElementById("plexButton").classList.remove('disabled');
 		document.getElementById("plexButton").classList.add('plexal');
 	} else {
+		document.getElementById("plexButton").innerHTML = "Requires: ee100";
 		document.getElementById("plexButton").classList.remove('plexal');
 		document.getElementById("plexButton").classList.add('disabled');  
 	}
