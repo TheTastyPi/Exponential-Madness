@@ -164,12 +164,14 @@ function newGame() {
 			baseCostIncrease: new Decimal(1e6),
 			costIncrease: new Decimal(1e6),
 			costScaling: new Decimal(1e1),
+			unlocked: false
 		},
 		plexal: {
 			amount: new Decimal(0),
 			gain: new Decimal(0),
 			essence: new Decimal(0),
-			upgrade: []
+			upgrade: [],
+			unlocked: false
 		},
 		superMult: {
 			amount:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
@@ -302,9 +304,10 @@ function updateReset() {
 	r.cost = r.baseCost.pow(r.costIncrease.pow(r.amount))
 	if (game.reset.amount.greaterThan(new Decimal(0))
 	   || game.number.greaterThan(Decimal.fromComponents(1, 2, 8))) {
+		game.reset.unlocked = true;
+	}
+	if (game.reset.unlocked == true) {
 		document.getElementById("reset").classList.remove('hidden');
-	} else {
-		document.getElementById("reset").classList.add('hidden');
 	}
 	document.getElementById("resetPower").innerHTML = "^" + findDisplay(r.totalBoost);
 	document.getElementById("resetAmount").innerHTML = findDisplay(new Decimal(r.amount));
@@ -325,10 +328,11 @@ function updateReset() {
 function updatePlexal() {
 	game.plexal.gain = game.number.log(Decimal.fromComponents(1, 2, 100)).log10().add(1).root(6.66).floor();
 	if (game.plexal.amount.greaterThan(new Decimal(0))
-	   || game.number.greaterThanOrEqualTo(Decimal.fromComponents(1, 2, 80))) {
+	   || game.number.greaterThan(Decimal.fromComponents(1, 2, 8))) {
+		game.plexal.unlocked = true;
+	}
+	if (game.plexal.unlocked == true) {
 		document.getElementById("plexButton").classList.remove('hidden');
-	} else {
-		document.getElementById("plexButton").classList.add('hidden');
 	}
 	if (game.number.greaterThanOrEqualTo(Decimal.fromComponents(1, 2, 100))) {
 		document.getElementById("plexButton").innerHTML = "Reset all of your progress so far to gain " + findDisplay(game.plexal.gain) + " plexal essence";
