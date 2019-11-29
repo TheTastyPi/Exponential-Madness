@@ -37,10 +37,10 @@ button.warning:hover {
   color: white;
 }
 button.big {
-  transform: scale(2);
+  width: 200px;
 }
 button.veryBig {
-  transform: scale(3);
+  width: 300px;
 }
 .hidden {
   display: none;
