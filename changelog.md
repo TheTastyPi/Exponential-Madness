@@ -1,6 +1,9 @@
 # Change Log
+## v0.03: The Plexal Update
+* Added a new prestige layer: "Plexal"
+.* Test
 ## v0.02: Dial It Up To... 10?
-* Added mult 5-10
+* Added multiplier 5-10
 * Added reset mechanic
 ## v0.012: Superduper code refactoring kinda lol part 2
 * Created change log
@@ -18,12 +21,12 @@
 * More code refactoring
 ## v0.001: Saving!
 * Added saving system (finally)
-* Removed supermult 1-4
+* Removed supermultiplier 1-4
 * Code refactoring
 ## v0.0001: Oops, inflation
-* Added supermult 1-4
+* Added supermultiplier 1-4
 ## v0.000001: Number(s) going up
 * Added break_eternity.js
-* Added mult 1-4
+* Added multiplier 1-4
 ## v0.00000000000000000001: A dummie's first coding experience
 * Game exists
