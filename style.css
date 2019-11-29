@@ -36,6 +36,12 @@ button.warning:hover {
   background-color: red;
   color: white;
 }
+button.big {
+  transform: scale(2);
+}
+button.veryBig {
+  transform: scale(3);
+}
 .hidden {
   display: none;
 }
