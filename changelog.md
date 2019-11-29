@@ -4,6 +4,7 @@
   * Added a new currency: "Plexal Essence"
   * Added "Iterato Exponento"
   * Added several other upgrades
+* Added tabs
 ## v0.02: Dial It Up To... 10?
 * Added multiplier 5-10
 * Added reset mechanic
