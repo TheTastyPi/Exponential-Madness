@@ -201,6 +201,21 @@ function toggleAutoSave() {
 	game.autoSave = !game.autoSave;
 }
 
+function toTab(tab) {
+	document.getElementById(tab).parentNode.querySelectorAll().classList.add('hidden');
+	document.getElementById(tab).classList.remove('hidden');
+}
+
+function updateTab() {
+	if (game.superMult.unlocked[1]) {
+		document.getElementById("normalMultTabButton").classList.remove('hidden');
+		document.getElementById("superMultTabButton").classList.remove('hidden');
+	} else {
+		document.getElementById("normalMultTabButton").classList.add('hidden');
+		document.getElementById("superMultTabButton").classList.add('hidden');
+	}
+}
+
 function findDisplay(n) {
 	if (n.lessThan(1000)) {
 		return n.toFixed(2);
