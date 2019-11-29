@@ -323,7 +323,7 @@ function updateReset() {
 }
 
 function updatePlexal() {
-	game.plexal.gain = new Decimal(0); //I'll figure it out later
+	game.plexal.gain = game.number.log(Decimal.fromComponents(1, 2, 100)).log10().add(1).root(6.66).floor();
 	if (game.plexal.amount.greaterThan(new Decimal(0))
 	   || game.number.greaterThanOrEqualTo(Decimal.fromComponents(1, 2, 80))) {
 		document.getElementById("plexButton").classList.remove('hidden');
