@@ -202,7 +202,7 @@ function toggleAutoSave() {
 }
 
 function toTab(tab) {
-	document.getElementById(tab).parentNode.querySelectorAll("span").forEach(function(element) {element.classList.add('hidden')});
+	document.getElementById(tab).parentNode.querySelectorAll(document.getElementById(tab).parentNode + " > *").forEach(function(element) {element.classList.add('hidden')});
 	document.getElementById(tab).classList.remove('hidden');
 }
 
