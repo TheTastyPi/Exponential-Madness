@@ -337,9 +337,9 @@ function updatePlexal() {
 	}
 	if (game.number.greaterThanOrEqualTo(Decimal.fromComponents(1, 2, 100))) {
 		document.getElementById("plexButton").classList.remove('disabled');
-		document.getElementById("plexButton").classList.add('enabled');
+		document.getElementById("plexButton").classList.add('plexal');
 	} else {
-		document.getElementById("plexButton").classList.remove('enabled');
+		document.getElementById("plexButton").classList.remove('plexal');
 		document.getElementById("plexButton").classList.add('disabled');  
 	}
 }
