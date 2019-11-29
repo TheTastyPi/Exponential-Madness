@@ -203,7 +203,7 @@ function toggleAutoSave() {
 
 function toTab(tab) {
 	let parent = document.getElementById(tab).parentNode;
-	document.parent.querySelectorAll("#" + parent.id + " > *").forEach(function(element) {element.classList.add('hidden')});
+	parent.querySelectorAll("#" + parent.id + " > *").forEach(function(element) {element.classList.add('hidden')});
 	document.getElementById(tab).classList.remove('hidden');
 }
 
