@@ -346,6 +346,7 @@ function updatePlexal() {
 		document.getElementById("plexButton").classList.remove('plexal');
 		document.getElementById("plexButton").classList.add('disabled');  
 	}
+	document.getElementById("plexalAmount").innerHTML = findDisplay(game.plexal.amount);
 }
 
 function updateAll() {
