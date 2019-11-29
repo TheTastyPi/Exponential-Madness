@@ -1,7 +1,10 @@
 # Change Log
 ## v0.03: The Plexal Update
 * Added a new prestige layer: "Plexal"
-...* Test
+  * Testing
+  * 1
+  * 2
+  * 3
 ## v0.02: Dial It Up To... 10?
 * Added multiplier 5-10
 * Added reset mechanic
