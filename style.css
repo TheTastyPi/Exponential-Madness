@@ -7,7 +7,6 @@ button {
   border: 2px solid black;
   border-radius: 15px;
   transition-duration: 0.2s;
-  display: inline-block;
 }
 button:hover {
   background-color: black;
