@@ -11,19 +11,19 @@
     <link rel="stylesheet" href="style.css">
   </head>
   <body>
-    <button type="button" onclick="toTab('mult')">
+    <button type="button" class="veryBig" onclick="toTab('mult')">
       Multipliers
     </button>
-    <button type="button" onclick="toTab('option')">
+    <button type="button" class="veryBig" onclick="toTab('option')">
       Options
     </button>
     <br>
     <br>
     <span id='mult'>
-      <button type="button" class="hidden" onclick="toTab('normalMult')" id="normalMultTabButton">
+      <button type="button" class="big" class="hidden" onclick="toTab('normalMult')" id="normalMultTabButton">
         Normal Multipliers
       </button>
-      <button type="button" class="hidden" onclick="toTab('superMult')" id="superMultTabButton">
+      <button type="button" class="big" class="hidden" onclick="toTab('superMult')" id="superMultTabButton">
         Super Multipliers
       </button>
       <span id="normalMult">
@@ -166,28 +166,28 @@
       </span>
     </span>
     <span class="hidden" id='option'>
-      <button type="button" onclick="save()" id="saveButton">
+      <button type="button" class="big" onclick="save()" id="saveButton">
         Save
       </button>
-      <button type="button" onclick="load()" id="loadButton">
+      <button type="button" class="big" onclick="load()" id="loadButton">
         Load
       </button>
-      <button type="button" onclick="toggleAutoSave()" id="autoSaveButton">
+      <button type="button" class="big" onclick="toggleAutoSave()" id="autoSaveButton">
         Auto-Save: ON
       </button>
-      <button type="button" onclick="changeAutoSaveSpeed()" id="autoSaveSpeedButton">
+      <button type="button" class="big" onclick="changeAutoSaveSpeed()" id="autoSaveSpeedButton">
         Auto-Save Speed: 1s
       </button>
-      <button type="button" onclick="exportSave()" id="exportButton">
+      <button type="button" class="big" onclick="exportSave()" id="exportButton">
         Export
       </button>
-      <button type="button" onclick="importSave()" id="importButton">
+      <button type="button" class="big" onclick="importSave()" id="importButton">
         Import
       </button>
-      <button type="button" onclick="changeUpdateSpeed()" id="updateSpeedButton">
+      <button type="button" class="big" onclick="changeUpdateSpeed()" id="updateSpeedButton">
         Update Speed: 50ms
       </button>
-      <button type="button" class="warning" onclick="wipeConfirm()">
+      <button type="button" class="big warning" onclick="wipeConfirm()">
         WIPE SAVE
       </button>
     </span>
