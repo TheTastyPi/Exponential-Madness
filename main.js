@@ -328,7 +328,7 @@ function updateReset() {
 function updatePlexal() {
 	game.plexal.gain = game.number.log(Decimal.fromComponents(1, 2, 100)).log10().add(1).root(6.66).floor();
 	if (game.plexal.amount.greaterThan(new Decimal(0))
-	   || game.number.greaterThan(Decimal.fromComponents(1, 2, 8))) {
+	   || game.number.greaterThan(Decimal.fromComponents(1, 2, 80))) {
 		game.plexal.unlocked = true;
 	}
 	if (game.plexal.unlocked == true) {
@@ -336,8 +336,6 @@ function updatePlexal() {
 	}
 	if (game.number.greaterThanOrEqualTo(Decimal.fromComponents(1, 2, 100))) {
 		document.getElementById("plexButton").innerHTML = "Reset all of your progress so far to gain " + findDisplay(game.plexal.gain) + " plexal essence";
-	} else {
-		document.getElementById("plexButton").innerHTML = "???";
 	}
 	if (game.number.greaterThanOrEqualTo(Decimal.fromComponents(1, 2, 100))) {
 		document.getElementById("plexButton").classList.remove('disabled');
