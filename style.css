@@ -6,6 +6,7 @@ button {
   color: black;
   border: 2px solid black;
   border-radius: 15px;
+  vertical-align: middle;
   transition-duration: 0.2s;
 }
 button:hover {
