@@ -38,10 +38,13 @@ button.warning:hover {
 }
 button.big {
   width: 200px;
+  height: 50px;
+  font-size: 15px;
 }
 button.veryBig {
-  width: 300px;
-  height: 50px;
+  width: 250px;
+  height: 100px;
+  font-size: 20px;
 }
 .hidden {
   display: none;
