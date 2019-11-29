@@ -1,10 +1,9 @@
 # Change Log
 ## v0.03: The Plexal Update
 * Added a new prestige layer: "Plexal"
-  * Testing
-  * 1
-  * 2
-  * 3
+  * Added a new currency: "Plexal Essence"
+  * Added Iterato Exponento
+  * Added several other upgrades
 ## v0.02: Dial It Up To... 10?
 * Added multiplier 5-10
 * Added reset mechanic
@@ -14,6 +13,7 @@
 * More code refactoring
 * R.I.P. setInterval()
 * Option to change update speed & auto-save speed
+* Saves no longer break when I remove things from the game object
 ## v0.011: Superduper code refactoring kinda lol part 1
 * Code refactoring
 * More code refactoring
