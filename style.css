@@ -41,6 +41,7 @@ button.big {
 }
 button.veryBig {
   width: 300px;
+  height: 50px;
 }
 .hidden {
   display: none;
