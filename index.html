@@ -42,9 +42,18 @@
         <button type="button" onclick="maxAll('normal')">
           Max All
         </button>
-        <br>
-        <br>
+        <span class="hidden" id="iterate">
+          <br>
+          <br>
+          <span id="iteratorTotalBoost"> ^1 </span>
+          Iteration: <span id="iteration"> 0 </span>
+          <button type="button" onclick="iterate()" id="iterateButton">
+            Iterate Cost: <span id="iterationCost">100</span>
+          </button>
+        </span>
         <span id="mult1">
+          <br>
+          <br>
           <span id="multPower1"> ^1 </span>
           Multiplier 1: <span id="multAmount1"> 1 </span>
           <button type="button" onclick="buyMult(1, 'normal')" id="multButton1">
@@ -201,7 +210,32 @@
       </button>
     </span>
     <span class="hidden" id="plexal">
-      You have <span id="plexalAmount">0</span> plexal essence
+      <button type="button" class="big hidden" onclick="toTab('iterator')">
+        The Iterator
+      </button>
+      <button type="button" class="big hidden" onclick="toTab('plexalUpgrade')">
+        Plexal Upgrade
+      </button>
+      <br>
+      You have <span style="font-size:40px;" id="plexalAmount">0</span> plexal essence
+      <span id="iterator">
+        <button type="button" onclick="unlockIterator()" id="iteratorUnlock">
+          Unlock Iterator
+          <br>
+          Cost: 1 Plexal Essence
+        </button>
+        <span class="hidden" id="iteratorUpgrade">
+          Your iterator boosts your multipliers by <span style="font-size: 30px;" id="iteratorBoost">^2</span> for each iteration
+          <button class="big" type="button" onclick="upgradeIterator()" id="iteratorUpgradeButton">
+            Multiply Iterator Boost by <span id="iteratorUpgradeBoost">2</span>
+            <br>
+            Cost: <span id="iteratorUpgradeCost">10</span> Plexal Essence
+          </button>
+        </span>
+      </span>
+      <span id="plexalUpgrade">
+        Nothing for now
+      </span>
     </span>
     <textarea style="opacity: .01; height:0; position:absolute; z-index: -1;" id="exportArea">export text</textarea>
   </body>
