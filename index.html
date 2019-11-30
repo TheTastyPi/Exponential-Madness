@@ -27,14 +27,14 @@
     </button>
     <br>
     <br>
-    <span id='mult'>
+    <span class="tab" id='mult'>
       <button type="button" class="big hidden" onclick="toTab('normalMult')" id="normalMultTabButton">
         Normal Multipliers
       </button>
       <button type="button" class="big hidden" onclick="toTab('superMult')" id="superMultTabButton">
         Super Multipliers
       </button>
-      <span id="normalMult">
+      <span class="tab" id="normalMult">
         <span id="number" style="font-size:50px"> 10 </span>
         <br>
         <br>
@@ -142,7 +142,7 @@
           </button>
         </span>
       </span>
-      <span class="hidden" id="superMult">
+      <span class="tab" class="hidden" id="superMult">
         <span class="hidden" id="superMult1">
           <br>
           <br>
@@ -182,7 +182,7 @@
         </span>
       </span>
     </span>
-    <span class="hidden" id='option'>
+    <span class="hidden tab" id='option'>
       <button type="button" class="big" onclick="save()" id="saveButton">
         Save
       </button>
@@ -209,7 +209,7 @@
         WIPE SAVE
       </button>
     </span>
-    <span class="hidden" id="plexal">
+    <span class="hidden tab" id="plexal">
       <button type="button" class="big" onclick="toTab('iterator')">
         The Iterator
       </button>
@@ -219,7 +219,7 @@
       <br>
       You have <span style="font-size:40px;" id="plexalEssenceAmount">0</span> plexal essence
       <br>
-      <span id="iterator">
+      <span class="tab" id="iterator">
         <button type="button" onclick="unlockIterator()" id="iteratorUnlock">
           Unlock Iterator
           <br>
@@ -235,7 +235,7 @@
           </button>
         </span>
       </span>
-      <span class="hidden" id="plexalUpgrade">
+      <span class="hidden tab" id="plexalUpgrade">
         Nothing for now
       </span>
     </span>
