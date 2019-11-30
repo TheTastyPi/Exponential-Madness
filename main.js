@@ -460,12 +460,12 @@ function maxAll(type) {
 		case "normal":
 			for(let i = 1; i <= game.mult.maxMult; i++) {
 				let num = game.number.log10().log10().mul(0.99999);
-				let increase = game.mult.costIncrease[i].log10();
 				let startCost = game.mult.cost[i].log10().log10();
-				let buyAmount = num.sub(startCost).div(increase).ceil();
-				let endCost = startCost.add(increase.mul(buyAmount));
-				let totalCost = endCost.sub(increase);
 				if (num.greaterThanOrEqualTo(startCost)) {
+					let increase = game.mult.costIncrease[i].log10();
+					let buyAmount = num.sub(startCost).div(increase).ceil();
+					let endCost = startCost.add(increase.mul(buyAmount));
+					let totalCost = endCost.sub(increase);
 					if (game.mult.unlocked[i] == false) {
 						game.mult.amount[i] = new Decimal(1.25);
 						game.mult.unlocked[i] = true;
@@ -476,8 +476,8 @@ function maxAll(type) {
 						game.mult.upgradeAmount[i] = game.mult.upgradeAmount[i].add(buyAmount);
 					}
 				}
-				updateAll();
 			}
+			updateAll();
 		break;
 		case "super":
 			for(let i = 1; i < game.superMult.amount.length; i++) {
