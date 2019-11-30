@@ -2,7 +2,7 @@
 ## v0.03: The Plexal Update
 * Added a new prestige layer: "Plexal"
   * Added a new currency: "Plexal Essence"
-  * Added "Iterato Exponentum"
+  * Added the "Iterator"
   * Added several other upgrades
 * Added tabs
 ## v0.02: Dial It Up To... 10?
