@@ -507,6 +507,7 @@ function reset(level) {
 				game.number = newGame().number;
 				game.mult = newGame().mult;
 				game.reset = newGame().reset;
+				game.iterator.iteration = newGame().iterator.iteration;
 				game.plexal.amount = game.plexal.amount.add(1);
 				game.plexal.essence = game.plexal.essence.add(game.plexal.gain);
 				updateAll();
