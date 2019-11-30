@@ -414,6 +414,7 @@ function updateIterator() {
 function updateAll() {
 	document.getElementById("multPerSecond").innerHTML = findDisplay(game.mult.generation[1]);
 	document.getElementById("number").innerHTML = findDisplay(game.number);
+	updateTab();
 	updateMult();
 	updateSuperMult();
 	updateReset();
@@ -456,42 +457,54 @@ function buyMult(n, type) {
 	}
 }
 
-function maxAll(type) {
+function maxMult(n, type) {
 	switch (type) {
 		case "normal":
-			for(let i = 1; i <= game.mult.maxMult; i++) {
-				let num = game.number.log10().log10().mul(0.99999);
-				let startCost = game.mult.cost[i].log10().log10();
-				if (num.greaterThanOrEqualTo(startCost)) {
-					let increase = game.mult.costIncrease[i].log10();
-					let buyAmount = num.sub(startCost).div(increase).ceil();
-					let endCost = startCost.add(increase.mul(buyAmount));
-					let totalCost = endCost.sub(increase);
-					if (game.mult.unlocked[i] == false) {
-						game.mult.amount[i] = new Decimal(1.25);
-						game.mult.unlocked[i] = true;
-						game.number = game.number.div(game.mult.cost[i]);
-						maxAll("normal");
-					} else {
-						game.number = game.number.div((new Decimal(10)).pow((new Decimal(10)).pow(totalCost)));
-						game.mult.upgradeAmount[i] = game.mult.upgradeAmount[i].add(buyAmount);
-					}
+			let num = game.number.log10().log10().mul(0.99999);
+			let startCost = game.mult.cost[n].log10().log10();
+			if (num.greaterThanOrEqualTo(startCost)) {
+				let increase = game.mult.costIncrease[n].log10();
+				let buyAmount = num.sub(startCost).div(increase).ceil();
+				let endCost = startCost.add(increase.mul(buyAmount));
+				let totalCost = endCost.sub(increase);
+				if (game.mult.unlocked[n] == false) {
+					game.mult.amount[n] = new Decimal(1.25);
+					game.mult.unlocked[n] = true;
+					game.number = game.number.div(game.mult.cost[n]);
+					maxAll("normal");
+				} else {
+					game.number = game.number.div((new Decimal(10)).pow((new Decimal(10)).pow(totalCost)));
+					game.mult.upgradeAmount[n] = game.mult.upgradeAmount[n].add(buyAmount);
 				}
 			}
 			updateAll();
 		break;
 		case "super":
+			while (game.superMult.cost[n].lessThan(game.number) 
+			       && !(document.getElementById("superMult" + n).classList.contains('hidden'))) {
+				buyMult(n, "super");
+			}
+			updateAll();
+		break;
+	}
+}
+
+function maxAll(type) {
+	switch (type) {
+		case "normal":
+			for(let i = 1; i <= game.mult.maxMult; i++) {
+				maxMult(i, "normal");
+			}
+			maxIterate();
+		break;
+		case "super":
 			for(let i = 1; i < game.superMult.amount.length; i++) {
-				while (game.superMult.cost[i].lessThan(game.number) 
-				       && !(document.getElementById("superMult" + i).classList.contains('hidden'))) {
-					buyMult(i, "super");
-				}
+				maxMult(i, "super");
 			}
 		break;
 	}
 }
 
-//:O New mechanic
 function reset(level) {
 	switch (level) {
 		case 0:
@@ -521,6 +534,7 @@ function unlockIterator() {
 		game.plexal.essence = game.plexal.essence.sub(1);
 		game.iterator.unlocked = true;
 	}
+	updateAll();
 }
 
 function iterate() {
@@ -528,6 +542,23 @@ function iterate() {
 		game.number = game.number.div(game.iterator.cost);
 		game.iterator.iteration = game.iterator.iteration.add(1);
 	}
+	updateAll();
+}
+
+function maxIterate() {
+	let num = game.number.log10().log10().mul(0.99999);
+	let startCost = game.iterator.cost.log10().log10();
+	if (num.greaterThanOrEqualTo(startCost)) {
+		let increase = game.iterator.costIncrease.log10();
+		let buyAmount = num.sub(startCost).div(increase).ceil();
+		let endCost = startCost.add(increase.mul(buyAmount));
+		let totalCost = endCost.sub(increase);
+		if (game.mult.unlocked[n] == true) {
+			game.number = game.number.div((new Decimal(10)).pow((new Decimal(10)).pow(totalCost)));
+			game.iterator.iteration = game.iterator.iteration.add(buyAmount);
+		}
+	}
+	updateAll();
 }
 
 function upgradeIteratior() {
@@ -535,5 +566,6 @@ function upgradeIteratior() {
 		game.plexal.essence = game.plexal.essence.sub(game.iterator.upgrade.cost)
 		game.iterator.upgrade.amount = game.iterator.upgrade.amount.add(1);
 	}
+	updateAll();
 }
 
