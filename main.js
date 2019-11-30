@@ -317,7 +317,7 @@ function updateSuperMult() {
 function updateReset() {
 	let r = game.reset;
 	r.totalBoost = r.boost.pow(r.amount);
-	r.costIncrease = r.baseCostIncrease.mul(r.costScaling.pow(Math.floor(r.amount / 2)));
+	r.costIncrease = r.baseCostIncrease.mul(r.costScaling.pow(r.amount.div(2).floor()));
 	r.cost = r.baseCost.pow(r.costIncrease.pow(r.amount))
 	if (game.reset.amount.greaterThan(new Decimal(0))
 	   || game.number.greaterThan(Decimal.fromComponents(1, 2, 8))) {
@@ -521,6 +521,16 @@ function reset(level) {
 			}
 		break;
 	}
+}
+
+//I have no idea
+function maxReset() {
+	while (game.number.greaterThanOrEqualTo(game.reset.cost)) {
+		game.reset.amount = game.reset.amount.add(1);
+		updateAll();
+	}
+	game.number = newGame().number;
+	game.mult = newGame().mult;
 }
 
 function unlockIterator() {
