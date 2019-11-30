@@ -525,14 +525,14 @@ function unlockIterator() {
 function iterate() {
 	if (game.number.greaterThanOrEqualTo(game.iterator.cost)) {
 		game.number = game.number.div(game.iterator.cost);
-		game.iterator.iteration.add(1);
+		game.iterator.iteration = game.iterator.iteration.add(1);
 	}
 }
 
 function upgradeIteratior() {
 	if (game.plexal.essence.greaterThanOrEqualTo(game.iterator.upgrade.cost)) {
 		game.plexal.essence = game.plexal.essence.sub(game.iterator.upgrade.cost)
-		game.iterator.upgrade.amount.add(1);
+		game.iterator.upgrade.amount = game.iterator.upgrade.amount.add(1);
 	}
 }
 
