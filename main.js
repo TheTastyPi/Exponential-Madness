@@ -546,19 +546,19 @@ function iterate() {
 }
 
 function maxIterate() {
-	let num = game.number.log10().log10().mul(0.99999);
-	let startCost = game.iterator.cost.log10().log10();
-	if (num.greaterThanOrEqualTo(startCost)) {
-		let increase = game.iterator.costIncrease.log10();
-		let buyAmount = num.sub(startCost).div(increase).ceil();
-		let endCost = startCost.add(increase.mul(buyAmount));
-		let totalCost = endCost.sub(increase);
-		if (game.mult.unlocked[n] == true) {
+	if (game.iterator.unlocked == true) {
+		let num = game.number.log10().log10().mul(0.99999);
+		let startCost = game.iterator.cost.log10().log10();
+		if (num.greaterThanOrEqualTo(startCost)) {
+			let increase = game.iterator.costIncrease.log10();
+			let buyAmount = num.sub(startCost).div(increase).ceil();
+			let endCost = startCost.add(increase.mul(buyAmount));
+			let totalCost = endCost.sub(increase);
 			game.number = game.number.div((new Decimal(10)).pow((new Decimal(10)).pow(totalCost)));
 			game.iterator.iteration = game.iterator.iteration.add(buyAmount);
 		}
+		updateAll();
 	}
-	updateAll();
 }
 
 function upgradeIteratior() {
