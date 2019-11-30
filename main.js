@@ -438,7 +438,6 @@ function buyMult(n, type) {
 				} else {
 					game.mult.upgradeAmount[n] = game.mult.upgradeAmount[n].add(1);
 				}
-				updateAll();
 			}
 		break;
 		case "super":
@@ -451,7 +450,6 @@ function buyMult(n, type) {
 					game.superMult.upgradeAmount[n] = game.superMult.upgradeAmount[n].add(1);
 					game.superMult.cost[n] = game.superMult.cost[n].pow(game.superMult.costIncrease[n].tetrate(game.superMult.costIncrease[n].log10()));
 				}
-				updateAll();
 			}
 		break;
 	}
@@ -477,14 +475,12 @@ function maxMult(n, type) {
 					game.mult.upgradeAmount[n] = game.mult.upgradeAmount[n].add(buyAmount);
 				}
 			}
-			updateAll();
 		break;
 		case "super":
 			while (game.superMult.cost[n].lessThan(game.number) 
 			       && !(document.getElementById("superMult" + n).classList.contains('hidden'))) {
 				buyMult(n, "super");
 			}
-			updateAll();
 		break;
 	}
 }
@@ -512,7 +508,6 @@ function reset(level) {
 				game.number = newGame().number;
 				game.mult = newGame().mult;
 				game.reset.amount = game.reset.amount.add(1);
-				updateAll();
 			}
 		break;
 		case 1:
@@ -523,7 +518,6 @@ function reset(level) {
 				game.iterator.iteration = newGame().iterator.iteration;
 				game.plexal.amount = game.plexal.amount.add(1);
 				game.plexal.essence = game.plexal.essence.add(game.plexal.gain);
-				updateAll();
 			}
 		break;
 	}
@@ -534,7 +528,6 @@ function unlockIterator() {
 		game.plexal.essence = game.plexal.essence.sub(1);
 		game.iterator.unlocked = true;
 	}
-	updateAll();
 }
 
 function iterate() {
@@ -542,7 +535,6 @@ function iterate() {
 		game.number = game.number.div(game.iterator.cost);
 		game.iterator.iteration = game.iterator.iteration.add(1);
 	}
-	updateAll();
 }
 
 function maxIterate() {
@@ -557,7 +549,6 @@ function maxIterate() {
 			game.number = game.number.div((new Decimal(10)).pow((new Decimal(10)).pow(totalCost)));
 			game.iterator.iteration = game.iterator.iteration.add(buyAmount);
 		}
-		updateAll();
 	}
 }
 
@@ -566,6 +557,5 @@ function upgradeIteratior() {
 		game.plexal.essence = game.plexal.essence.sub(game.iterator.upgrade.cost)
 		game.iterator.upgrade.amount = game.iterator.upgrade.amount.add(1);
 	}
-	updateAll();
 }
 
