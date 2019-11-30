@@ -529,6 +529,7 @@ function maxReset() {
 		game.reset.amount = game.reset.amount.add(1);
 		updateAll();
 	}
+	game.reset.amount = game.reset.amount.sub(1);
 	game.number = newGame().number;
 	game.mult = newGame().mult;
 }
