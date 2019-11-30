@@ -418,6 +418,7 @@ function updateAll() {
 	updateSuperMult();
 	updateReset();
 	updatePlexal();
+	updateIterator();
 	if (game.autoSave) {
 		document.getElementById("autoSaveButton").innerHTML = "Auto Save: ON";
 	} else {
