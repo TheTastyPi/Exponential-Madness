@@ -537,6 +537,7 @@ function maxReset() {
 			let endCost = startCost.add(avgIncrease.mul(buyAmount.sub(1)));
 			game.number = game.number.div((new Decimal(10)).pow((new Decimal(10)).pow(endCost)));
 			game.reset.amount = game.reset.amount.add(buyAmount);
+		}
 	}
 }
 
@@ -575,4 +576,3 @@ function upgradeIteratior() {
 		game.iterator.upgrade.amount = game.iterator.upgrade.amount.add(1);
 	}
 }
-
