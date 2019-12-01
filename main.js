@@ -175,7 +175,7 @@ function newGame() {
 		},
 		iterator: {
 			iteration: new Decimal(0),
-			boost: new Decimal(2),
+			boost: new Decimal(1.5),
 			totalBoost: new Decimal(1),
 			baseCost: new Decimal(100),
 			cost: new Decimal(100),
