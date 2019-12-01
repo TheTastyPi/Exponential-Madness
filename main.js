@@ -170,7 +170,10 @@ function newGame() {
 			amount: new Decimal(0),
 			gain: new Decimal(0),
 			essence: new Decimal(0),
-			upgrade: [],
+			upgrade: {
+				cost: [new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)],
+				bought: [false, false, false, false, false, false, false]
+			},
 			unlocked: false
 		},
 		iterator: {
@@ -365,6 +368,20 @@ function updatePlexal() {
 		document.getElementById("plexButton").classList.add('disabled');  
 	}
 	document.getElementById("plexalEssenceAmount").innerHTML = findDisplay(game.plexal.essence);
+	for (let i=1; i<game.plexal.upgrade.unlocked.length; i++;) {
+		if (game.plexal.upgrade.unlocked[i] == false) {
+			document.getElementById("plexalUpg" + i).classList.remove('plexal');
+			if (game.plexal.essence.greaterThanOrEqualTo(game.plexal.upgrade.cost[i])) {
+				document.getElementById("plexalUpg" + i).classList.add('enabled');
+				document.getElementById("plexalUpg" + i).classList.remove('disabled');
+			} else {
+				document.getElementById("plexalUpg" + i).classList.add('disabled');
+				document.getElementById("plexalUpg" + i).classList.remove('enabled');
+			}
+		} else {
+			document.getElementById("plexalUpg" + i).classList.add('plexal');
+		}
+	}
 }
 
 function updateIterator() {
@@ -592,4 +609,14 @@ function maxUpgradeIterator() {
 		game.plexal.essence = game.plexal.essence.sub((new Decimal(10)).pow(totalCost));
 		game.iterator.upgrade.amount = game.iterator.upgrade.amount.add(buyAmount);
 	}
+}
+
+function buyUpgrade(n, type) {
+	switch (type) {
+		case "plexal":
+			if (game.plexal.essence.greaterThanOrEqualTo(game.plexal.upgrade.cost[n])) {
+				game.plexal.essence = game.plexal.essence.sub(game.plexal.upgrade.cost[n]);
+				game.plexal.upgrade.bought[n] = true;
+			}
+		break;
 }
