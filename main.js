@@ -343,7 +343,7 @@ function updateReset() {
 }
 
 function updatePlexal() {
-	game.plexal.gain = game.number.log(Decimal.fromComponents(1, 2, 100)).log10().add(1).root(6.66).floor();
+	game.plexal.gain = game.number.log(Decimal.fromComponents(1, 2, 100)).root(666).floor();
 	if (game.plexal.amount.greaterThan(new Decimal(0))
 	   || game.number.greaterThan(Decimal.fromComponents(1, 2, 80))) {
 		game.plexal.unlocked = true;
