@@ -572,7 +572,7 @@ function maxIterate() {
 	}
 }
 
-function upgradeIteratior() {
+function upgradeIterator() {
 	if (game.plexal.essence.greaterThanOrEqualTo(game.iterator.upgrade.cost)) {
 		game.plexal.essence = game.plexal.essence.sub(game.iterator.upgrade.cost)
 		game.iterator.upgrade.amount = game.iterator.upgrade.amount.add(1);
