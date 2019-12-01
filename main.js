@@ -175,6 +175,7 @@ function newGame() {
 		},
 		iterator: {
 			iteration: new Decimal(0),
+			baseBoost: new Decimal(1.5),
 			boost: new Decimal(1.5),
 			totalBoost: new Decimal(1),
 			baseCost: new Decimal(100),
@@ -369,6 +370,7 @@ function updatePlexal() {
 function updateIterator() {
 	let it = game.iterator;
 	let upg = it.upgrade;
+	it.boost = it.baseBoost.mul(upg.totalBoost);
 	it.totalBoost = it.boost.pow(it.iteration);
 	it.cost = it.baseCost.pow(it.costIncrease.pow(it.iteration));
 	upg.totalBoost = upg.boost.pow(upg.amount);
