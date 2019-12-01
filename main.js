@@ -172,7 +172,7 @@ function newGame() {
 			essence: new Decimal(0),
 			upgrade: {
 				cost: [new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)],
-				bought: [false, false, false, false, false, false, false]
+				unlocked: [false, false, false, false, false, false, false]
 			},
 			unlocked: false
 		},
@@ -616,7 +616,7 @@ function buyUpgrade(n, type) {
 		case "plexal":
 			if (game.plexal.essence.greaterThanOrEqualTo(game.plexal.upgrade.cost[n])) {
 				game.plexal.essence = game.plexal.essence.sub(game.plexal.upgrade.cost[n]);
-				game.plexal.upgrade.bought[n] = true;
+				game.plexal.upgrade.unlocked[n] = true;
 			}
 		break;
 	}
