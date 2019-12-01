@@ -379,7 +379,7 @@ function updateIterator() {
 	document.getElementById("iteratorBoost").innerHTML = "^" + findDisplay(it.boost);
 	document.getElementById("iteratorUpgradeBoost").innerHTML = findDisplay(upg.boost);
 	document.getElementById("iteratorUpgradeCost").innerHTML = findDisplay(upg.cost);
-	if (it.unlocked = true) {
+	if (it.unlocked == true) {
 		document.getElementById("iteratorUnlock").classList.add('hidden');
 		document.getElementById("iteratorUpgrade").classList.remove('hidden');
 		document.getElementById("iterate").classList.remove('hidden');
