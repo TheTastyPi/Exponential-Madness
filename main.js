@@ -368,7 +368,7 @@ function updatePlexal() {
 		document.getElementById("plexButton").classList.add('disabled');  
 	}
 	document.getElementById("plexalEssenceAmount").innerHTML = findDisplay(game.plexal.essence);
-	for (let i=1; i<game.plexal.upgrade.unlocked.length; i++;) {
+	for (let i=1; i<game.plexal.upgrade.unlocked.length; i++) {
 		if (game.plexal.upgrade.unlocked[i] == false) {
 			document.getElementById("plexalUpg" + i).classList.remove('plexal');
 			if (game.plexal.essence.greaterThanOrEqualTo(game.plexal.upgrade.cost[i])) {
