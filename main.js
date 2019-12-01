@@ -580,3 +580,16 @@ function upgradeIterator() {
 		game.iterator.upgrade.amount = game.iterator.upgrade.amount.add(1);
 	}
 }
+
+function maxUpgradeIterator() {
+	let PE = game.plexal.essence.log10().mul(0.99999);
+	let startCost = game.iterator.upgrade.cost.log10();
+	if (PE.greaterThanOrEqualTo(startCost)) {
+		let increase = game.iterator.upgrade.costIncrease.log10();
+		let buyAmount = PE.sub(startCost).div(increase).ceil();
+		let endCost = startCost.add(increase.mul(buyAmount));
+		let totalCost = endCost.sub(increase);
+		game.plexal.essence = game.plexal.essence.sub((new Decimal(10)).pow(totalCost));
+		game.iterator.upgrade.amount = game.iterator.upgrade.amount.add(buyAmount);
+	}
+}
