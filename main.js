@@ -317,7 +317,7 @@ function updateSuperMult() {
 function updateReset() {
 	let r = game.reset;
 	r.totalBoost = r.boost.pow(r.amount);
-	r.costIncrease = r.baseCostIncrease.mul(r.costScaling.pow(r.amount.div(2).floor()));
+	r.costIncrease = r.baseCostIncrease.mul(r.costScaling.pow(r.amount));
 	r.cost = r.baseCost.pow(r.costIncrease.pow(r.amount))
 	if (game.reset.amount.greaterThan(new Decimal(0))
 	   || game.number.greaterThan(Decimal.fromComponents(1, 2, 8))) {
@@ -531,7 +531,7 @@ function maxReset() {
 		if (num.greaterThanOrEqualTo(startCost)) {
 			let currentAmount = game.reset.amount;
 			let costChange = num.sub(startCost);
-			let scaling = game.reset.costScaling.log10().div(2);
+			let scaling = game.reset.costScaling.log10();
 			let startIncrease = game.reset.costIncrease.log10();
 			let endIncrease = startIncrease.pow(2).add(scaling.mul(costChange).mul(2)).sqrt();
 			let increaseChange = endIncrease.sub(startIncrease);
