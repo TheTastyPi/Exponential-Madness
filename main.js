@@ -523,15 +523,21 @@ function reset(level) {
 	}
 }
 
-//I have no idea
 function maxReset() {
-	while (game.number.greaterThanOrEqualTo(game.reset.cost)) {
-		game.reset.amount = game.reset.amount.add(1);
-		updateAll();
+	if (game.reset.unlocked == true) {
+		let startCost = game.reset.cost.log10().log10();
+		if (num.greaterThanOrEqualTo(startCost)) {
+			let costChange = num.sub(startCost);
+			let scaling = game.reset.costScaling.log10().div(2);
+			let startIncrease = game.reset.costIncrease.log10();
+			let endIncrease = startIncrease.pow(2).add(scaling.mul(costChange).mul(2)).sqrt();
+			let increaseChange = endIncrease.sub(startIncrease);
+			let buyAmount = increaseChange.div(scaling);
+			let avgIncrease = startIncrease.add(endIncrease).div(2);
+			let endCost = startCost.add(avgIncrease.mul(buyAmount.sub(1)));
+			game.number = game.number.div((new Decimal(10)).pow((new Decimal(10)).pow(endCost)));
+			game.reset.amount = game.reset.amount.add(buyAmount);
 	}
-	game.reset.amount = game.reset.amount.sub(1);
-	game.number = newGame().number;
-	game.mult = newGame().mult;
 }
 
 function unlockIterator() {
