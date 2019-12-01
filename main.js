@@ -529,16 +529,15 @@ function maxReset() {
 		let num = game.number.log10().log10().mul(0.99999);
 		let startCost = game.reset.cost.log10().log10();
 		if (num.greaterThanOrEqualTo(startCost)) {
-			let currentAmount = game.reset.amount;
+			let baseCost = game.reset.baseCost.log10().log10();
 			let costChange = num.sub(startCost);
 			let scaling = game.reset.costScaling.log10();
 			let startIncrease = game.reset.costIncrease.log10();
 			let endIncrease = startIncrease.pow(2).add(scaling.mul(costChange).mul(2)).sqrt();
 			let increaseChange = endIncrease.sub(startIncrease);
 			let buyAmount = increaseChange.div(scaling).add(1).floor();
-			let avgIncrease = startIncrease.add(endIncrease).div(2);
-			let endCost = startCost.add(avgIncrease.mul(buyAmount.sub(1))).floor();
-			game.number =  game.number.div((new Decimal(10)).pow((new Decimal(10)).pow(endCost)));
+			game.number = newGame().number;
+			game.mult = newGame().mult;
 			game.reset.amount = game.reset.amount.add(buyAmount);
 		}
 	}
