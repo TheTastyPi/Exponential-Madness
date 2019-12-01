@@ -619,4 +619,5 @@ function buyUpgrade(n, type) {
 				game.plexal.upgrade.bought[n] = true;
 			}
 		break;
+	}
 }
