@@ -171,22 +171,22 @@ function newGame() {
 			gain: new Decimal(0),
 			essence: new Decimal(0),
 			upgrade: {
-				cost: [new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)],
-				unlocked: [false, false, false, false, false, false, false]
+				cost: ["lol", new Decimal(1), new Decimal(2), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)],
+				unlocked: ["lol", false, false, false, false, false, false]
 			},
 			unlocked: false
 		},
 		iterator: {
 			iteration: new Decimal(0),
-			baseBoost: new Decimal(1.5),
-			boost: new Decimal(1.5),
+			baseBoost: new Decimal(1.1),
+			boost: new Decimal(1.1),
 			totalBoost: new Decimal(1),
 			baseCost: new Decimal(100),
 			cost: new Decimal(100),
-			costIncrease: new Decimal(1e5),
+			costIncrease: new Decimal(1e10),
 			upgrade: {
 				amount: new Decimal(0),
-				boost: new Decimal(1.5),
+				boost: new Decimal(1.1),
 				totalBoost: new Decimal(1),
 				baseCost: new Decimal(10),
 				cost: new Decimal(10),
@@ -216,7 +216,7 @@ function newGame() {
 
 function wipe() {
 	game = newGame();
-	save();
+	save(true);
 }
 
 function wipeConfirm() {
@@ -276,7 +276,7 @@ function updateMult() {
 				document.getElementById("mult"+(i+1)).classList.add('hidden');
 			}
 		} else {
-			document.getElementById("multButton" + i).innerHTML = "Square Multiplier " + i + " Cost: " + findDisplay(game.mult.cost[i]);
+			document.getElementById("multButton" + i).innerHTML = "Boost Multiplier " + i + " by ^" + findDisplay(game.mult.powerPerBuy) + " Cost: " + findDisplay(game.mult.cost[i]);
 			if (i != game.mult.maxMult) {
 				document.getElementById("mult"+(i+1)).classList.remove('hidden');
 			}
@@ -333,7 +333,7 @@ function updateReset() {
 	document.getElementById("resetPower").innerHTML = "^" + findDisplay(r.totalBoost);
 	document.getElementById("resetAmount").innerHTML = findDisplay(new Decimal(r.amount));
 	if (game.mult.maxMult < game.mult.actualMaxMult) {
-		document.getElementById("resetButton").innerHTML = "Reset the game for a new multiplier and a boost to all multipliers Requires: " + findDisplay(game.reset.cost);
+		document.getElementById("resetButton").innerHTML = "Reset the game for a new multiplier and a ^" + findDisplay(game.reset.boost) + " boost to all multipliers Requires: " + findDisplay(game.reset.cost);
 	} else {
 		document.getElementById("resetButton").innerHTML = "Reset the game for a boost to all multipliers Requires: " + findDisplay(game.reset.cost);
 	}
