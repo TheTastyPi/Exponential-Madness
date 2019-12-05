@@ -273,7 +273,7 @@ function updateMult() {
 		}
 		m.generation[i] = m.amount[i].pow(m.power[i]); 
 		m.cost[i] = m.baseCost[i].pow(m.costIncrease[i].pow(m.upgradeAmount[i]));
-		m.power[i] = getPower[i];
+		m.power[i] = getPower(i);
 		m.maxMult = (new Decimal(4)).add(game.reset.amount);
 		if ((new Decimal(game.mult.maxMult)).greaterThan(game.mult.actualMaxMult)) {
 			m.maxMult = m.actualMaxMult;
