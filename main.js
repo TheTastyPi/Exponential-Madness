@@ -305,9 +305,9 @@ function findDisplay(n) {
 	}
 }
 
-/************ 
- * UPDATING *
- ************/
+/********************
+ * UPDATE (display) *
+ ********************/
 
 function getPower(n) {
 	let power = game.mult.powerPerBuy.pow(game.mult.upgradeAmount[n]).mul(game.reset.totalBoost).mul(game.iterator.totalBoost)
@@ -426,8 +426,7 @@ function getPlexalGain() {
 
 function updatePlexal() {
 	game.plexal.gain = getPlexalGain();
-	if (game.plexal.amount.greaterThan(new Decimal(0))
-	   || game.number.greaterThan(Decimal.fromComponents(1, 2, 80))) {
+	if (game.number.greaterThan(Decimal.fromComponents(1, 2, 80))) {
 		game.plexal.unlocked = true;
 	}
 	if (game.plexal.amount.greaterThan(new Decimal(0))) {
@@ -437,7 +436,7 @@ function updatePlexal() {
 	}
 	if (game.plexal.unlocked == true) {
 		document.getElementById("plexButton").classList.remove('hidden');
-	} else if (game.permaStat.timePlayed == 0) {
+	} else {
 		document.getElementById("plexButton").classList.add('hidden');
 	}
 	if (game.number.greaterThanOrEqualTo(Decimal.fromComponents(1, 2, 100))) {
