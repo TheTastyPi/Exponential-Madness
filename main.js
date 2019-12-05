@@ -435,7 +435,7 @@ function updateUpg() {
 	game.plexal.upgrade.boost[5] = game.permaStat.totalReset.root(5).floor();
 	game.plexal.upgrade.boost[6] = game.plexal.essence.root(2);
 	for (let i = 1; i < game.plexal.upgrade.boost.length; i++) {
-		document.getElementById("plexalUpg" + i + "Boost") = findDisplay(game.plexal.upgrade.boost[i]);
+		document.getElementById("plexalUpg" + i + "Boost").innerHTML = findDisplay(game.plexal.upgrade.boost[i]);
 	}
 }
 
