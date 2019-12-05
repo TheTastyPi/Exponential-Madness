@@ -1,3 +1,7 @@
+/********* 
+ * SETUP *
+ *********/
+
 var lastFrame = 0;
 var lastSave = 0;
 window.requestAnimationFrame(nextFrame);
@@ -5,6 +9,10 @@ window.requestAnimationFrame(nextFrame);
 var pastGame;
 var game = newGame();
 load(true);
+
+/************* 
+ * GAME LOOP *
+ *************/
 
 function nextFrame(timeStamp) {
 	let sinceLastFrame = timeStamp - lastFrame;
@@ -53,6 +61,10 @@ function changeAutoSaveSpeed() {
 		}
 	}
 }
+
+/**********
+ * SAVING *
+ **********/
 
 function save(auto) {
 	localStorage.setItem('emsave', JSON.stringify(game));
@@ -223,6 +235,46 @@ function toggleAutoSave() {
 	game.autoSave = !game.autoSave;
 }
 
+/*********** 
+ * HOTKEYS *
+ ***********/
+
+document.addEventListener("keydown", function(input){
+	let key = input.key;
+	switch(key) {
+		case "1":
+		case "2":
+		case "3":
+		case "4":
+		case "5":
+		case "6":
+		case "7":
+		case "8":
+		case "9":
+			buyMult(Number(key), "normal");
+		break;
+		case "0":
+			buyMult(10, "normal");
+		break;
+		case "i":
+			iterate();
+		break;
+		case "m":
+			maxAll("normal");
+		break;
+		case "r":
+			reset(0);
+		break;
+		case "p":
+			reset(1);
+		break;
+	}
+});
+
+/*********** 
+ * DISPLAY *
+ ***********/
+
 function toTab(tab) {
 	document.getElementById(tab).parentNode.querySelectorAll(":scope > .tab").forEach(function(element) {
 		element.classList.add('hidden');
@@ -252,6 +304,10 @@ function findDisplay(n) {
 		return "E" + (new Decimal(n.mag)).iteratedlog(10,x.floor()).toFixed(2) + "#" + (new Decimal(n.layer)).add(x.floor());
 	}
 }
+
+/************ 
+ * UPDATING *
+ ************/
 
 function getPower(n) {
 	let power = game.mult.powerPerBuy.pow(game.mult.upgradeAmount[n]).mul(game.reset.totalBoost).mul(game.iterator.totalBoost)
@@ -490,6 +546,10 @@ function updateAll() {
 		document.getElementById("autoSaveButton").innerHTML = "Auto Save: OFF";
 	}
 }
+
+/*****************
+ * PLAYER ACTION *
+ *****************/
 
 function buyMult(n, type) {
 	switch (type) {
