@@ -312,10 +312,10 @@ function findDisplay(n) {
 function getPower(n) {
 	let power = game.mult.powerPerBuy.pow(game.mult.upgradeAmount[n]).mul(game.reset.totalBoost).mul(game.iterator.totalBoost)
 	if (game.plexal.upgrade.unlocked[1]) {
-		power = game.mult.power[n].mul(game.plexal.upgrade.boost[1])
+		power = power.mul(game.plexal.upgrade.boost[1])
 	}
 	if (game.plexal.upgrade.unlocked[3]) {
-		power = game.mult.power[n].mul(game.plexal.upgrade.boost[3]);
+		power = power.mul(game.plexal.upgrade.boost[3]);
 	}
 	return power;
 }
