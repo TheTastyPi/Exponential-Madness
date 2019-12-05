@@ -261,6 +261,7 @@ function getPower(n) {
 	if (game.plexal.upgrade.unlocked[3]) {
 		power = game.mult.power[n].mul(game.plexal.upgrade.boost[3]);
 	}
+	return power;
 }
 
 function updateMult() {
