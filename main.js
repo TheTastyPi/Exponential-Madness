@@ -615,14 +615,14 @@ function maxMult(n, type) {
 function maxAll(type) {
 	switch (type) {
 		case "normal":
-			for(let i = 1; i <= game.mult.maxMult; i++) {
-				maxMult(i, "normal");
+			for(let j = 1; j <= game.mult.maxMult; j++) {
+				maxMult(j, "normal");
 			}
 			maxIterate();
 		break;
 		case "super":
-			for(let i = 1; i < game.superMult.amount.length; i++) {
-				maxMult(i, "super");
+			for(let j = 1; j < game.superMult.amount.length; j++) {
+				maxMult(j, "super");
 			}
 		break;
 	}
