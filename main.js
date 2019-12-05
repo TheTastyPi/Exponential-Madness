@@ -68,7 +68,7 @@ function load(auto) {
 	if (localStorage.getItem('emsave')) {
 		pastGame = JSON.parse(localStorage.getItem('emsave'));
 		objectToDecimal(pastGame);
-		mergeToGame(pastGame, false);
+		merge(game, pastGame);
 		if(!auto) {
 			document.getElementById("loadButton").innerHTML = "Loaded!";
 			setTimeout(function(){
@@ -114,25 +114,13 @@ function objectToDecimal(object) {
 	}
 }
 
-function mergeToGame(object, parent) {
-	if (parent) {
-		for (i in game[parent]) {
-			if (object[i] != undefined) {
-				if (typeof(game[i]) == "object") {
-					mergeToGame(object[i], parent[i]);
-				} else {
-					game[parent][i] = object[i];
-				}
-			}
-		}
-	} else {
-		for (i in game) {
-			if (object[i] != undefined) {
-				if (typeof(game[i]) == "object") {
-					mergeToGame(object[i], i);
-				} else {
-					game[i] = object[i];
-				}
+function merge(base, source) {
+	for (i in base) {
+		if (source[i] != undefined) {
+			if (typeof(base[i]) == "object" && typeof(source[i]) == "object") {
+				merge(base[i], source[i]);
+			} else {
+				base[i] = source[i];
 			}
 		}
 	}
