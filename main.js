@@ -331,7 +331,7 @@ function updateSuperMult() {
 function updateReset() {
 	let r = game.reset;
 	r.boost = new Decimal(3);
-	if (game.plexal.upgade.unlocked[4]) {
+	if (game.plexal.upgrade.unlocked[4]) {
 		r.boost = r.boost.mul(game.plexal.upgrade.boost[4]);
 	}
 	r.totalBoost = r.boost.pow(r.amount);
