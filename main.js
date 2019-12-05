@@ -140,7 +140,12 @@ function mergeToGame(object, parent) {
 
 function newGame() {
 	let save = {
-		timePlayed: 0,
+		permaStats: {
+			timePlayed: 0,
+			highestNum: new Decimal(10),
+			totalReset: new Decimal(0),
+			totalPlexal: new Decimal(0)
+		},
 		number: new Decimal(10),
 		mult: {
 			amount:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
@@ -171,8 +176,9 @@ function newGame() {
 			gain: new Decimal(0),
 			essence: new Decimal(0),
 			upgrade: {
-				cost: ["lol", new Decimal(1), new Decimal(2), new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)],
-				unlocked: ["lol", false, false, false, false, false, false]
+				cost: ["lol", new Decimal(1), new Decimal(2), new Decimal(10000), new Decimal(10000), new Decimal(10000), new Decimal(10000)],
+				unlocked: ["lol", false, false, false, false, false, false],
+				boost: ["lol", new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(0), new Decimal(1)]
 			},
 			unlocked: false
 		},
@@ -188,7 +194,7 @@ function newGame() {
 				amount: new Decimal(0),
 				boost: new Decimal(1.1),
 				totalBoost: new Decimal(1),
-				baseCost: new Decimal(10),
+				baseCost: new Decimal(100),
 				cost: new Decimal(10),
 				costIncrease: new Decimal(10)
 			},
@@ -261,9 +267,10 @@ function findDisplay(n) {
 
 function updateMult() {
 	for (let i = 1; i <= game.mult.actualMaxMult; i++) {
+		game.mult.powerPerBuy = (new Decimal(2)).mul(game.plexal.upgrade.boost[2]);
 		game.mult.generation[i] = game.mult.amount[i].pow(game.mult.power[i]); 
 		game.mult.cost[i] = game.mult.baseCost[i].pow(game.mult.costIncrease[i].pow(game.mult.upgradeAmount[i]));
-		game.mult.power[i] = game.mult.powerPerBuy.pow(game.mult.upgradeAmount[i]).mul(game.reset.totalBoost).mul(game.iterator.totalBoost);
+		game.mult.power[i] = game.mult.powerPerBuy.pow(game.mult.upgradeAmount[i]).mul(game.reset.totalBoost).mul(game.iterator.totalBoost).mul(game.plexal.upgrade.boost[1]).mul(game.plexal.upgrade.boost[3]);
 		game.mult.maxMult = (new Decimal(4)).add(game.reset.amount);
 		if ((new Decimal(game.mult.maxMult)).greaterThan(game.mult.actualMaxMult)) {
 			game.mult.maxMult = game.mult.actualMaxMult;
@@ -320,6 +327,7 @@ function updateSuperMult() {
 
 function updateReset() {
 	let r = game.reset;
+	r.boost = (new Decimal(3)).mul(game.plexal.upgrade.boost[4]);
 	r.totalBoost = r.boost.pow(r.amount);
 	r.costIncrease = r.baseCostIncrease.mul(r.costScaling.pow(r.amount));
 	r.cost = r.baseCost.pow(r.costIncrease.pow(r.amount))
@@ -347,7 +355,7 @@ function updateReset() {
 }
 
 function updatePlexal() {
-	game.plexal.gain = game.number.log(Decimal.fromComponents(1, 2, 100)).root(666).floor();
+	game.plexal.gain = game.number.log(Decimal.fromComponents(1, 2, 100)).root(666).mul(game.plexal.upgrade.boost[6]).floor;
 	if (game.plexal.amount.greaterThan(new Decimal(0))
 	   || game.number.greaterThan(Decimal.fromComponents(1, 2, 80))) {
 		game.plexal.unlocked = true;
@@ -391,7 +399,7 @@ function updateIterator() {
 	it.totalBoost = it.boost.pow(it.iteration);
 	it.cost = it.baseCost.pow(it.costIncrease.pow(it.iteration));
 	upg.totalBoost = upg.boost.pow(upg.amount);
-	upg.cost = upg.baseCost.mul(upg.costIncrease.pow(upg.amount))
+	upg.cost = upg.baseCost.pow(upg.costIncrease.pow(upg.amount))
 	document.getElementById("iteratorTotalBoost").innerHTML = "^" + findDisplay(it.totalBoost);
 	document.getElementById("iteration").innerHTML = findDisplay(it.iteration);
 	document.getElementById("iterationCost").innerHTML = findDisplay(it.cost);
@@ -430,7 +438,23 @@ function updateIterator() {
 	}
 }
 
+function updateUpg() {
+	// Plexal
+	game.plexal.upgrade.boost[1] = game.plexal.amount.div(4).add(1);
+	game.plexal.upgrade.boost[2] = (new Decimal(1.1)).pow(game.iterator.upgrade.amount);
+	game.plexal.upgrade.boost[3] = game.plexal.essence.root(6).div(3).add(1);
+	game.plexal.upgrade.boost[4] = game.reset.amount.root(4);
+	game.plexal.upgrade.boost[5] = game.permaStat.totalReset.root(5).floor();
+	game.plexal.upgrade.boost[6] = game.plexal.essence.root(2);
+	for (let i = 1; i < game.plexal.upgrade.boost.length; i++) {
+		document.getElementById("plexalUpg" + i + "Boost") = findDisplay(game.plexal.upgrade.boost[i]);
+	}
+}
+
 function updateAll() {
+	if (game.number.greaterThan(game.permaStat.highestNum)){
+		game.permaStart.highestNum = game.number;
+	}
 	document.getElementById("multPerSecond").innerHTML = findDisplay(game.mult.generation[1]);
 	document.getElementById("number").innerHTML = findDisplay(game.number);
 	updateTab();
@@ -439,6 +463,7 @@ function updateAll() {
 	updateReset();
 	updatePlexal();
 	updateIterator();
+	updateUpg();
 	if (game.autoSave) {
 		document.getElementById("autoSaveButton").innerHTML = "Auto Save: ON";
 	} else {
@@ -527,6 +552,7 @@ function reset(level) {
 				game.number = newGame().number;
 				game.mult = newGame().mult;
 				game.reset.amount = game.reset.amount.add(1);
+				game.permaStat.totalReset = game.permaStat.totalReset.add(1);
 			}
 		break;
 		case 1:
@@ -534,8 +560,10 @@ function reset(level) {
 				game.number = newGame().number;
 				game.mult = newGame().mult;
 				game.reset = newGame().reset;
+				game.reset.amount = game.plexal.upgrade.boost[5];
 				game.iterator.iteration = newGame().iterator.iteration;
 				game.plexal.amount = game.plexal.amount.add(1);
+				game.permaStat.totalPlexal = game.permaStat.totalPlexal.add(1);
 				game.plexal.essence = game.plexal.essence.add(game.plexal.gain);
 			}
 		break;
@@ -558,6 +586,7 @@ function maxReset() {
 			game.number = newGame().number;
 			game.mult = newGame().mult;
 			game.reset.amount = game.reset.amount.add(buyAmount);
+			game.permaStat.totalReset = game.permaStat.totalReset.add(buyAmount);
 		}
 	}
 }
