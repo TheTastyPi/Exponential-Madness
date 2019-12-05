@@ -3,8 +3,9 @@
 * Added a new prestige layer: "Plexal"
   * Added a new currency: "Plexal Essence"
   * Added the "Iterator"
-  * Added several other upgrades
+  * Added 6 plexal upgrades
 * Added tabs
+* Added hotkeys
 ## v0.02: Dial It Up To... 10?
 * Added multiplier 5-10
 * Added reset mechanic
