@@ -140,7 +140,7 @@ function mergeToGame(object, parent) {
 
 function newGame() {
 	let save = {
-		permaStats: {
+		permaStat: {
 			timePlayed: 0,
 			highestNum: new Decimal(10),
 			totalReset: new Decimal(0),
@@ -453,7 +453,7 @@ function updateUpg() {
 
 function updateAll() {
 	if (game.number.greaterThan(game.permaStat.highestNum)){
-		game.permaStart.highestNum = game.number;
+		game.permaStat.highestNum = game.number;
 	}
 	document.getElementById("multPerSecond").innerHTML = findDisplay(game.mult.generation[1]);
 	document.getElementById("number").innerHTML = findDisplay(game.number);
