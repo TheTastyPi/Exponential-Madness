@@ -557,25 +557,29 @@ function updateAll() {
 function buyMult(n, type) {
 	switch (type) {
 		case "normal":
-			if (game.number.greaterThanOrEqualTo(game.mult.cost[n])) {
-				game.number = game.number.div(game.mult.cost[n]);
-				if (game.mult.unlocked[n] == false) {
-					game.mult.amount[n] = new Decimal(1.25);
-					game.mult.unlocked[n] = true;
-				} else {
-					game.mult.upgradeAmount[n] = game.mult.upgradeAmount[n].add(1);
+			if (!document.getElementById("mult" + n).classList.contains('hidden')) {
+				if (game.number.greaterThanOrEqualTo(game.mult.cost[n])) {
+					game.number = game.number.div(game.mult.cost[n]);
+					if (game.mult.unlocked[n] == false) {
+						game.mult.amount[n] = new Decimal(1.25);
+						game.mult.unlocked[n] = true;
+					} else {
+						game.mult.upgradeAmount[n] = game.mult.upgradeAmount[n].add(1);
+					}
 				}
 			}
 		break;
 		case "super":
-			if (game.number.greaterThanOrEqualTo(game.superMult.cost[n])) {
-				game.number = game.number.div(game.superMult.cost[n]);
-				if (game.superMult.unlocked[n] == false) {
-					game.superMult.amount[n] = new Decimal(1.25);
-					game.superMult.unlocked[n] = true;
-				} else {
-					game.superMult.upgradeAmount[n] = game.superMult.upgradeAmount[n].add(1);
-					game.superMult.cost[n] = game.superMult.cost[n].pow(game.superMult.costIncrease[n].tetrate(game.superMult.costIncrease[n].log10()));
+			if (!document.getElementById("superMult" + n).classList.contains('hidden')) {
+				if (game.number.greaterThanOrEqualTo(game.superMult.cost[n])) {
+					game.number = game.number.div(game.superMult.cost[n]);
+					if (game.superMult.unlocked[n] == false) {
+						game.superMult.amount[n] = new Decimal(1.25);
+						game.superMult.unlocked[n] = true;
+					} else {
+						game.superMult.upgradeAmount[n] = game.superMult.upgradeAmount[n].add(1);
+						game.superMult.cost[n] = game.superMult.cost[n].pow(game.superMult.costIncrease[n].tetrate(game.superMult.costIncrease[n].log10()));
+					}
 				}
 			}
 		break;
@@ -585,7 +589,7 @@ function buyMult(n, type) {
 function maxMult(n, type) {
 	switch (type) {
 		case "normal":
-			if (game.mult.unlocked[n]) {
+			if (!document.getElementById("mult" + n).classList.contains('hidden')) {
 				let num = game.number.log10().log10().mul(0.99999);
 				let startCost = game.mult.cost[n].log10().log10();
 				if (num.greaterThanOrEqualTo(startCost)) {
@@ -606,7 +610,7 @@ function maxMult(n, type) {
 			}
 		break;
 		case "super":
-			if (game.superMult.unlocked[n]) {
+			if (!document.getElementById("superMult" + n).classList.contains('hidden')) {
 				while (game.superMult.cost[n].lessThan(game.number) 
 				       && !(document.getElementById("superMult" + n).classList.contains('hidden'))) {
 					buyMult(n, "super");
