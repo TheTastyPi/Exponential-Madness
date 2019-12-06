@@ -585,28 +585,32 @@ function buyMult(n, type) {
 function maxMult(n, type) {
 	switch (type) {
 		case "normal":
-			let num = game.number.log10().log10().mul(0.99999);
-			let startCost = game.mult.cost[n].log10().log10();
-			if (num.greaterThanOrEqualTo(startCost)) {
-				let increase = game.mult.costIncrease[n].log10();
-				let buyAmount = num.sub(startCost).div(increase).ceil();
-				let endCost = startCost.add(increase.mul(buyAmount));
-				let totalCost = endCost.sub(increase);
-				if (game.mult.unlocked[n] == false) {
-					game.mult.amount[n] = new Decimal(1.25);
-					game.mult.unlocked[n] = true;
-					game.number = game.number.div(game.mult.cost[n]);
-					maxAll("normal");
-				} else {
-					game.number = game.number.div((new Decimal(10)).pow((new Decimal(10)).pow(totalCost)));
-					game.mult.upgradeAmount[n] = game.mult.upgradeAmount[n].add(buyAmount);
+			if (game.mult.unlocked[n]) {
+				let num = game.number.log10().log10().mul(0.99999);
+				let startCost = game.mult.cost[n].log10().log10();
+				if (num.greaterThanOrEqualTo(startCost)) {
+					let increase = game.mult.costIncrease[n].log10();
+					let buyAmount = num.sub(startCost).div(increase).ceil();
+					let endCost = startCost.add(increase.mul(buyAmount));
+					let totalCost = endCost.sub(increase);
+					if (game.mult.unlocked[n] == false) {
+						game.mult.amount[n] = new Decimal(1.25);
+						game.mult.unlocked[n] = true;
+						game.number = game.number.div(game.mult.cost[n]);
+						maxMult(n, "normal");
+					} else {
+						game.number = game.number.div((new Decimal(10)).pow((new Decimal(10)).pow(totalCost)));
+						game.mult.upgradeAmount[n] = game.mult.upgradeAmount[n].add(buyAmount);
+					}
 				}
 			}
 		break;
 		case "super":
-			while (game.superMult.cost[n].lessThan(game.number) 
-			       && !(document.getElementById("superMult" + n).classList.contains('hidden'))) {
-				buyMult(n, "super");
+			if (game.superMult.unlocked[n]) {
+				while (game.superMult.cost[n].lessThan(game.number) 
+				       && !(document.getElementById("superMult" + n).classList.contains('hidden'))) {
+					buyMult(n, "super");
+				}
 			}
 		break;
 	}
@@ -615,15 +619,23 @@ function maxMult(n, type) {
 function maxAll(type) {
 	switch (type) {
 		case "normal":
-			for(let j = 1; j <= game.mult.maxMult; j++) {
-				maxMult(j, "normal");
-			}
+			maxMult(1, "normal");
+			maxMult(2, "normal");
+			maxMult(3, "normal");
+			maxMult(4, "normal");
+			maxMult(5, "normal");
+			maxMult(6, "normal");
+			maxMult(7, "normal");
+			maxMult(8, "normal");
+			maxMult(9, "normal");
+			maxMult(10, "normal");
 			maxIterate();
 		break;
 		case "super":
-			for(let j = 1; j < game.superMult.amount.length; j++) {
-				maxMult(j, "super");
-			}
+			maxMult(1, "super");
+			maxMult(2, "super");
+			maxMult(3, "super");
+			maxMult(4, "super");
 		break;
 	}
 }
