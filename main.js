@@ -215,7 +215,10 @@ function newGame() {
 		autoSave: true,
 		autoSaveSpeed: 1000,
 		updateSpeed: 50,
-		currentTheme: 0,
+		theme: {
+			themeList:["light", "dark"],
+			currentTheme: 0,
+		},
 		speed: 1
 	}
 	return save;
@@ -294,17 +297,13 @@ function updateTab() {
 }
 
 function cycleTheme(){
-	let themeList = ["light", "dark"];
 	document.querySelectorAll("*").forEach(function(element) {
-		element.classList.remove(themeList[game.currentTheme]);
+		element.classList.remove(game.themeList[game.currentTheme]);
 	});
 	game.currentTheme++;
-	if (game.currentTheme >= themeList.length) {
+	if (game.currentTheme >= game.themeList.length) {
 		game.currentTheme = 0;
 	}
-	document.querySelectorAll("*").forEach(function(element) {
-		element.classList.add(themeList[game.currentTheme]);
-	});
 }
 
 function findDisplay(n) {
@@ -563,6 +562,9 @@ function updateAll() {
 	} else {
 		document.getElementById("autoSaveButton").innerHTML = "Auto Save: OFF";
 	}
+	document.querySelectorAll("*").forEach(function(element) {
+		element.classList.add(themeList[game.currentTheme]);
+	});
 }
 
 /*****************
