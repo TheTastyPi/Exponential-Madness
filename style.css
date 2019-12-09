@@ -45,8 +45,8 @@ button.disabled {
   border: 2px solid #AA0000;
 }
 button.dark.disabled {
-  background-color: #DDDDDD;
-  border: 2px solid #DD0000;
+  background-color: #444444;
+  border: 2px solid #440000;
 }
 button.disabled:hover {
   background-color: #AA0000;
