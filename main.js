@@ -189,7 +189,7 @@ function newGame() {
 			totalBoost: new Decimal(1),
 			baseCost: new Decimal(10),
 			cost: new Decimal(10),
-			costIncrease: new Decimal(1e3),
+			costIncrease: new Decimal(1e2),
 			upgrade: {
 				amount: new Decimal(0),
 				boost: new Decimal(1.1),
