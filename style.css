@@ -82,12 +82,16 @@ button.plexal {
   color: purple;
   border: 2px solid purple;
 }
+button.dark.plexal {
+  color: magenta;
+  border: 2px solid magenta;
+}
 button.plexal:hover {
   background-color: purple;
   color: white;
 }
 button.dark.plexal:hover {
-  background-color: purple;
+  background-color: magenta;
   color: black;
 }
 .hidden {
