@@ -565,7 +565,7 @@ function updateAll() {
 	document.querySelectorAll("*").forEach(function(element) {
 		element.classList.add(game.theme.themeList[game.theme.currentTheme]);
 	});
-	document.getElementById("themeButton").innerHTML = game.theme.themeList[game.theme.currentTheme].charAt(0).toUpperCase() + game.theme.themeList[game.theme.currentTheme].slice(1) + "Theme";
+	document.getElementById("themeButton").innerHTML = game.theme.themeList[game.theme.currentTheme].charAt(0).toUpperCase() + game.theme.themeList[game.theme.currentTheme].slice(1) + " Theme";
 }
 
 /*****************
