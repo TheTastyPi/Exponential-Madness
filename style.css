@@ -3,6 +3,7 @@
 }
 body.dark {
   background-color: black;
+  color: white;
 }
 button {
   background-color: white;
@@ -28,21 +29,32 @@ button.dark:hover {
 button.enabled {
   border: 2px solid #00BB00;
 }
+button.dark.enabled {
+  border: 2px solid #00EE00;
+}
 button.enabled:hover {
   background-color: #00BB00;
   color: white;
 }
 button.dark.enabled:hover {
-  background-color: #00BB00;
+  background-color: #00EE00;
   color: black;
 }
 button.disabled {
   background-color: #AAAAAA;
   border: 2px solid #AA0000;
 }
+button.dark.disabled {
+  background-color: #DDDDDD;
+  border: 2px solid #DD0000;
+}
 button.disabled:hover {
   background-color: #AA0000;
   color: #AAAAAA;
+}
+button.dark.disabled:hover {
+  background-color: #DD0000;
+  color: #DDDDDD;
 }
 button.warning {
   color: red;
