@@ -188,7 +188,7 @@ function newGame() {
 			boost: new Decimal(1.1),
 			totalBoost: new Decimal(1),
 			baseCost: new Decimal(1e2),
-			cost: new Decimal(1e10),
+			cost: new Decimal(10),
 			costIncrease: new Decimal(1e3),
 			upgrade: {
 				amount: new Decimal(0),
@@ -496,7 +496,11 @@ function updateIterator() {
 	if (it.unlocked == true) {
 		document.getElementById("iteratorUnlock").classList.add('hidden');
 		document.getElementById("iteratorUpgrade").classList.remove('hidden');
-		document.getElementById("iterate").classList.remove('hidden');
+		if (game.mult.amount[1].greaterThan(1)) {
+			document.getElementById("iterate").classList.remove('hidden');
+		} else {
+			document.getElementById("iterate").classList.add('hidden');
+		}
 	} else {
 		document.getElementById("iteratorUnlock").classList.remove('hidden');
 		document.getElementById("iteratorUpgrade").classList.add('hidden');
