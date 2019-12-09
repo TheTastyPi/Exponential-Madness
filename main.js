@@ -563,7 +563,7 @@ function updateAll() {
 		document.getElementById("autoSaveButton").innerHTML = "Auto Save: OFF";
 	}
 	document.querySelectorAll("*").forEach(function(element) {
-		element.classList.add(themeList[game.currentTheme]);
+		element.classList.add(game.themeList[game.currentTheme]);
 	});
 }
 
