@@ -215,7 +215,8 @@ function newGame() {
 		autoSave: true,
 		autoSaveSpeed: 1000,
 		updateSpeed: 50,
-		gameSpeed: 1
+		currentTheme: 0,
+		speed: 1
 	}
 	return save;
 }
@@ -290,6 +291,16 @@ function updateTab() {
 		document.getElementById("normalMultTabButton").classList.add('hidden');
 		document.getElementById("superMultTabButton").classList.add('hidden');
 	}
+}
+
+function cycleTheme(){
+	let themeList = ["light", "dark"];
+	document.querySelectorAll("*").classList.remove(themeList[game.currentTheme]);
+	game.currentTheme++;
+	if (game.currentTheme >= themeList.length) {
+		game.currentTheme = 0;
+	}
+	document.querySelectorAll("*").classList.add(themeList[game.currentTheme])
 }
 
 function findDisplay(n) {
