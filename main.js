@@ -295,12 +295,16 @@ function updateTab() {
 
 function cycleTheme(){
 	let themeList = ["light", "dark"];
-	document.querySelectorAll("*").classList.remove(themeList[game.currentTheme]);
+	document.querySelectorAll("*").forEach(function(element) {
+		element.classList.remove(themeList[game.currentTheme]);
+	});
 	game.currentTheme++;
 	if (game.currentTheme >= themeList.length) {
 		game.currentTheme = 0;
 	}
-	document.querySelectorAll("*").classList.add(themeList[game.currentTheme])
+	document.querySelectorAll("*").forEach(function(element) {
+		element.classList.add(themeList[game.currentTheme]);
+	});
 }
 
 function findDisplay(n) {
