@@ -9,9 +9,18 @@ button {
   vertical-align: middle;
   transition-duration: 0.2s;
 }
+button.dark {
+  background-color: black;
+  color: white;
+  border: 2px solid white;
+}
 button:hover {
   background-color: black;
   color: white;
+}
+button.dark:hover {
+  background-color: white;
+  color: black;
 }
 button.enabled {
   border: 2px solid #00BB00;
@@ -20,9 +29,12 @@ button.enabled:hover {
   background-color: #00BB00;
   color: white;
 }
+button.dark.enabled:hover {
+  background-color: #00BB00;
+  color: black;
+}
 button.disabled {
   background-color: #AAAAAA;
-  color: black;
   border: 2px solid #AA0000;
 }
 button.disabled:hover {
@@ -36,6 +48,10 @@ button.warning {
 button.warning:hover {
   background-color: red;
   color: white;
+}
+button.dark.warning:hover {
+  background-color: red;
+  color: black;
 }
 button.big {
   width: 200px;
@@ -54,6 +70,10 @@ button.plexal {
 button.plexal:hover {
   background-color: purple;
   color: white;
+}
+button.dark.plexal:hover {
+  background-color: purple;
+  color: black;
 }
 .hidden {
   display: none;
