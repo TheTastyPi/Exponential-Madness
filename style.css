@@ -46,14 +46,14 @@ button.disabled {
 }
 button.dark.disabled {
   background-color: #444444;
-  border: 2px solid #440000;
+  border: 2px solid #DD0000;
 }
 button.disabled:hover {
   background-color: #AA0000;
   color: #AAAAAA;
 }
 button.dark.disabled:hover {
-  background-color: #DD0000;
+  background-color: #440000;
   color: #DDDDDD;
 }
 button.warning {
