@@ -1,5 +1,7 @@
 * {
   font-family: "Lucida Console", Monaco, monospace;
+}
+body {
   transition-duration: 0.2s;
 }
 body.dark {
@@ -12,6 +14,7 @@ button {
   border: 2px solid black;
   border-radius: 15px;
   vertical-align: middle;
+  transition-duration: 0.2s;
 }
 button.dark {
   background-color: black;
