@@ -511,7 +511,7 @@ function updateIterator() {
 		document.getElementById("iterateButton").classList.add('enabled');
 	} else {
 		document.getElementById("iterateButton").classList.remove('enabled');
-		document.getElementById("iterateButton").classListi.add('disabled');  
+		document.getElementById("iterateButton").classList.add('disabled');  
 	}
 	if (game.plexal.essence.greaterThanOrEqualTo(1)) {
 		document.getElementById("iteratorUnlock").classList.remove('disabled');
