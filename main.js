@@ -511,7 +511,7 @@ function updateIterator() {
 		document.getElementById("iterateButton").classList.add('enabled');
 	} else {
 		document.getElementById("iterateButton").classList.remove('enabled');
-		document.getElementById("iterateButton").classList.add('disabled');  
+		document.getElementById("iterateButton").classListi.add('disabled');  
 	}
 	if (game.plexal.essence.greaterThanOrEqualTo(1)) {
 		document.getElementById("iteratorUnlock").classList.remove('disabled');
@@ -532,7 +532,7 @@ function updateIterator() {
 function updateUpg() {
 	// Plexal
 	game.plexal.upgrade.boost[1] = game.plexal.amount.div(4).add(2);
-	game.plexal.upgrade.boost[2] = (new Decimal(1.1)).pow(game.iterator.upgrade.amount);
+	game.plexal.upgrade.boost[2] = game.iterator.boost;
 	game.plexal.upgrade.boost[3] = game.plexal.essence.root(6).div(3).add(1);
 	game.plexal.upgrade.boost[4] = game.reset.amount.root(4);
 	game.plexal.upgrade.boost[5] = game.permaStat.totalReset.root(5).floor();
