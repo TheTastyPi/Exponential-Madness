@@ -7,7 +7,7 @@
 * Added tabs
 * Added hotkeys
 * Added dark theme
-* Fixed max all, again.
+* Fixed max all, again
 * Added a max reset function that really doesn't work
 * Increased version number
 * Updated change log
