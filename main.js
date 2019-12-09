@@ -300,7 +300,7 @@ function cycleTheme(){
 	document.querySelectorAll("*").forEach(function(element) {
 		element.classList.remove(game.theme.themeList[game.theme.currentTheme]);
 	});
-	game.currentTheme++;
+	game.theme.currentTheme++;
 	if (game.theme.currentTheme >= game.theme.themeList.length) {
 		game.theme.currentTheme = 0;
 	}
