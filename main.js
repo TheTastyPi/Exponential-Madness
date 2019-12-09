@@ -298,11 +298,11 @@ function updateTab() {
 
 function cycleTheme(){
 	document.querySelectorAll("*").forEach(function(element) {
-		element.classList.remove(game.themeList[game.currentTheme]);
+		element.classList.remove(game.theme.themeList[game.theme.currentTheme]);
 	});
 	game.currentTheme++;
-	if (game.currentTheme >= game.themeList.length) {
-		game.currentTheme = 0;
+	if (game.theme.currentTheme >= game.theme.themeList.length) {
+		game.theme.currentTheme = 0;
 	}
 }
 
@@ -563,7 +563,7 @@ function updateAll() {
 		document.getElementById("autoSaveButton").innerHTML = "Auto Save: OFF";
 	}
 	document.querySelectorAll("*").forEach(function(element) {
-		element.classList.add(game.themeList[game.currentTheme]);
+		element.classList.add(game.theme.themeList[game.theme.currentTheme]);
 	});
 }
 
