@@ -531,7 +531,7 @@ function updateIterator() {
 
 function updateUpg() {
 	// Plexal
-	game.plexal.upgrade.boost[1] = game.plexal.amount.div(4).add(2);
+	game.plexal.upgrade.boost[1] = game.plexal.amount.add(1);
 	game.plexal.upgrade.boost[2] = game.iterator.boost;
 	game.plexal.upgrade.boost[3] = game.plexal.essence.root(6).div(3).add(1);
 	game.plexal.upgrade.boost[4] = game.reset.amount.root(4);
