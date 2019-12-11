@@ -289,7 +289,7 @@ function toTab(tab) {
 function updateTab() {
 	if (game.plexal.amount.greaterThanOrEqualTo(1)) {
 		document.getElementById("plexalStatTabButton").classList.remove('hidden');
-		if (!document.getElementById("plexalStat").classList.include('hidden')) {
+		if (!document.getElementById("plexalStat").classList.contains('hidden')) {
 			toTab('normalStat');
 		}
 	} else {
@@ -299,7 +299,7 @@ function updateTab() {
 		document.getElementById("superMultTabButton").classList.remove('hidden');
 	} else {
 		document.getElementById("superMultTabButton").classList.add('hidden');
-		if (!document.getElementById("superMult").classList.include('hidden')) {
+		if (!document.getElementById("superMult").classList.contains('hidden')) {
 			toTab('normalMult');
 		}
 	}
