@@ -176,8 +176,8 @@ function newGame() {
 			gain: new Decimal(0),
 			essence: new Decimal(0),
 			upgrade: {
-				cost: ["lol", new Decimal(1), new Decimal(2), new Decimal(10000), new Decimal(10000), new Decimal(10000), new Decimal(10000)],
-				unlocked: ["lol", false, false, false, false, false, false],
+				cost: ["lol", new Decimal(1), new Decimal(2), new Decimal(1), new Decimal(10000), new Decimal(10000), new Decimal(10000)],
+				unlocked: [true, false, false, false, false, false, false],
 				boost: ["lol", new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(0), new Decimal(1)]
 			},
 			unlocked: false
@@ -463,20 +463,6 @@ function updatePlexal() {
 		document.getElementById("plexButton").classList.add('disabled');  
 	}
 	document.getElementById("plexalEssenceAmount").innerHTML = findDisplay(game.plexal.essence);
-	for (let i=1; i<game.plexal.upgrade.unlocked.length; i++) {
-		if (game.plexal.upgrade.unlocked[i] == false) {
-			document.getElementById("plexalUpg" + i).classList.remove('plexal');
-			if (game.plexal.essence.greaterThanOrEqualTo(game.plexal.upgrade.cost[i])) {
-				document.getElementById("plexalUpg" + i).classList.add('enabled');
-				document.getElementById("plexalUpg" + i).classList.remove('disabled');
-			} else {
-				document.getElementById("plexalUpg" + i).classList.add('disabled');
-				document.getElementById("plexalUpg" + i).classList.remove('enabled');
-			}
-		} else {
-			document.getElementById("plexalUpg" + i).classList.add('plexal');
-		}
-	}
 }
 
 function updateIterator() {
@@ -545,6 +531,20 @@ function updateUpg() {
 	}
 	for (let i = 1; i < game.plexal.upgrade.boost.length; i++) {
 		document.getElementById("plexalUpg" + i + "Boost").innerHTML = findDisplay(game.plexal.upgrade.boost[i]);
+	}
+	for (let i=1; i<game.plexal.upgrade.unlocked.length; i++) {
+		if (game.plexal.upgrade.unlocked[i] == false) {
+			document.getElementById("plexalUpg" + i).classList.remove('plexal');
+			if (game.plexal.essence.greaterThanOrEqualTo(game.plexal.upgrade.cost[i]) && game.plexal.upgrade.unlocked[i-1] == true) {
+				document.getElementById("plexalUpg" + i).classList.add('enabled');
+				document.getElementById("plexalUpg" + i).classList.remove('disabled');
+			} else {
+				document.getElementById("plexalUpg" + i).classList.add('disabled');
+				document.getElementById("plexalUpg" + i).classList.remove('enabled');
+			}
+		} else {
+			document.getElementById("plexalUpg" + i).classList.add('plexal');
+		}
 	}
 }
 
@@ -766,7 +766,8 @@ function maxUpgradeIterator() {
 function buyUpgrade(n, type) {
 	switch (type) {
 		case "plexal":
-			if (game.plexal.essence.greaterThanOrEqualTo(game.plexal.upgrade.cost[n])) {
+			if (game.plexal.essence.greaterThanOrEqualTo(game.plexal.upgrade.cost[n]) &&
+			   game.plexal.upgrade.unlocked[n-1] == true) {
 				game.plexal.essence = game.plexal.essence.sub(game.plexal.upgrade.cost[n]);
 				game.plexal.upgrade.unlocked[n] = true;
 			}
