@@ -14,6 +14,9 @@
     <button type="button" class="veryBig" onclick="toTab('mult')">
       Multipliers
     </button>
+    <button type="button" class="veryBig" onclick="toTab('stat')">
+      Statistics
+    </button>
     <button type="button" class="veryBig" onclick="toTab('option')">
       Options
     </button>
@@ -180,6 +183,23 @@
             Unlock Super Multiplier 4 Cost: ???
           </button>
         </span>
+      </span>
+    </span>
+    <span class="hidden tab" id='stat'>
+      <button type="button" class="big hidden" onclick="toTab('normalStat')" id="normalStatTabButton">
+        Normal Stats
+      </button>
+      <button type="button" class="big hidden" onclick="toTab('plexalStat')" id="plexalStatTabButton">
+        Plexal Stats
+      </button>
+      <span class="tab" id="normalStat">
+        Your highest number ever is <span id="highestNum">10</span>
+        <br>
+        <br>
+        You have reseted a total of <span>0</span> times
+      </span>
+      <span class="hidden tab" id="plexalStat">
+        You have plexaled a total of <span id="plexalAmount">0</span> times
       </span>
     </span>
     <span class="hidden tab" id='option'>
