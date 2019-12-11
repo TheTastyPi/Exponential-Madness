@@ -287,12 +287,21 @@ function toTab(tab) {
 }
 
 function updateTab() {
+	if (game.plexal.amount.greaterThanOrEqualTo(1)) {
+		document.getElementById("plexalStatTabButton").classList.remove('hidden');
+		if (!document.getElementById("plexalStat").classList.include('hidden')) {
+			toTab('normalStat');
+		}
+	} else {
+		document.getElementById("plexalStatTabButton").classList.add('hidden');
+	}
 	if (game.superMult.unlocked[1]) {
-		document.getElementById("normalMultTabButton").classList.remove('hidden');
 		document.getElementById("superMultTabButton").classList.remove('hidden');
 	} else {
-		document.getElementById("normalMultTabButton").classList.add('hidden');
 		document.getElementById("superMultTabButton").classList.add('hidden');
+		if (!document.getElementById("superMult").classList.include('hidden')) {
+			toTab('normalMult');
+		}
 	}
 }
 
