@@ -610,7 +610,7 @@ function updateUpg() {
 	game.plexal.upgrade.boost[1] = game.plexal.amount.add(1);
 	game.plexal.upgrade.boost[2] = game.iterator.boost;
 	game.plexal.upgrade.boost[3] = game.plexal.essence.pow(1.1).add(1);
-	game.plexal.upgrade.boost[4] = game.reset.amount.root(4);
+	game.plexal.upgrade.boost[4] = game.reset.amount.root(5);
 	game.plexal.upgrade.boost[5] = game.permaStat.totalReset.root(5).floor();
 	game.plexal.upgrade.boost[6] = game.plexal.essence.root(2);
 	if (game.plexal.upgrade.boost[4].lessThan(1)) {
