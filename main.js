@@ -627,9 +627,10 @@ function updateUpg() {
 }
 
 function updateStat() {
-	document.getElementById("timePlayed").innerHTML = findDisplay(game.permaStat.highestNum);
+	document.getElementById("timePlayed").innerHTML = findTimeDisplay(game.permaStat.timePlayed);
 	document.getElementById("highestNum").innerHTML = findDisplay(game.permaStat.highestNum);
 	document.getElementById("totalReset").innerHTML = findDisplay(game.permaStat.totalReset);
+	document.getElementById("plexalAmount").innerHTML = findDisplay(game.plexal.amount);
 }
 
 function updateAll() {
