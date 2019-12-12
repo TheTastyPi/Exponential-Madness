@@ -141,9 +141,9 @@ function objectToDecimal(object) {
 function merge(base, source) {
 	for (i in base) {
 		if (source[i] != undefined) {
-			if (typeof(base[i]) == "object" && typeof(source[i]) == "object") {
+			if (typeof(base[i]) == "object" && typeof(source[i]) == "object" && base.e == undefined) {
 				merge(base[i], source[i]);
-			} else if (base.mag = undefined) {
+			} else {
 				base[i] = source[i];
 			}
 		}
