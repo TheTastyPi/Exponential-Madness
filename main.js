@@ -329,8 +329,8 @@ function findDisplay(n) {
 }
 
 function findTimeDisplay(ms) {
-	let s = (ms/1000).toFixed(2);
-	let ds = mod(s, 60);
+	let s = ms/1000;
+	let ds = mod(s, 60).toFixed(2);
 	let m = Math.floor(s/60);
 	let dm = mod(m, 60);
 	let h = Math.floor(m/60);
