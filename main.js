@@ -188,7 +188,7 @@ function newGame() {
 			gain: new Decimal(0),
 			essence: new Decimal(0),
 			upgrade: {
-				cost: ["lol", new Decimal(1), new Decimal(2), new Decimal(1), new Decimal(10000), new Decimal(10000), new Decimal(10000)],
+				cost: ["lol", new Decimal(1), new Decimal(2), new Decimal(1), new Decimal(3), new Decimal(5), new Decimal(10)],
 				unlocked: [true, false, false, false, false, false, false],
 				boost: ["lol", new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(0), new Decimal(1)]
 			},
