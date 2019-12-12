@@ -105,12 +105,24 @@ function exportSave() {
 function importSave() {
 	let save = prompt("Please enter export text.\nWarning: Your current save will be over-written.");
 	if (save != null) {
+		let err = false
 		localStorage.setItem('emsave', atob(save));
-		load();
-		document.getElementById("importButton").innerHTML = "Imported!";
-		setTimeout(function(){
-			document.getElementById("importButton").innerHTML = "Import"
-		}, 1000);
+		try {
+			load(true);
+		}
+		catch {
+			err = true;
+			document.getElementById("importButton").innerHTML = "Invalid Save";
+			setTimeout(function(){
+				document.getElementById("importButton").innerHTML = "Import"
+			}, 1000);
+		}
+		if (err == false) {
+			document.getElementById("importButton").innerHTML = "Imported!";
+			setTimeout(function(){
+				document.getElementById("importButton").innerHTML = "Import"
+			}, 1000);
+		}
 	}
 }
 
