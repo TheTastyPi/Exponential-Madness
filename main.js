@@ -109,7 +109,7 @@ function importSave() {
 		load();
 		document.getElementById("importButton").innerHTML = "Imported!";
 		setTimeout(function(){
-			document.getElementById("ImportButton").innerHTML = "Import"
+			document.getElementById("importButton").innerHTML = "Import"
 		}, 1000);
 	}
 }
