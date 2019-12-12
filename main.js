@@ -35,7 +35,7 @@ function nextFrame(timeStamp) {
 		}
 		lastSave = timeStamp;
 	}
-	game.timePlayed += sinceLastFrame;
+	game.permaStat.timePlayed += sinceLastFrame;
 	window.requestAnimationFrame(nextFrame);
 }
 
