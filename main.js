@@ -28,6 +28,7 @@ function nextFrame(timeStamp) {
 		};
 		updateAll();
 		lastFrame = timeStamp;
+		game.permaStat.timePlayed += sinceLastFrame;
 	}
 	if (sinceLastSave >= game.autoSaveSpeed) {
 		if (game.autoSave) {
@@ -35,7 +36,6 @@ function nextFrame(timeStamp) {
 		}
 		lastSave = timeStamp;
 	}
-	game.permaStat.timePlayed += sinceLastFrame;
 	window.requestAnimationFrame(nextFrame);
 }
 
