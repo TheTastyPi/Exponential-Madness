@@ -106,8 +106,8 @@ function importSave() {
 	let save = prompt("Please enter export text.\nWarning: Your current save will be over-written.");
 	if (save != null) {
 		let err = false
-		localStorage.setItem('emsave', atob(save));
 		try {
+			localStorage.setItem('emsave', atob(save));
 			load(true);
 		}
 		catch {
