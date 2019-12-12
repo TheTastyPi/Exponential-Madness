@@ -328,6 +328,75 @@ function findDisplay(n) {
 	}
 }
 
+function findTimeDisplay(ms) {
+	let s = ms/1000;
+	let ds = mod(s, 60);
+	let m = Math.floor(s/60);
+	let dm = mod(m, 60);
+	let h = Math.floor(m/60);
+	let dh = mod(h, 24);
+	let d = Math.floor(h/24);
+	let dd = mod(d, 30.43685);
+	let mo = Math.floor(d/30.43685);
+	let dmo = mod(mo, 12);
+	let dy = Math.floor(mo/365.2422);
+	let time = "";
+	let seg = 0;
+	if (s < 60) {
+		time = ds + " second" + pluralCheck(ds, false);
+		seg++;
+	} else {
+		time = "and " + ds + " second" + pluralCheck(ds, false);
+		seg++;
+	}
+	if (dm >= 1) {
+		time = dm + " minute" + pluralCheck(dm, false) + ", " + time;
+		seg++;
+	}
+	if (dh >= 1) {
+		time = dh + " hour" + pluralCheck(dh, false) + ", " + time;
+		seg++;
+	}
+	if (dd >= 1) {
+		time = dh + " day" + pluralCheck(dd, false) + ", " + time;
+		seg++;
+	}
+	if (dmo >= 1) {
+		time = dh + " month" + pluralCheck(dmo, false) + ", " + time;
+		seg++;
+	}
+	if (dy >= 1) {
+		time = dh + " year" + pluralCheck(dy, false) + ", " + time;
+		seg++;
+	}
+	if (seg == 2) {
+		time = time.replace(",", "");
+	}
+	return time;
+}
+
+function pluralCheck(x, decimal) {
+	if (decimal) {
+		if (x.equal(1)) {
+			return "";
+		} else {
+			return "s";
+		}
+	} else {
+		if (x == 1) {
+			return "";
+		} else {
+			return "s";
+		}
+	}
+}
+
+function mod(x, y) {
+	let a = Math.floor(x / y);
+	let b = a * y;
+	return x - b;
+}
+
 /********************
  * UPDATE (display) *
  ********************/
@@ -557,6 +626,12 @@ function updateUpg() {
 	}
 }
 
+function updateStat() {
+	document.getElementById("timePlayed").innerHTML = findDisplay(game.permaStat.highestNum);
+	document.getElementById("highestNum").innerHTML = findDisplay(game.permaStat.highestNum);
+	document.getElementById("totalReset").innerHTML = findDisplay(game.permaStat.totalReset);
+}
+
 function updateAll() {
 	if (game.number.greaterThan(game.permaStat.highestNum)){
 		game.permaStat.highestNum = game.number;
@@ -570,6 +645,7 @@ function updateAll() {
 	updatePlexal();
 	updateIterator();
 	updateUpg();
+	updateStat();
 	if (game.autoSave) {
 		document.getElementById("autoSaveButton").innerHTML = "Auto Save: ON";
 	} else {
