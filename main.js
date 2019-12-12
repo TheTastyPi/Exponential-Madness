@@ -143,7 +143,7 @@ function merge(base, source) {
 		if (source[i] != undefined) {
 			if (typeof(base[i]) == "object" && typeof(source[i]) == "object") {
 				merge(base[i], source[i]);
-			} else if (base.e = undefined) {
+			} else if (base.mag = undefined) {
 				base[i] = source[i];
 			}
 		}
