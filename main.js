@@ -22,7 +22,7 @@ function nextFrame(timeStamp) {
 		for (let i = 1; i < game.mult.maxMult; i++) {
 			game.mult.amount[i] = game.mult.amount[i].mul(game.mult.generation[i+1].root(1000/game.updateSpeed/game.speed));
 		}
-		if (game.auto.maxAll) {
+		if (game.auto.bought[0]) {
 			maxAll();
 		}
 		updateAll();
@@ -168,7 +168,7 @@ function newGame() {
 		auto: {
 			unlocked: false,
 			price: [Decimal.fromComponents(1, 2, 100)],
-			maxAll: false
+			bought: [false]
 		},
 		number: new Decimal(10),
 		mult: {
@@ -621,11 +621,11 @@ function updateStat() {
 }
 
 function updateAuto() {
-	if (game.auto.maxAll) {
-		document.getElementById("unlockAutoMaxAllButton").classList.add('bought');
-	} else {
-		document.getElementById("unlockAutoMaxAllButton").classList.remove('bought');
-		for (let i = 0; i < game.auto.price.length; i++) {
+	for (let i = 0; i < game.auto.price.length; i++) {
+		if (game.auto.bought[i]) {
+			document.getElementById("autoButton" + i).classList.add('bought');
+		} else {
+			document.getElementById("autoButton" + i).classList.remove('bought');
 			if (game.plexal.essence.greaterThanOrEqualTo(game.auto.price[i])) {
 				document.getElementById("autoButton" + i).classList.add('enabled');
 				document.getElementById("autoButton" + i).classList.remove('disabled');
@@ -842,7 +842,7 @@ function unlockAuto(n) {
 	if (game.plexal.essence.greaterThanOrEqualTo(game.auto.price[n])) {
 		switch (n) {
 			case 0:
-				game.auto.maxAll = true;
+				game.auto.bought[n] = true;
 			break;
 		}
 	}
