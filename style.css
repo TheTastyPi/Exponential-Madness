@@ -32,10 +32,12 @@ button.dark:hover {
 button.bought {
   background-color: #00BB00;
   color: white;
+  border: 2px solid #00BB00;
 }
 button.dark.bought {
   background-color: #00EE00;
   color: black;
+  border: 2px solid #00EE00;
 }
 button.enabled {
   border: 2px solid #00BB00;
@@ -100,10 +102,12 @@ button.dark.plexal {
 button.plexalBought {
   background-color: purple;
   color: white;
+  border: 2px solid purple;
 }
 button.dark.plexalBought {
   background-color: magenta;
   color: black;
+  border: 2px solid magenta;
 }
 button.plexal:hover {
   background-color: purple;
