@@ -838,7 +838,7 @@ function buyUpgrade(n, type) {
 }
 
 function unlockAuto(n) {
-	let priceList = [Decimal.fromComponent(1, 2, 100)];
+	let priceList = [Decimal.fromComponents(1, 2, 100)];
 	if (game.plexal.essence.greaterThanOrEqualTo(game.auto.price[n])) {
 		switch (n) {
 			case 0:
