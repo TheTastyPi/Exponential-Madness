@@ -22,10 +22,6 @@ function nextFrame(timeStamp) {
 		for (let i = 1; i < game.mult.maxMult; i++) {
 			game.mult.amount[i] = game.mult.amount[i].mul(game.mult.generation[i+1].root(1000/game.updateSpeed/game.speed));
 		};
-		game.mult.powerPerBuy = game.mult.powerPerBuy.mul(game.superMult.generation[1].root(1000/game.updateSpeed/game.speed))
-		for (let i = 1; i < game.superMult.maxMult; i++) {
-			game.superMult.amount[i] = game.superMult.amount[i].mul(game.superMult.generation[i+1].root(1000/game.updateSpeed/game.speed));
-		};
 		updateAll();
 		lastFrame = timeStamp;
 		game.permaStat.timePlayed += sinceLastFrame;
@@ -220,18 +216,6 @@ function newGame() {
 			},
 			unlocked: false
 		},
-		superMult: {
-			amount:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
-			power:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
-			generation:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
-			powerPerBuy:new Decimal(2),
-			upgradeAmount:[0, new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)],
-			baseCost:[0, Decimal.fromComponents(1, 2, 9), Decimal.fromComponents(1, 2, 15), Decimal.fromComponents(1, 2, 25), Decimal.fromComponents(1, 2, 69)],
-			cost:[0, Decimal.fromComponents(1, 2, 9), Decimal.fromComponents(1, 2, 15), Decimal.fromComponents(1, 2, 25), Decimal.fromComponents(1, 2, 69)],
-			costIncrease:[0, new Decimal(1e2), new Decimal(1e3), new Decimal(1e4), new Decimal(1e5)],
-			unlocked:[0, false, false, false, false],
-			maxMult: 4
-		},
 		autoSave: true,
 		autoSaveSpeed: 1000,
 		updateSpeed: 50,
@@ -313,14 +297,6 @@ function updateTab() {
 		document.getElementById("plexalStatTabButton").classList.add('hidden');
 		if (!document.getElementById("plexalStat").classList.contains('hidden')) {
 			toTab('normalStat');
-		}
-	}
-	if (game.superMult.unlocked[1]) {
-		document.getElementById("superMultTabButton").classList.remove('hidden');
-	} else {
-		document.getElementById("superMultTabButton").classList.add('hidden');
-		if (!document.getElementById("superMult").classList.contains('hidden')) {
-			toTab('normalMult');
 		}
 	}
 }
@@ -465,33 +441,6 @@ function updateMult() {
 		} else {
 			document.getElementById("multButton" + i).classList.remove('enabled');
 			document.getElementById("multButton" + i).classList.add('disabled');  
-		}
-	}
-}
-
-function updateSuperMult() {
-	for (let i = 1; i <= game.superMult.maxMult; i++) {
-		game.superMult.generation[i] = game.superMult.amount[i].pow(game.superMult.power[i]);
-		game.superMult.power[i] = game.superMult.powerPerBuy.pow(game.superMult.upgradeAmount[i]);
-		document.getElementById("superMultAmount" + i).innerHTML = findDisplay(game.superMult.amount[i]);
-		document.getElementById("superMultPower" + i).innerHTML = "^" + findDisplay(game.superMult.power[i]);
-		if (game.superMult.unlocked[i] == false) {
-			document.getElementById("superMultButton" + i).innerHTML = "Unlock Super Multiplier " + i + " Cost: " + findDisplay(game.superMult.cost[i]);
-			if (i != 4) {
-				document.getElementById("superMult"+(i+1)).classList.add('hidden');
-			}
-		} else {
-			document.getElementById("superMultButton" + i).innerHTML = "Square Multiplier " + i + " Cost: " + findDisplay(game.superMult.cost[i]);
-			if (i != 4) {
-				document.getElementById("superMult"+(i+1)).classList.remove('hidden');
-			}
-		}
-		if (game.number.greaterThanOrEqualTo(game.superMult.cost[i])) {
-			document.getElementById("superMultButton" + i).classList.remove('disabled');
-			document.getElementById("superMultButton" + i).classList.add('enabled');
-		} else {
-			document.getElementById("superMultButton" + i).classList.remove('enabled');
-			document.getElementById("superMultButton" + i).classList.add('disabled');  
 		}
 	}
 }
@@ -665,7 +614,6 @@ function updateAll() {
 	document.getElementById("number").innerHTML = findDisplay(game.number);
 	updateTab();
 	updateMult();
-	updateSuperMult();
 	updateReset();
 	updatePlexal();
 	updateIterator();
@@ -701,20 +649,6 @@ function buyMult(n, type) {
 				}
 			}
 		break;
-		case "super":
-			if (!document.getElementById("superMult" + n).classList.contains('hidden')) {
-				if (game.number.greaterThanOrEqualTo(game.superMult.cost[n])) {
-					game.number = game.number.div(game.superMult.cost[n]);
-					if (game.superMult.unlocked[n] == false) {
-						game.superMult.amount[n] = new Decimal(1.25);
-						game.superMult.unlocked[n] = true;
-					} else {
-						game.superMult.upgradeAmount[n] = game.superMult.upgradeAmount[n].add(1);
-						game.superMult.cost[n] = game.superMult.cost[n].pow(game.superMult.costIncrease[n].tetrate(game.superMult.costIncrease[n].log10()));
-					}
-				}
-			}
-		break;
 	}
 }
 
@@ -741,14 +675,6 @@ function maxMult(n, type) {
 				}
 			}
 		break;
-		case "super":
-			if (!document.getElementById("superMult" + n).classList.contains('hidden')) {
-				while (game.superMult.cost[n].lessThan(game.number) 
-				       && !(document.getElementById("superMult" + n).classList.contains('hidden'))) {
-					buyMult(n, "super");
-				}
-			}
-		break;
 	}
 }
 
@@ -766,12 +692,6 @@ function maxAll(type) {
 			maxMult(9, "normal");
 			maxMult(10, "normal");
 			maxIterate();
-		break;
-		case "super":
-			maxMult(1, "super");
-			maxMult(2, "super");
-			maxMult(3, "super");
-			maxMult(4, "super");
 		break;
 	}
 }
