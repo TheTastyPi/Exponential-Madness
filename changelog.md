@@ -9,6 +9,8 @@
 * Added dark theme
 * Fixed max all, again
 * Added a max reset function that really doesn't work
+* Added stats tab
+* Fixed a game-breaking bug
 * Increased version number
 * Updated change log
 ## v0.02: Dial It Up To... 10?
