@@ -29,6 +29,14 @@ button.dark:hover {
   background-color: white;
   color: black;
 }
+button.bought {
+  background-color: #00BB00;
+  color: white;
+}
+button.dark.bought {
+  background-color: #00EE00;
+  color: black;
+}
 button.enabled {
   border: 2px solid #00BB00;
 }
@@ -88,6 +96,14 @@ button.plexal {
 button.dark.plexal {
   color: magenta;
   border: 2px solid magenta;
+}
+button.plexalBought {
+  background-color: purple;
+  color: white;
+}
+button.dark.plexalBought {
+  background-color: magenta;
+  color: black;
 }
 button.plexal:hover {
   background-color: purple;
