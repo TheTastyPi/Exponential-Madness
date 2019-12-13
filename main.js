@@ -214,7 +214,7 @@ function newGame() {
 				amount: new Decimal(0),
 				boost: new Decimal(1.1),
 				totalBoost: new Decimal(1),
-				baseCost: new Decimal(100),
+				baseCost: new Decimal(10),
 				cost: new Decimal(100),
 				costIncrease: new Decimal(10)
 			},
@@ -570,7 +570,11 @@ function updateIterator() {
 	it.totalBoost = it.boost.pow(it.iteration);
 	it.cost = it.baseCost.pow(it.costIncrease.pow(it.iteration));
 	upg.totalBoost = upg.boost.pow(upg.amount);
-	upg.cost = upg.baseCost.pow(upg.costIncrease.pow(upg.amount))
+	if (upg.amount.lessThan(1)) {
+		upg.cost = new Decimal(100);
+	} else {
+		upg.cost = upg.baseCost.pow(upg.costIncrease.pow(upg.amount));
+	}
 	document.getElementById("iteratorTotalBoost").innerHTML = "^" + findDisplay(it.totalBoost);
 	document.getElementById("iteration").innerHTML = findDisplay(it.iteration);
 	document.getElementById("iterationCost").innerHTML = findDisplay(it.cost);
