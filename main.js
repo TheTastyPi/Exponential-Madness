@@ -23,7 +23,7 @@ function nextFrame(timeStamp) {
 			game.mult.amount[i] = game.mult.amount[i].mul(game.mult.generation[i+1].root(1000/game.updateSpeed/game.speed));
 		}
 		if (game.auto.bought[0]) {
-			maxAll();
+			maxAll('normal');
 		}
 		updateAll();
 		lastFrame = timeStamp;
