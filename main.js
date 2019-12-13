@@ -196,7 +196,7 @@ function newGame() {
 			gain: new Decimal(0),
 			essence: new Decimal(0),
 			upgrade: {
-				cost: ["lol", new Decimal(1), new Decimal(2), new Decimal(1), new Decimal(3), new Decimal(5), new Decimal(10)],
+				cost: ["lol", new Decimal(1), new Decimal(2), new Decimal(1), new Decimal(3), new Decimal(8), new Decimal(15)],
 				unlocked: [true, false, false, false, false, false, false],
 				boost: ["lol", new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(0), new Decimal(1)]
 			},
@@ -619,7 +619,7 @@ function updateUpg() {
 	game.plexal.upgrade.boost[2] = game.iterator.boost;
 	game.plexal.upgrade.boost[3] = game.plexal.essence.pow(1.1).add(1);
 	game.plexal.upgrade.boost[4] = game.reset.amount.root(8);
-	game.plexal.upgrade.boost[5] = game.permaStat.totalReset.root(5).floor();
+	game.plexal.upgrade.boost[5] = game.permaStat.totalReset.root(3.5).floor();
 	game.plexal.upgrade.boost[6] = game.plexal.essence.root(2);
 	if (game.plexal.upgrade.boost[4].lessThan(1)) {
 		game.plexal.upgrade.boost[4] = new Decimal(1);
