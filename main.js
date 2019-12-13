@@ -21,7 +21,10 @@ function nextFrame(timeStamp) {
 		game.number = game.number.mul(game.mult.generation[1].root(1000/game.updateSpeed/game.speed));
 		for (let i = 1; i < game.mult.maxMult; i++) {
 			game.mult.amount[i] = game.mult.amount[i].mul(game.mult.generation[i+1].root(1000/game.updateSpeed/game.speed));
-		};
+		}
+		if (game.auto.maxAll) {
+			maxAll();
+		}
 		updateAll();
 		lastFrame = timeStamp;
 		game.permaStat.timePlayed += sinceLastFrame;
@@ -160,7 +163,12 @@ function newGame() {
 			timePlayed: 0,
 			highestNum: new Decimal(10),
 			totalReset: new Decimal(0),
-			totalPlexal: new Decimal(0)
+			totalPlexal: new Decimal(0),
+		},
+		auto: {
+			unlocked: false,
+			price: [Decimal.fromComponents(1, 2, 100)],
+			maxAll: false
 		},
 		number: new Decimal(10),
 		mult: {
@@ -298,6 +306,12 @@ function updateTab() {
 		if (!document.getElementById("plexalStat").classList.contains('hidden')) {
 			toTab('normalStat');
 		}
+	}
+	if (game.plexal.essence.greaterThan(Decimal.fromComponents(1, 2, 50))) {
+		game.auto.unlocked = true;
+	}
+	if (game.auto.unlocked) {
+		document.getElementById("autoTabButton").classList.remove('hidden');
 	}
 }
 
@@ -583,18 +597,18 @@ function updateUpg() {
 	for (let i = 1; i < game.plexal.upgrade.boost.length; i++) {
 		document.getElementById("plexalUpg" + i + "Boost").innerHTML = findDisplay(game.plexal.upgrade.boost[i]);
 	}
-	for (let i=1; i<game.plexal.upgrade.unlocked.length; i++) {
+	for (let i = 1; i < game.plexal.upgrade.unlocked.length; i++) {
 		if (game.plexal.upgrade.unlocked[i] == false) {
-			document.getElementById("plexalUpg" + i).classList.remove('plexal');
+			document.getElementById("plexalUpg" + i).classList.remove('plexalBought');
 			if (game.plexal.essence.greaterThanOrEqualTo(game.plexal.upgrade.cost[i]) && game.plexal.upgrade.unlocked[i-1] == true) {
-				document.getElementById("plexalUpg" + i).classList.add('enabled');
+				document.getElementById("plexalUpg" + i).classList.add('plexal');
 				document.getElementById("plexalUpg" + i).classList.remove('disabled');
 			} else {
 				document.getElementById("plexalUpg" + i).classList.add('disabled');
-				document.getElementById("plexalUpg" + i).classList.remove('enabled');
+				document.getElementById("plexalUpg" + i).classList.remove('plexal');
 			}
 		} else {
-			document.getElementById("plexalUpg" + i).classList.add('plexal');
+			document.getElementById("plexalUpg" + i).classList.add('plexalBought');
 		}
 	}
 }
@@ -604,6 +618,23 @@ function updateStat() {
 	document.getElementById("highestNum").innerHTML = findDisplay(game.permaStat.highestNum);
 	document.getElementById("totalReset").innerHTML = findDisplay(game.permaStat.totalReset);
 	document.getElementById("plexalAmount").innerHTML = findDisplay(game.plexal.amount);
+}
+
+function updateAuto() {
+	if (game.auto.maxAll) {
+		document.getElementById("unlockAutoMaxAllButton").classList.add('bought');
+	} else {
+		document.getElementById("unlockAutoMaxAllButton").classList.remove('bought');
+		for (let i = 0; i < game.auto.price.length; i++) {
+			if (game.plexal.essence.greaterThanOrEqualTo(game.auto.price[i])) {
+				document.getElementById("autoButton" + i).classList.add('enabled');
+				document.getElementById("autoButton" + i).classList.remove('disabled');
+			} else {
+				document.getElementById("autoButton" + i).classList.remove('enabled');
+				document.getElementById("autoButton" + i).classList.add('disabled');
+			}
+		}
+	}
 }
 
 function updateAll() {
@@ -619,6 +650,7 @@ function updateAll() {
 	updateIterator();
 	updateUpg();
 	updateStat();
+	updateAuto();
 	if (game.autoSave) {
 		document.getElementById("autoSaveButton").innerHTML = "Auto Save: ON";
 	} else {
@@ -802,5 +834,16 @@ function buyUpgrade(n, type) {
 				game.plexal.upgrade.unlocked[n] = true;
 			}
 		break;
+	}
+}
+
+function unlockAuto(n) {
+	let priceList = [Decimal.fromComponent(1, 2, 100)];
+	if (game.plexal.essence.greaterThanOrEqualTo(game.auto.price[n])) {
+		switch (n) {
+			case 0:
+				game.auto.maxAll = true;
+			break;
+		}
 	}
 }
