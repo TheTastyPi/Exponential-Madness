@@ -407,6 +407,22 @@ function mod(x, y) {
 	return x - b;
 }
 
+function notify(message, bgColor, textColor) {
+	let note = document.createElement("button");
+	let text = document.createTextNode(message);
+	note.appendChild(text);
+	note.style.backgroundColor = bgColor;
+	note.style.color = textColor;
+	note.classList.add('notification');
+	note.style.opacity = "1";
+	setTimeout(function() {
+		note.style.opacity = "0";
+		setTimeout(function() {
+			note.remove();
+		}, 500)
+	}, 2000)
+}
+
 /********************
  * UPDATE (display) *
  ********************/
