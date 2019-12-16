@@ -411,6 +411,7 @@ function notify(message, bgColor, textColor) {
 	let note = document.createElement("button");
 	let text = document.createTextNode(message);
 	note.appendChild(text);
+	document.body.appendChild(note);
 	note.style.backgroundColor = bgColor;
 	note.style.color = textColor;
 	note.classList.add('notification');
