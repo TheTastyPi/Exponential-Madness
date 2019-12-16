@@ -119,11 +119,17 @@ button.dark.plexal:hover {
 }
 .notification {
   position: fixed;
-  width: 100%;
+  width: 70%;
   height: 20%;
   bottom: 0;
   left: 0;
   opacity: 0;
+}
+@keyframes notificaton {
+  0% {left: 100vw}
+  33% {right: 0}
+  66% {left: 0}
+  100% {right: 100vw}
 }
 .hidden {
   display: none;
