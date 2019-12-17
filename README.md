@@ -1,2 +1,2 @@
 # Exponential Madness
-An incremental game with numbers larger than 0.
+An incremental game with numbers greater than 0.
