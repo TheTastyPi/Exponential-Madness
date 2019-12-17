@@ -673,21 +673,21 @@ function updateAuto() {
 function updateAchievement() {
 	game.achievement.list.forEach(function(achieve) {
 		if (achieve.hidden) {
-			document.getElementById(achieve + "Name").innerHTML = "???";
-			document.getElementById(achieve + "Desc").innerHTML = "???";
+			document.getElementById(achieve.name + "Name").innerHTML = "???";
+			document.getElementById(achieve.name + "Desc").innerHTML = "???";
 		} else {
-			document.getElementById(achieve + "Name").innerHTML = achieve.name;
-			document.getElementById(achieve + "Desc").innerHTML = achieve.desc;
+			document.getElementById(achieve.name + "Name").innerHTML = achieve.name;
+			document.getElementById(achieve.name + "Desc").innerHTML = achieve.desc;
 		}
 		if (achieve.completed) {
-			document.getElementById(achieve).classList.remove('disabled');
-			document.getElementById(achieve).classList.add('enabled');
+			document.getElementById(achieve.name).classList.remove('disabled');
+			document.getElementById(achieve.name).classList.add('enabled');
 			if (game.achievement.hideCompleted) {
-				document.getElementById(achieve).classList.add('hidden');
+				document.getElementById(achieve.name).classList.add('hidden');
 			}
 		} else {
-			document.getElementById(achieve).classList.remove('enabled');
-			document.getElementById(achieve).classList.add('disabled');
+			document.getElementById(achieve.name).classList.remove('enabled');
+			document.getElementById(achieve.name).classList.add('disabled');
 		}
 	});
 }
@@ -908,10 +908,13 @@ function unlockAuto(n) {
  * ACHIEVEMENTS *
  ****************/
 
+var nextAcheveId = 0;
+
 function Achievement(name, desc, hidden) {
 	game.achievement.list.push(this);
 	this.name = name;
 	this.desc = desc;
+	this.id = nextAchieveId;
 	this.hidden = hidden;
 	this.completed = false;
 	this.complete = function() {
@@ -921,22 +924,28 @@ function Achievement(name, desc, hidden) {
 		}
 		notify("Achievement Completed:", this.name);
 	}
+	
+	document.getElementById("achievement").appendChild(document.createElement("br"));
 	let ach = document.createElement("button");
-	ach.id = this;
+	ach.id = this.name;
 	ach.classList.add('noHover');
 	document.getElementById("achievement").appendChild(ach);
+	
 	let nameText = document.createTextNode(this.name);
 	let big = document.createElement("span");
 	ach.appendChild(big);
 	big.appendChild(nameText);
-	big.id = this + "Name";
+	big.id = this.name + "Name";
 	big.style.fontSize = "20px";
+	
 	ach.appendChild(document.createElement("br"));
 	let descText = document.createTextNode(this.desc); 
 	let small = document.createElement("span");
 	ach.appendChild(small);
 	small.appendChild(descText);
-	small.id = this + "Desc";
+	small.id = this.name + "Desc";
+	
+	nextAchieveId++;
 }
 
 function hideCompleted() {
