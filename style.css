@@ -122,15 +122,14 @@ button.dark.plexal:hover {
   width: 70%;
   height: 20%;
   bottom: 0;
-  opacity: 0;
   animation-name: notification;
   animation-duration: 2s;
 }
 @keyframes notification {
-  0% {left: 100vw}
-  33% {right: 0}
-  66% {left: 0}
-  100% {right: 100vw}
+  0% {left: 100vw; right: auto; opacity: 0;}
+  33% {right: 0; left: auto; opacity: 1;}
+  66% {left: 0; right: auto;}
+  100% {right: 100vw; left: auto; opacity: 0;}
 }
 .hidden {
   display: none;
