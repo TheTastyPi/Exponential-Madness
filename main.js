@@ -927,9 +927,8 @@ function Achievement(name, desc, hidden) {
 	this.desc = desc;
 	this.id = nextAchieveId;
 	this.hidden = hidden;
-	this.completed = false;
 	this.complete = function() {
-		this.completed = true;
+		game.achievement.completed[this.id] = true;
 		notify("Achievement Completed:", this.name);
 	}
 	
