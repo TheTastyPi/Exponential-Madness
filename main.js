@@ -908,7 +908,7 @@ function unlockAuto(n) {
  * ACHIEVEMENTS *
  ****************/
 
-var nextAcheveId = 0;
+var nextAchieveId = 0;
 
 function Achievement(name, desc, hidden) {
 	game.achievement.list.push(this);
