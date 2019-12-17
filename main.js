@@ -945,7 +945,6 @@ function Achievement(name, desc, hidden) {
 	ach.appendChild(big);
 	big.appendChild(nameText);
 	big.id = this.id + "Name";
-	big.style.fontSize = "20px";
 	
 	ach.appendChild(document.createElement("br"));
 	let descText = document.createTextNode(this.desc); 
@@ -953,6 +952,7 @@ function Achievement(name, desc, hidden) {
 	ach.appendChild(small);
 	small.appendChild(descText);
 	small.id = this.id + "Desc";
+	small.style.fontSize = "10px";
 	
 	nextAchieveId++;
 }
