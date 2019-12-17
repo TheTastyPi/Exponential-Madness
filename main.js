@@ -80,7 +80,7 @@ function load(auto) {
 		pastGame = JSON.parse(localStorage.getItem('emsave'));
 		objectToDecimal(pastGame);
 		if (pastGame.permaStat.version == undefined || pastGame.permaStat.version < newGame().permaStat.version) {
-			notify("Welcome to version " + newGame().permaStat.version + "!");
+			notify('Welcome to version ' + newGame().permaStat.version + '!');
 		}
 		pastGame.permaStat.version = newGame().permaStat.version;
 		merge(game, pastGame);
@@ -421,7 +421,7 @@ function notify(message, subMessage, bgColor) {
 	big.appendChild(bigText);
 	if (subMessage != undefined) {
 		note.appendChild(document.createElement("br"));
-		let text = document.createTextNode("\n" + subMessage);
+		let text = document.createTextNode(subMessage);
 		note.appendChild(text);
 	}
 	big.style.fontSize = "20px";
