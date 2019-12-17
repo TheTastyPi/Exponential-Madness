@@ -706,6 +706,7 @@ function updateAll() {
 	updateUpg();
 	updateStat();
 	updateAuto();
+	updateAchievement();
 	document.getElementById("title").innerHTML = "Exponential Madness v" + game.permaStat.version;
 	if (game.autoSave) {
 		document.getElementById("autoSaveButton").innerHTML = "Auto Save: ON";
