@@ -3,11 +3,11 @@
 }
 body {
   transition-duration: 0.2s;
-  .light {
+  &.light {
     background-color: white;
     color: black;
   }
-  .dark {
+  &.dark {
     background-color: black;
     color: white;
   }
@@ -16,97 +16,97 @@ button {
   border-radius: 15px;
   vertical-align: middle;
   transition-duration: 0.2s;
-  .light {
+  &.light {
     background-color: white;
     color: black;
     border: 2px solid black;
-    &not(.noHover):hover {
+    &:not(.noHover):hover {
       background-color: black;
       color: white;
     }
-    .enabled {
+    &.enabled {
       border: 2px solid #00BB00;
-      &not(.noHover):hover {
+      &:not(.noHover):hover {
         background-color: #00BB00;
         color: white;
       }
     }
-    .disabled {
+    &.disabled {
       background-color: #AAAAAA;
       border: 2px solid #AA0000;
-      &not(.noHover):hover {
+      &:not(.noHover):hover {
         background-color: #AA0000;
         color: #AAAAAA;
       }
     }
-    .warning {
+    &.warning {
       color: red;
       border: 2px solid red;
-      &not(.noHover):hover {
+      &:not(.noHover):hover {
         background-color: red;
         color: white;
       }
     }
-    .plexal {
+    &.plexal {
       color: purple;
       border: 2px solid purple;
-      &not(.noHover):hover {
+      &:not(.noHover):hover {
         background-color: purple;
         color: white;
       }
     }
   }
-  .dark {
+  &.dark {
     background-color: black;
     color: white;
     border: 2px solid white;
-    &not(.noHover):hover {
+    &:not(.noHover):hover {
       background-color: white;
       color: black;
     }
-    .enabled {
+    &.enabled {
       border: 2px solid #00EE00;
-      &not(.noHover):hover {
+      &:not(.noHover):hover {
         background-color: #00EE00;
         color: black;
       }
     }
-    .disabled {
+    &.disabled {
       background-color: #444444;
       border: 2px solid #DD0000;
-      &not(.noHover):hover {
+      &:not(.noHover):hover {
         background-color: #DD0000;
         color: #444444;
       }
     }
-    .warning {
+    &.warning {
       color: red;
       border: 2px solid red;
-      &not(.noHover):hover {
+      &:not(.noHover):hover {
         background-color: red;
         color: black;
       }
     }
-    .plexal {
+    &.plexal {
       color: magenta;
       border: 2px solid magenta;
-      &nor(.noHover):hover {
+      &:not(.noHover):hover {
         background-color: magenta;
         color: black;
       }
     }
   }
-  .big {
+  &.big {
     width: 200px;
     height: 50px;
     font-size: 15px;
   }
-  .veryBig {
+  &.veryBig {
     width: 250px;
     height: 75px;
     font-size: 20px;
   }
-  .notification {
+  &.notification {
     position: fixed;
     width: 70%;
     height: 20%;
