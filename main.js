@@ -937,6 +937,7 @@ function Achievement(name, desc, hidden) {
 	let ach = document.createElement("button");
 	ach.id = this.id;
 	ach.classList.add('noHover');
+	ach.classList.add('veryBig');
 	document.getElementById("achievement").appendChild(ach);
 	
 	let nameText = document.createTextNode(this.name);
