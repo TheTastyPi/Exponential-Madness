@@ -79,6 +79,10 @@ function load(auto) {
 	if (localStorage.getItem('emsave')) {
 		pastGame = JSON.parse(localStorage.getItem('emsave'));
 		objectToDecimal(pastGame);
+		if (pastGame.permaStat.version != undefined || pastGame.permaStat.version < newGame().permaStat.version) {
+			notify("Welcome to version " + newGame().permaStat.version + "!");
+		}
+		pastGame.permaStat.version = newGame().permaStat.version;
 		merge(game, pastGame);
 		if(!auto) {
 			document.getElementById("loadButton").innerHTML = "Loaded!";
@@ -160,6 +164,7 @@ function isDecimal(x) {
 function newGame() {
 	let save = {
 		permaStat: {
+			version: 0.3,
 			timePlayed: 0,
 			highestNum: new Decimal(10),
 			totalReset: new Decimal(0),
