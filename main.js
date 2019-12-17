@@ -925,17 +925,17 @@ function Achievement(name, desc, hidden) {
 	ach.id = this;
 	ach.classList.add('noHover');
 	document.getElementById("achievement").appendChild(ach);
-	let name = document.createTextNode(this.name);
+	let nameText = document.createTextNode(this.name);
 	let big = document.createElement("span");
 	ach.appendChild(big);
-	big.appendChild(name);
+	big.appendChild(nameText);
 	big.id = this + "Name";
 	big.style.fontSize = "20px";
 	ach.appendChild(document.createElement("br"));
-	let desc = document.createTextNode(this.desc); 
+	let descText = document.createTextNode(this.desc); 
 	let small = document.createElement("span");
 	ach.appendChild(small);
-	small.appendChild(desc);
+	small.appendChild(descText);
 	small.id = this + "Desc";
 }
 
