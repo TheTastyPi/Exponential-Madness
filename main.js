@@ -677,9 +677,9 @@ function updateAchievement() {
 			document.getElementById("achievement" + achieve.id).classList.remove('disabled');
 			document.getElementById("achievement" + achieve.id).classList.add('enabled');
 			if (game.achievement.hideCompleted) {
-				document.getElementById(achieve.id).classList.add('hidden');
+				document.getElementById("achievement" + achieve.id).classList.add('hidden');
 			} else {
-				document.getElementById(achieve.id).classList.remove('hidden');
+				document.getElementById("achievement" + achieve.id).classList.remove('hidden');
 			}
 		} else {
 			document.getElementById("achievement" + achieve.id).classList.remove('enabled');
