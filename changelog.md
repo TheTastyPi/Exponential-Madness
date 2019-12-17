@@ -1,5 +1,5 @@
 # Change Log
-## v0.03: The Plexal Update
+## v0.3: The Plexal Update
 * Added new prestige layer: "Plexal"
   * Added new currency: "Plexal Essence"
   * Added the "Iterator"
@@ -7,11 +7,12 @@
 * Added tabs
 * Added hotkeys
 * Added dark theme
+* Added a notification system
+* Added some automation
 * Fixed max all, again
-* Added a max reset function that really doesn't work
 * Added stats tab
 * Fixed a game-breaking bug
-* Increased version number
+* Increased version number by an order of magnitute and then some
 * Updated change log
 ## v0.02: Dial It Up To... 10?
 * Added multiplier 5-10
