@@ -431,7 +431,7 @@ function notify(message, subMessage, bgColor) {
 	note.classList.add('notification');
 	setTimeout(function() {
 		note.remove();
-	}, 4000)
+	}, 3900)
 }
 
 /********************
