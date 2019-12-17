@@ -128,8 +128,8 @@ button.dark.plexal:hover {
 @keyframes notification {
   0% {left: 100vw; opacity: 0;}
   20% {left: 30vw; opacity: 1;}
-  80% {left: 0vw;}
-  100% {left: initial; right: 100vw; opacity: 0;}
+  80% {left: 0vw; opacity: 1;}
+  100% {left: -100vw; opacity: 0;}
 }
 .hidden {
   display: none;
