@@ -30,17 +30,17 @@
 * Code refactoring
 * More code refactoring
 * Saves no longer break when I add things to the game object
-## v0.01: More saving - November 15th, 2019
+## v0.01: More saving - November 15th, 2019?
 * Added auto-save toggle
 * Added export/import
 * More code refactoring
-## v0.001: Saving (finally) - November 4th, 2019
+## v0.001: Saving (finally) - November 4th, 2019?
 * Added saving system
 * Removed supermultiplier 1-4
 * Code refactoring
-## v0.0001: Super Unbalanced - May 17th, 2019
+## v0.0001: Super Unbalanced - May 17th, 2019?
 * Added supermultiplier 1-4
-## v0.000001: Numbers above 10 (and eventually up to 10^^1e308) - May 15th, 2019
+## v0.000001: Numbers above 10 (and eventually up to 10^^1e308) - May 15th, 2019?
 * Added break_eternity.js
 * Added multiplier 1-4
 ## v0.00000000000000000001: An amature's first program on github - March 19th, 2019
