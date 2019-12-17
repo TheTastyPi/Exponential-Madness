@@ -692,6 +692,11 @@ function updateAchievement() {
 			document.getElementById(achieve.id).classList.add('disabled');
 		}
 	});
+	if (game.achievement.hideCompleted) {
+		document.getElementById("hideCompletedButton").innerHTML = "Show Completed Achievements";
+	} else {
+		document.getElementById("hideCompletedButton").innerHTML = "Hide Completed Achievements";
+	}
 }
 
 function updateAll() {
