@@ -419,7 +419,9 @@ function notify(message, subMessage, bgColor) {
 		note.appendChild(text);
 	}
 	big.style.fontSize = "20px";
-	note.style.backgroundColor = bgColor;
+	if (bgColor != undefined) {
+		note.style.backgroundColor = bgColor;
+	}
 	note.classList.add('notification');
 	setTimeout(function() {
 		note.remove();
