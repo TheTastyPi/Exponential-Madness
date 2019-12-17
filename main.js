@@ -407,13 +407,19 @@ function mod(x, y) {
 	return x - b;
 }
 
-function notify(message, bgColor, textColor) {
+function notify(message, subMessage, bgColor) {
 	let note = document.createElement("button");
-	let text = document.createTextNode(message);
-	note.appendChild(text);
+	let big = document.createElement("span");
+	let bigText = document.createTextNode(message);
 	document.body.appendChild(note);
+	note.appendChild(big);
+	big.appendChild(bigText);
+	if (subMessage != undefined) {
+		let text = document.createTextNode("\n" + subMessage);
+		note.appendChild(text);
+	}
+	big.style.fontSize = "20px";
 	note.style.backgroundColor = bgColor;
-	note.style.color = textColor;
 	note.classList.add('notification');
 	setTimeout(function() {
 		note.remove();
