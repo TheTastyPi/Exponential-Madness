@@ -684,6 +684,8 @@ function updateAchievement() {
 			document.getElementById(achieve.id).classList.add('enabled');
 			if (game.achievement.hideCompleted) {
 				document.getElementById(achieve.id).classList.add('hidden');
+			} else {
+				document.getElementById(achieve.id).classList.remove('hidden');
 			}
 		} else {
 			document.getElementById(achieve.id).classList.remove('enabled');
