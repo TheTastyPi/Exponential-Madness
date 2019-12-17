@@ -1,16 +1,18 @@
 # Change Log
 ## v0.3: The Plexal Update
-* Added new prestige layer: "Plexal"
-  * Added new currency: "Plexal Essence"
-  * Added the "Iterator"
-  * Added 6 plexal upgrades
-* Added tabs
-* Added hotkeys
-* Added dark theme
-* Added a notification system
-* Added some automation
+* Additions
+  * Added new prestige layer: "Plexal"
+    * Added new currency: "Plexal Essence"
+    * Added the "Iterator"
+    * Added 6 plexal upgrades
+  * Added tabs
+  * Added hotkeys
+  * Added dark theme
+  * Added a notification system
+  * Added achievements
+  * Added some automation
+  * Added stats tab
 * Fixed max all, again
-* Added stats tab
 * Fixed a game-breaking bug
 * Added the version number to the page title
 * Increased version number by an order of magnitute and then some
