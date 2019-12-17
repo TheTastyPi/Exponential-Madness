@@ -1,5 +1,5 @@
 # Change Log
-## v0.3: Overhaul
+## v0.3: Overhaul - TBD
 * Increased version number by an order of magnitute and then some because this update is just that big
 * Additions
   * Added new prestige layer: "Plexal"
@@ -17,31 +17,31 @@
 * Bug fixes
   * Fixed max all
   * Fixed a save-destroying bug
-## v0.02: Dial It Up To... 10?
+## v0.02: Dial It Up To... 10? - November 28th, 2019
 * Added multiplier 5-10
 * Added reset mechanic
-## v0.012: Superduper code refactoring kinda lol part 2
+## v0.012: Superduper code refactoring kinda lol part 2 - November. 24th, 2019?
 * Created change log
 * Code refactoring
 * More code refactoring
 * Option to change update speed & auto-save speed
 * Saves no longer break when I remove things from the game object
-## v0.011: Superduper code refactoring kinda lol part 1
+## v0.011: Superduper code refactoring kinda lol part 1 - November 21st, 2019
 * Code refactoring
 * More code refactoring
 * Saves no longer break when I add things to the game object
-## v0.01: More saving
+## v0.01: More saving - November 15th, 2019
 * Added auto-save toggle
 * Added export/import
 * More code refactoring
-## v0.001: Saving (finally)
+## v0.001: Saving (finally) - November 4th, 2019
 * Added saving system
 * Removed supermultiplier 1-4
 * Code refactoring
-## v0.0001: Super Unbalanced
+## v0.0001: Super Unbalanced - May 17th, 2019
 * Added supermultiplier 1-4
-## v0.000001: Numbers above 10 (and eventually up to 10^^1e308)
+## v0.000001: Numbers above 10 (and eventually up to 10^^1e308) - May 15th, 2019
 * Added break_eternity.js
 * Added multiplier 1-4
-## v0.00000000000000000001: An amature's first program on github
+## v0.00000000000000000001: An amature's first program on github - March 19th 2019
 * Game exists
