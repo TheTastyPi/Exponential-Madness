@@ -175,6 +175,10 @@ function newGame() {
 			price: [Decimal.fromComponents(1, 2, 100)],
 			bought: [false]
 		},
+		achievement: {
+			list: [],
+			hideCompleted: false
+		},
 		number: new Decimal(10),
 		mult: {
 			amount:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
@@ -626,16 +630,17 @@ function updateUpg() {
 	}
 	for (let i = 1; i < game.plexal.upgrade.unlocked.length; i++) {
 		if (game.plexal.upgrade.unlocked[i] == false) {
-			document.getElementById("plexalUpg" + i).classList.remove('plexalBought');
+			document.getElementById("plexalUpg" + i).classList.remove('noHover');
 			if (game.plexal.essence.greaterThanOrEqualTo(game.plexal.upgrade.cost[i]) && game.plexal.upgrade.unlocked[i-1] == true) {
-				document.getElementById("plexalUpg" + i).classList.add('plexal');
+				document.getElementById("plexalUpg" + i).classList.add('enabled');
 				document.getElementById("plexalUpg" + i).classList.remove('disabled');
 			} else {
 				document.getElementById("plexalUpg" + i).classList.add('disabled');
-				document.getElementById("plexalUpg" + i).classList.remove('plexal');
+				document.getElementById("plexalUpg" + i).classList.remove('enabled');
 			}
 		} else {
-			document.getElementById("plexalUpg" + i).classList.add('plexalBought');
+			document.getElementById("plexalUpg" + i).classList.add('plexal');
+			document.getElementById("plexalUpg" + i).classList.add('noHover');
 		}
 	}
 }
@@ -650,9 +655,10 @@ function updateStat() {
 function updateAuto() {
 	for (let i = 0; i < game.auto.price.length; i++) {
 		if (game.auto.bought[i]) {
-			document.getElementById("autoButton" + i).classList.add('bought');
+			document.getElementById("autoButton" + i).classList.add('enabled');
+			document.getElementById("autoButton" + i).classList.add('noHover');
 		} else {
-			document.getElementById("autoButton" + i).classList.remove('bought');
+			document.getElementById("autoButton" + i).classList.remove('noHover');
 			if (game.plexal.essence.greaterThanOrEqualTo(game.auto.price[i])) {
 				document.getElementById("autoButton" + i).classList.add('enabled');
 				document.getElementById("autoButton" + i).classList.remove('disabled');
@@ -662,6 +668,28 @@ function updateAuto() {
 			}
 		}
 	}
+}
+
+function updateAchievement() {
+	game.achievement.list.forEach(function(achieve) {
+		if (achieve.hidden) {
+			document.getElementById(achieve + "Name").innerHTML = "???";
+			document.getElementById(achieve + "Desc").innerHTML = "???";
+		} else {
+			document.getElementById(achieve + "Name").innerHTML = achieve.name;
+			document.getElementById(achieve + "Desc").innerHTML = achieve.desc;
+		}
+		if (achieve.completed) {
+			document.getElementById(achieve).classList.remove('disabled');
+			document.getElementById(achieve).classList.add('enabled');
+			if (game.achievement.hideCompleted) {
+				document.getElementById(achieve).classList.add('hidden');
+			}
+		} else {
+			document.getElementById(achieve).classList.remove('enabled');
+			document.getElementById(achieve).classList.add('disabled');
+		}
+	});
 }
 
 function updateAll() {
@@ -874,4 +902,43 @@ function unlockAuto(n) {
 			break;
 		}
 	}
+}
+
+/****************
+ * ACHIEVEMENTS *
+ ****************/
+
+function Achievement(name, desc, hidden) {
+	game.achievement.list.push(this);
+	this.name = name;
+	this.desc = desc;
+	this.hidden = hidden;
+	this.completed = false;
+	this.complete = function() {
+		this.completed = true;
+		if (this.hidden) {
+			this.hidden = false;
+		}
+		notify("Achievement Completed:", this.name);
+	}
+	let ach = document.createElement("button");
+	ach.id = this;
+	ach.classList.add('noHover');
+	document.getElementById("achievement").appendChild(ach);
+	let name = document.createTextNode(this.name);
+	let big = document.createElement("span");
+	ach.appendChild(big);
+	big.appendChild(name);
+	big.id = this + "Name";
+	big.style.fontSize = "20px";
+	ach.appendChild(document.createElement("br"));
+	let desc = document.createTextNode(this.desc); 
+	let small = document.createElement("span");
+	ach.appendChild(small);
+	small.appendChild(desc);
+	small.id = this + "Desc";
+}
+
+function hideCompleted() {
+	game.achievement.hideCompleted = !game.achievement.hideCompleted;
 }
