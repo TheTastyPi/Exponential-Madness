@@ -415,7 +415,7 @@ function notify(message, subMessage, bgColor) {
 	note.appendChild(big);
 	big.appendChild(bigText);
 	if (subMessage != undefined) {
-		note.appendChild(document.createElement("br"););
+		note.appendChild(document.createElement("br"));
 		let text = document.createTextNode("\n" + subMessage);
 		note.appendChild(text);
 	}
