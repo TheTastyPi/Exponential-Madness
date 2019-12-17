@@ -12,6 +12,9 @@
     <button type="button" class="veryBig" onclick="toTab('mult')">
       Multipliers
     </button>
+    <button type="button" class="veryBig" onclick="toTab('achievement')">
+      Achievements
+    </button>
     <button type="button" class="veryBig" onclick="toTab('stat')">
       Statistics
     </button>
@@ -138,6 +141,11 @@
           Reset the game for a new multiplier Requires: ee11
         </button>
       </span>
+    </span>
+    <span class="hidden tab" id='achievement'>
+      <button type="button" onclick="hideCompleted()" id="hideCompletedButton">
+        Hide Completed Achievements
+      </button>
     </span>
     <span class="hidden tab" id='stat'>
       <button type="button" class="big" onclick="toTab('normalStat')" id="normalStatTabButton">
