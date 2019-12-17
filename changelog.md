@@ -20,7 +20,7 @@
 ## v0.02: Dial It Up To... 10? - November 28th, 2019
 * Added multiplier 5-10
 * Added reset mechanic
-## v0.012: Superduper code refactoring kinda lol part 2 - November. 24th, 2019?
+## v0.012: Superduper code refactoring kinda lol part 2 - November 24th, 2019?
 * Created change log
 * Code refactoring
 * More code refactoring
@@ -43,5 +43,5 @@
 ## v0.000001: Numbers above 10 (and eventually up to 10^^1e308) - May 15th, 2019
 * Added break_eternity.js
 * Added multiplier 1-4
-## v0.00000000000000000001: An amature's first program on github - March 19th 2019
+## v0.00000000000000000001: An amature's first program on github - March 19th, 2019
 * Game exists
