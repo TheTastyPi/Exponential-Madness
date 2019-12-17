@@ -123,7 +123,7 @@ button.dark.plexal:hover {
   height: 20%;
   bottom: 0;
   animation-name: notification;
-  animation-duration: 2s;
+  animation-duration: 4s;
 }
 @keyframes notification {
   0% {left: 100vw; opacity: 0;}
