@@ -126,6 +126,7 @@ button.dark.plexal:hover {
   animation-duration: 4s;
   animation-timing-function: linear;
 }
+.notification:hover {}
 @keyframes notification {
   0% {left: 100vw; opacity: 0;}
   20% {left: 20vw; opacity: 1;}
