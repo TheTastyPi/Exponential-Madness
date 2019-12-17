@@ -1,5 +1,5 @@
 # Change Log
-## v0.3: Overhaul - TBD
+## v0.3: Wow, that's a lot - TBD
 * Increased version number by an order of magnitute and then some because this update is just that big
 * Additions
   * Added new prestige layer: "Plexal"
