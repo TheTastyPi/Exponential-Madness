@@ -673,21 +673,21 @@ function updateAuto() {
 function updateAchievement() {
 	game.achievement.list.forEach(function(achieve) {
 		if (achieve.hidden) {
-			document.getElementById(achieve.name + "Name").innerHTML = "???";
-			document.getElementById(achieve.name + "Desc").innerHTML = "???";
+			document.getElementById(achieve.id + "Name").innerHTML = "???";
+			document.getElementById(achieve.id + "Desc").innerHTML = "???";
 		} else {
-			document.getElementById(achieve.name + "Name").innerHTML = achieve.name;
-			document.getElementById(achieve.name + "Desc").innerHTML = achieve.desc;
+			document.getElementById(achieve.id + "Name").innerHTML = achieve.name;
+			document.getElementById(achieve.id + "Desc").innerHTML = achieve.desc;
 		}
 		if (achieve.completed) {
-			document.getElementById(achieve.name).classList.remove('disabled');
-			document.getElementById(achieve.name).classList.add('enabled');
+			document.getElementById(achieve.id).classList.remove('disabled');
+			document.getElementById(achieve.id).classList.add('enabled');
 			if (game.achievement.hideCompleted) {
-				document.getElementById(achieve.name).classList.add('hidden');
+				document.getElementById(achieve.id).classList.add('hidden');
 			}
 		} else {
-			document.getElementById(achieve.name).classList.remove('enabled');
-			document.getElementById(achieve.name).classList.add('disabled');
+			document.getElementById(achieve.id).classList.remove('enabled');
+			document.getElementById(achieve.id).classList.add('disabled');
 		}
 	});
 }
@@ -927,7 +927,7 @@ function Achievement(name, desc, hidden) {
 	
 	document.getElementById("achievement").appendChild(document.createElement("br"));
 	let ach = document.createElement("button");
-	ach.id = this.name;
+	ach.id = this.id;
 	ach.classList.add('noHover');
 	document.getElementById("achievement").appendChild(ach);
 	
@@ -935,7 +935,7 @@ function Achievement(name, desc, hidden) {
 	let big = document.createElement("span");
 	ach.appendChild(big);
 	big.appendChild(nameText);
-	big.id = this.name + "Name";
+	big.id = this.id + "Name";
 	big.style.fontSize = "20px";
 	
 	ach.appendChild(document.createElement("br"));
@@ -943,7 +943,7 @@ function Achievement(name, desc, hidden) {
 	let small = document.createElement("span");
 	ach.appendChild(small);
 	small.appendChild(descText);
-	small.id = this.name + "Desc";
+	small.id = this.id + "Desc";
 	
 	nextAchieveId++;
 }
