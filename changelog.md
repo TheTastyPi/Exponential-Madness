@@ -12,6 +12,7 @@
 * Fixed max all, again
 * Added stats tab
 * Fixed a game-breaking bug
+* Added the version number to the page title
 * Increased version number by an order of magnitute and then some
 * Updated change log
 ## v0.02: Dial It Up To... 10?
