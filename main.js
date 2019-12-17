@@ -176,7 +176,7 @@ function newGame() {
 			bought: [false]
 		},
 		achievement: {
-			list: [],
+			completed: [],
 			hideCompleted: false
 		},
 		number: new Decimal(10),
@@ -671,25 +671,26 @@ function updateAuto() {
 }
 
 function updateAchievement() {
-	game.achievement.list.forEach(function(achieve) {
-		if (achieve.hidden) {
-			document.getElementById(achieve.id + "Name").innerHTML = "???";
-			document.getElementById(achieve.id + "Desc").innerHTML = "???";
-		} else {
-			document.getElementById(achieve.id + "Name").innerHTML = achieve.name;
-			document.getElementById(achieve.id + "Desc").innerHTML = achieve.desc;
-		}
-		if (achieve.completed) {
-			document.getElementById(achieve.id).classList.remove('disabled');
-			document.getElementById(achieve.id).classList.add('enabled');
+	achievementList.forEach(function(achieve) {
+		if (game.achievement.completed[achieve.id]) {
+			achieve.hidden = false;
+			document.getElementById("achievement" + achieve.id).classList.remove('disabled');
+			document.getElementById("achievement" + achieve.id).classList.add('enabled');
 			if (game.achievement.hideCompleted) {
 				document.getElementById(achieve.id).classList.add('hidden');
 			} else {
 				document.getElementById(achieve.id).classList.remove('hidden');
 			}
 		} else {
-			document.getElementById(achieve.id).classList.remove('enabled');
-			document.getElementById(achieve.id).classList.add('disabled');
+			document.getElementById("achievement" + achieve.id).classList.remove('enabled');
+			document.getElementById("achievement" + achieve.id).classList.add('disabled');
+		}
+		if (achieve.hidden) {
+			document.getElementById("achievement" + achieve.id + "Name").innerHTML = "???";
+			document.getElementById("achievement" + achieve.id + "Desc").innerHTML = "???";
+		} else {
+			document.getElementById("achievement" + achieve.id + "Name").innerHTML = achieve.name;
+			document.getElementById("achievement" + achieve.id + "Desc").innerHTML = achieve.desc;
 		}
 	});
 	if (game.achievement.hideCompleted) {
@@ -917,9 +918,11 @@ function unlockAuto(n) {
  ****************/
 
 var nextAchieveId = 0;
+var achievementList = [];
 
 function Achievement(name, desc, hidden) {
-	game.achievement.list.push(this);
+	achievementList.push(this);
+	game.achievement.completed.push(false);
 	this.name = name;
 	this.desc = desc;
 	this.id = nextAchieveId;
@@ -927,15 +930,12 @@ function Achievement(name, desc, hidden) {
 	this.completed = false;
 	this.complete = function() {
 		this.completed = true;
-		if (this.hidden) {
-			this.hidden = false;
-		}
 		notify("Achievement Completed:", this.name);
 	}
 	
 	document.getElementById("achievement").appendChild(document.createElement("br"));
 	let ach = document.createElement("button");
-	ach.id = this.id;
+	ach.id = "achievement" + this.id;
 	ach.classList.add('noHover');
 	ach.classList.add('veryBig');
 	document.getElementById("achievement").appendChild(ach);
@@ -944,14 +944,14 @@ function Achievement(name, desc, hidden) {
 	let big = document.createElement("span");
 	ach.appendChild(big);
 	big.appendChild(nameText);
-	big.id = this.id + "Name";
+	big.id = "achievement" + this.id + "Name";
 	
 	ach.appendChild(document.createElement("br"));
 	let descText = document.createTextNode(this.desc); 
 	let small = document.createElement("span");
 	ach.appendChild(small);
 	small.appendChild(descText);
-	small.id = this.id + "Desc";
+	small.id = "achievement" + this.id + "Desc";
 	small.style.fontSize = "10px";
 	
 	nextAchieveId++;
