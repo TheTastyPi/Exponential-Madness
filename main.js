@@ -177,7 +177,8 @@ function newGame() {
 		},
 		achievement: {
 			completed: [],
-			hideCompleted: false
+			hideCompleted: false,
+			hideHidden: true
 		},
 		number: new Decimal(10),
 		mult: {
@@ -688,6 +689,11 @@ function updateAchievement() {
 		if (achieve.hidden) {
 			document.getElementById("achievement" + achieve.id + "Name").innerHTML = "???";
 			document.getElementById("achievement" + achieve.id + "Desc").innerHTML = "???";
+			if (game.achievement.hideHidden) {
+				document.getElementById("achievement" + achieve.id).classList.add('hidden');
+			} else {
+				document.getElementById("achievement" + achieve.id).classList.remove('hidden');
+			}
 		} else {
 			document.getElementById("achievement" + achieve.id + "Name").innerHTML = achieve.name;
 			document.getElementById("achievement" + achieve.id + "Desc").innerHTML = achieve.desc;
@@ -697,6 +703,11 @@ function updateAchievement() {
 		document.getElementById("hideCompletedButton").innerHTML = "Show Completed Achievements";
 	} else {
 		document.getElementById("hideCompletedButton").innerHTML = "Hide Completed Achievements";
+	}
+	if (game.achievement.hideHidden) {
+		document.getElementById("hideHiddenButton").innerHTML = "Show Hidden Achievements";
+	} else {
+		document.getElementById("hideHiddenButton").innerHTML = "Hide Hidden Achievements";
 	}
 }
 
@@ -922,14 +933,21 @@ var achievementList = [];
 
 function Achievement(name, desc, hidden) {
 	achievementList.push(this);
-	game.achievement.completed.push(false);
+	if (game.achievement.completed.length <= nextAchieveId) {
+		game.achievement.completed.push(false);
+	}
 	this.name = name;
 	this.desc = desc;
 	this.id = nextAchieveId;
-	this.hidden = hidden;
+	this.hidden = true;
+	if (hidden == false) {
+		this.hidden = false;
+	}
 	this.complete = function() {
-		game.achievement.completed[this.id] = true;
-		notify("Achievement Completed:", this.name);
+		if (game.achievement.completed[this.id] != true) {
+			game.achievement.completed[this.id] = true;
+			notify("Achievement Completed:", this.name);
+		}
 	}
 	
 	document.getElementById("achievement").appendChild(document.createElement("br"));
@@ -959,3 +977,28 @@ function Achievement(name, desc, hidden) {
 function hideCompleted() {
 	game.achievement.hideCompleted = !game.achievement.hideCompleted;
 }
+
+function hideHidden() (
+	game.achievement.hideHidden = !game.achievement.hideHidden;
+)
+
+new Achievement("Open the Game", "Redundant.", false);
+achievementList[0].complete();
+new Achievement("Unlock Multiplier 1", "It begins.", false);
+new Achievement("Unlock Multiplier 2", "This is getting out of hand already.", false);
+new Achievement("Unlock Multiplier 3", "Many people don't know how to count to 3, so good thing you do know.", false);
+new Achievement("Unlock Multiplier 4", "Wait where's the 5th one?", false);
+new Achievement("Unlock Multiplier 5", "Look, ma, one hand!");
+new Achievement("Unlock Multiplier 6", "I couldn't think of a description for this one, so I'll just type my thought in.");
+new Achievement("Unlock Multiplier 7", "Number cannibal.");
+new Achievement("Unlock Multiplier 8", "90 degrees to infini- wait we're already there.");
+new Achievement("Unlock Multiplier 9", "Good thing these aren't dimensions.");
+new Achievement("Unlock Multiplier 10", "Oops, you hit the ceiling. That must have hurt.");
+new Achievement("Reset", "Backtracking, fun!");
+new Achievement("Plexal", "You've hit a googolplex. It's a pretty big number");
+new Achievement("Unlock All Plexal Upgrades", "I feel... powerful.");
+new Achievement("Inflate", "It's fine! It's fine! Stay calm! I said stay calm god dammit!");
+new Achievement("Unlock Multiplier Automation", "I've removed some displays that isn't useful anymore because of this inflation that's going on. You better thank me now.");
+
+new Achievement("Import export text", "You... did what I said... I guess?");
+new Achievement("Thanks", "I didn't expect that. Thank you for thanking me!");
