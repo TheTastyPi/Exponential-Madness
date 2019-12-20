@@ -86,8 +86,8 @@ function load(auto) {
 		} else {
 			notify('Welcome to version ' + newGame().permaStat.version + '!');
 		}
-		pastGame.permaStat.version = newGame().permaStat.version;
 		merge(game, pastGame);
+		game.permaStat.version = newGame().permaStat.version;
 		if(!auto) {
 			document.getElementById("loadButton").innerHTML = "Loaded!";
 			setTimeout(function(){
