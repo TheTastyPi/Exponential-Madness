@@ -79,7 +79,11 @@ function load(auto) {
 	if (localStorage.getItem('emsave')) {
 		pastGame = JSON.parse(localStorage.getItem('emsave'));
 		objectToDecimal(pastGame);
-		if (pastGame.permaStat.version == undefined || pastGame.permaStat.version < newGame().permaStat.version) {
+		if (pastGame.permaStat != undefined) {
+			if (pastGame.permaStat.version == undefined || pastGame.permaStat.version < newGame().permaStat.version) {
+				notify('Welcome to version ' + newGame().permaStat.version + '!');
+			}
+		} else {
 			notify('Welcome to version ' + newGame().permaStat.version + '!');
 		}
 		pastGame.permaStat.version = newGame().permaStat.version;
