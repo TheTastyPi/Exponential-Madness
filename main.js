@@ -978,9 +978,9 @@ function hideCompleted() {
 	game.achievement.hideCompleted = !game.achievement.hideCompleted;
 }
 
-function hideHidden() (
+function hideHidden() {
 	game.achievement.hideHidden = !game.achievement.hideHidden;
-)
+}
 
 new Achievement("Open the Game", "Redundant.", false);
 achievementList[0].complete();
