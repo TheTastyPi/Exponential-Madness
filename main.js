@@ -1,15 +1,3 @@
-/********* 
- * SETUP *
- *********/
-
-var lastFrame = 0;
-var lastSave = 0;
-window.requestAnimationFrame(nextFrame);
-
-var pastGame;
-var game = newGame();
-load(true);
-
 /************* 
  * GAME LOOP *
  *************/
@@ -1036,3 +1024,15 @@ new Achievement("Unlock Automation", "I've removed some displays that isn't usef
 nextAchieveId = 1000; // 1000+ for secrets
 new Achievement("Import export text", "You... did what I said... I guess?"); //1000
 new Achievement("Thanks", "I didn't expect that. Thank you for thanking me!"); //1001
+
+/********* 
+ * SETUP *
+ *********/
+
+var lastFrame = 0;
+var lastSave = 0;
+window.requestAnimationFrame(nextFrame);
+
+var pastGame;
+var game = newGame();
+load(true);
