@@ -112,24 +112,36 @@ function exportSave() {
 function importSave() {
 	let save = prompt("Please enter export text.\nWarning: Your current save will be over-written.");
 	if (save != null) {
-		let err = false
+		let err = false;
+		let secret = true;
 		try {
 			localStorage.setItem('emsave', atob(save));
 			load(true);
 		}
 		catch {
 			err = true;
-			document.getElementById("importButton").innerHTML = "Invalid Save";
-			setTimeout(function(){
-				document.getElementById("importButton").innerHTML = "Import"
-			}, 1000);
+			switch (save) {
+				case "export text":
+					giveAchievement(1000);
+				break;
+				case "Thank you!":
+					giveAchievement(1001);
+				break;
+				default:
+					secret = false;
+					document.getElementById("importButton").innerHTML = "Invalid Save";
+				break;
+			}
+			if (secret) {
+				document.getElementById("importButton").innerHTML = "Secret!";
+			}
 		}
 		if (err == false) {
 			document.getElementById("importButton").innerHTML = "Imported!";
-			setTimeout(function(){
-				document.getElementById("importButton").innerHTML = "Import"
-			}, 1000);
 		}
+		setTimeout(function(){
+			document.getElementById("importButton").innerHTML = "Import"
+		}, 1000);
 	}
 }
 
@@ -310,6 +322,9 @@ function toTab(tab) {
 		element.classList.add('hidden');
 	});
 	document.getElementById(tab).classList.remove('hidden');
+	if (tab == 'achievement') {
+		giveAchievement(0);
+	}
 }
 
 function updateTab() {
@@ -326,6 +341,7 @@ function updateTab() {
 	}
 	if (game.auto.unlocked) {
 		document.getElementById("autoTabButton").classList.remove('hidden');
+		giveAchievement(15);
 	}
 }
 
@@ -484,6 +500,7 @@ function updateMult() {
 			if (i != m.maxMult) {
 				document.getElementById("mult"+(i+1)).classList.remove('hidden');
 			}
+			giveAchievement(i);
 		}
 		if (game.number.greaterThanOrEqualTo(m.cost[i])) {
 			document.getElementById("multButton" + i).classList.remove('disabled');
@@ -660,9 +677,10 @@ function updateStat() {
 function updateAuto() {
 	for (let i = 0; i < game.auto.price.length; i++) {
 		if (game.auto.bought[i]) {
-			document.getElementById("autoButton" + i).classList.add('enabled');
+			document.getElementById("autoButton" + i).classList.add('Plexal');
 			document.getElementById("autoButton" + i).classList.add('noHover');
 		} else {
+			document.getElementById("autoButton" + i).classList.remove('Plexal');
 			document.getElementById("autoButton" + i).classList.remove('noHover');
 			if (game.plexal.essence.greaterThanOrEqualTo(game.auto.price[i])) {
 				document.getElementById("autoButton" + i).classList.add('enabled');
@@ -718,6 +736,9 @@ function updateAchievement() {
 function updateAll() {
 	if (game.number.greaterThan(game.permaStat.highestNum)){
 		game.permaStat.highestNum = game.number;
+	}
+	if (game.number.greaterThan(Decimal.fromComponents(1, 3, 20))) {
+		
 	}
 	document.getElementById("multPerSecond").innerHTML = findDisplay(game.mult.generation[1]);
 	document.getElementById("number").innerHTML = findDisplay(game.number);
@@ -816,6 +837,7 @@ function reset(level) {
 				game.mult = newGame().mult;
 				game.reset.amount = game.reset.amount.add(1);
 				game.permaStat.totalReset = game.permaStat.totalReset.add(1);
+				giveAchievement(11);
 			}
 		break;
 		case 1:
@@ -830,6 +852,7 @@ function reset(level) {
 				game.plexal.amount = game.plexal.amount.add(1);
 				game.permaStat.totalPlexal = game.permaStat.totalPlexal.add(1);
 				game.plexal.essence = game.plexal.essence.add(game.plexal.gain);
+				giveAchievement(12);
 			}
 		break;
 	}
@@ -843,7 +866,7 @@ function maxReset() {
 		if (num.greaterThanOrEqualTo(startCost)) {
 			let baseCost = game.reset.baseCost.log10().log10();
 			let costChange = num.sub(startCost);
-			let scaling = game.reset.costScaling.log10();
+			let scaling = game.reset.costScaling.log10().mul(2);
 			let startIncrease = game.reset.costIncrease.log10();
 			let endIncrease = startIncrease.pow(2).add(scaling.mul(costChange).mul(2)).sqrt();
 			let increaseChange = endIncrease.sub(startIncrease);
@@ -852,6 +875,7 @@ function maxReset() {
 			game.mult = newGame().mult;
 			game.reset.amount = game.reset.amount.add(buyAmount);
 			game.permaStat.totalReset = game.permaStat.totalReset.add(buyAmount);
+			giveAchievement(11);
 		}
 	}
 }
@@ -912,6 +936,9 @@ function buyUpgrade(n, type) {
 			   game.plexal.upgrade.unlocked[n-1] == true) {
 				game.plexal.essence = game.plexal.essence.sub(game.plexal.upgrade.cost[n]);
 				game.plexal.upgrade.unlocked[n] = true;
+				if (n == 6) {
+					giveAchievement(13);
+				}
 			}
 		break;
 	}
@@ -978,6 +1005,10 @@ function Achievement(name, desc, hidden) {
 	nextAchieveId++;
 }
 
+function giveAchievement(id) {
+	achievementList[id].complete();
+}
+
 function hideCompleted() {
 	game.achievement.hideCompleted = !game.achievement.hideCompleted;
 }
@@ -986,23 +1017,22 @@ function hideHidden() {
 	game.achievement.hideHidden = !game.achievement.hideHidden;
 }
 
-new Achievement("Open the Game", "Redundant.", false);
-achievementList[0].complete();
-new Achievement("Unlock Multiplier 1", "It begins.", false);
-new Achievement("Unlock Multiplier 2", "This is getting out of hand already.", false);
-new Achievement("Unlock Multiplier 3", "Many people don't know how to count to 3, so good thing you do know.", false);
-new Achievement("Unlock Multiplier 4", "Wait where's the 5th one?", false);
-new Achievement("Unlock Multiplier 5", "Look, ma, one hand!");
-new Achievement("Unlock Multiplier 6", "I couldn't think of a description for this one, so I'll just type my thought in.");
-new Achievement("Unlock Multiplier 7", "Number cannibal.");
-new Achievement("Unlock Multiplier 8", "90 degrees to infini- wait we're already there.");
-new Achievement("Unlock Multiplier 9", "Good thing these aren't dimensions.");
-new Achievement("Unlock Multiplier 10", "Oops, you hit the ceiling. That must have hurt.");
-new Achievement("Reset", "Backtracking, fun!");
-new Achievement("Plexal", "You've hit a googolplex. It's a pretty big number");
-new Achievement("Unlock All Plexal Upgrades", "I feel... powerful.");
-new Achievement("Inflate", "It's fine! It's fine! Stay calm! I said stay calm god dammit!");
-new Achievement("Unlock Multiplier Automation", "I've removed some displays that isn't useful anymore because of this inflation that's going on. You better thank me now.");
-
-new Achievement("Import export text", "You... did what I said... I guess?");
-new Achievement("Thanks", "I didn't expect that. Thank you for thanking me!");
+new Achievement("Open the Achievements Tab", "Hi, we exist.", false); //0
+new Achievement("Unlock Multiplier 1", "It begins.", false); //1
+new Achievement("Unlock Multiplier 2", "This is getting out of hand already.", false); //2
+new Achievement("Unlock Multiplier 3", "Many people don't know how to count to 3, so good thing you do know.", false); //3
+new Achievement("Unlock Multiplier 4", "Wait where's the 5th one?", false); //4
+new Achievement("Unlock Multiplier 5", "Look, ma, one hand!"); //5
+new Achievement("Unlock Multiplier 6", "I couldn't think of a description for this one, so I'll just type my thought in."); //6
+new Achievement("Unlock Multiplier 7", "Number cannibal."); //7
+new Achievement("Unlock Multiplier 8", "90 degrees to infini- wait we're already there."); //8
+new Achievement("Unlock Multiplier 9", "Good thing these aren't dimensions."); //9
+new Achievement("Unlock Multiplier 10", "Oops, you hit the ceiling. That must have hurt."); //10
+new Achievement("Reset", "Backtracking, fun!"); //11
+new Achievement("Plexal", "You've reached a googolplex. It perplexes many, but not you of course."); //12
+new Achievement("Unlock All Plexal Upgrades", "I feel... powerful."); //13
+new Achievement("Inflate", "It's fine! It's fine! Stay calm! I said stay calm god dammit!"); //14
+new Achievement("Unlock Automation", "I've removed some displays that isn't useful anymore because of this inflation that's going on. You better thank me now."); //15
+nextAchieveId = 1000; // 1000+ for secrets
+new Achievement("Import export text", "You... did what I said... I guess?"); //1000
+new Achievement("Thanks", "I didn't expect that. Thank you for thanking me!"); //1001
