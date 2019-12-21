@@ -677,10 +677,10 @@ function updateStat() {
 function updateAuto() {
 	for (let i = 0; i < game.auto.price.length; i++) {
 		if (game.auto.bought[i]) {
-			document.getElementById("autoButton" + i).classList.add('Plexal');
+			document.getElementById("autoButton" + i).classList.add('plexal');
 			document.getElementById("autoButton" + i).classList.add('noHover');
 		} else {
-			document.getElementById("autoButton" + i).classList.remove('Plexal');
+			document.getElementById("autoButton" + i).classList.remove('plexal');
 			document.getElementById("autoButton" + i).classList.remove('noHover');
 			if (game.plexal.essence.greaterThanOrEqualTo(game.auto.price[i])) {
 				document.getElementById("autoButton" + i).classList.add('enabled');
