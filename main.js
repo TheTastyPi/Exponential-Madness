@@ -696,16 +696,16 @@ function updateAchievement() {
 	achievementList.forEach(function(achieve) {
 		if (game.achievement.completed[achieve.id]) {
 			achieve.hidden = false;
-			document.getElementById("achievement" + achieve.id).classList.remove('disabled');
-			document.getElementById("achievement" + achieve.id).classList.add('enabled');
+			document.getElementById("achievement" + achieve.id + "Box").classList.remove('disabled');
+			document.getElementById("achievement" + achieve.id + "Box").classList.add('enabled');
 			if (game.achievement.hideCompleted) {
 				document.getElementById("achievement" + achieve.id).classList.add('hidden');
 			} else {
 				document.getElementById("achievement" + achieve.id).classList.remove('hidden');
 			}
 		} else {
-			document.getElementById("achievement" + achieve.id).classList.remove('enabled');
-			document.getElementById("achievement" + achieve.id).classList.add('disabled');
+			document.getElementById("achievement" + achieve.id + "Box").classList.remove('enabled');
+			document.getElementById("achievement" + achieve.id + "Box").classList.add('disabled');
 		}
 		if (achieve.hidden) {
 			document.getElementById("achievement" + achieve.id + "Name").innerHTML = "???";
@@ -979,24 +979,27 @@ function Achievement(name, desc, hidden) {
 			notify("Achievement Completed:", this.name);
 		}
 	}
-	
-	document.getElementById("achievement").appendChild(document.createElement("br"));
-	let ach = document.createElement("button");
+	let ach = document.createElement("span");
 	ach.id = "achievement" + this.id;
-	ach.classList.add('noHover');
-	ach.classList.add('veryBig');
 	document.getElementById("achievement").appendChild(ach);
+	
+	ach.appendChild(document.createElement("br"));
+	let achBox = document.createElement("button");
+	achBox.id = "achievement" + this.id + "Box";
+	achBox.classList.add('noHover');
+	achBox.classList.add('veryBig');
+	ach.appendChild(achBox);
 	
 	let nameText = document.createTextNode(this.name);
 	let big = document.createElement("span");
-	ach.appendChild(big);
+	achBox.appendChild(big);
 	big.appendChild(nameText);
 	big.id = "achievement" + this.id + "Name";
 	
-	ach.appendChild(document.createElement("br"));
+	achBox.appendChild(document.createElement("br"));
 	let descText = document.createTextNode(this.desc); 
 	let small = document.createElement("span");
-	ach.appendChild(small);
+	achBox.appendChild(small);
 	small.appendChild(descText);
 	small.id = "achievement" + this.id + "Desc";
 	small.style.fontSize = "10px";
