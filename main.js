@@ -192,8 +192,8 @@ function newGame() {
 		},
 		achievement: {
 			completed: [],
-			hideCompleted: false,
-			hideHidden: true
+			secretCompleted: [],
+			hideCompleted: false
 		},
 		number: new Decimal(10),
 		mult: {
@@ -708,27 +708,15 @@ function updateAchievement() {
 			document.getElementById("achievement" + achieve.id + "Box").classList.add('disabled');
 		}
 		if (achieve.hidden) {
-			document.getElementById("achievement" + achieve.id + "Name").innerHTML = "???";
-			document.getElementById("achievement" + achieve.id + "Desc").innerHTML = "???";
-			if (game.achievement.hideHidden) {
-				document.getElementById("achievement" + achieve.id).classList.add('hidden');
-			} else {
-				document.getElementById("achievement" + achieve.id).classList.remove('hidden');
-			}
+			document.getElementById("achievement" + achieve.id).classList.add('hidden');
 		} else {
-			document.getElementById("achievement" + achieve.id + "Name").innerHTML = achieve.name;
-			document.getElementById("achievement" + achieve.id + "Desc").innerHTML = achieve.desc;
+			document.getElementById("achievement" + achieve.id).classList.remove('hidden');
 		}
 	});
 	if (game.achievement.hideCompleted) {
 		document.getElementById("hideCompletedButton").innerHTML = "Show Completed Achievements";
 	} else {
 		document.getElementById("hideCompletedButton").innerHTML = "Hide Completed Achievements";
-	}
-	if (game.achievement.hideHidden) {
-		document.getElementById("hideHiddenButton").innerHTML = "Show Hidden Achievements";
-	} else {
-		document.getElementById("hideHiddenButton").innerHTML = "Hide Hidden Achievements";
 	}
 }
 
@@ -960,29 +948,51 @@ function unlockAuto(n) {
 
 var nextAchieveId = 0;
 var achievementList = [];
+var secretAchievementList = [];
 
 function Achievement(name, desc, hidden) {
-	achievementList.push(this);
-	if (game.achievement.completed.length <= nextAchieveId) {
-		game.achievement.completed.push(false);
-	}
 	this.name = name;
 	this.desc = desc;
 	this.id = nextAchieveId;
 	this.hidden = true;
+	this.isSecret = false;
 	if (hidden == false) {
 		this.hidden = false;
 	}
-	this.complete = function() {
-		if (game.achievement.completed[this.id] != true) {
-			game.achievement.completed[this.id] = true;
-			notify("Achievement Completed:", this.name);
+	if (this.id > 999) {
+		this.isSecret = true;
+	}
+	if (this.isSecret) {
+		secretAchievementList.push(this);
+		if (game.achievement.secretCompleted.length <= nextAchieveId - 1000) {
+			game.achievement.secretCompleted.push(false);
+		}
+		this.complete = function() {
+			if (game.achievement.secretCompleted[this.id - 1000] != true) {
+				game.achievement.secretCompleted[this.id - 1000] = true;
+				notify("Achievement Completed:", this.name);
+			}
+		}
+	} else {
+		achievementList.push(this);
+		if (game.achievement.completed.length <= nextAchieveId) {
+			game.achievement.completed.push(false);
+		}
+		this.complete = function() {
+			if (game.achievement.completed[this.id] != true) {
+				game.achievement.completed[this.id] = true;
+				notify("Achievement Completed:", this.name);
+			}
 		}
 	}
+	
 	let ach = document.createElement("span");
 	ach.id = "achievement" + this.id;
-	document.getElementById("achievement").appendChild(ach);
-	
+	if (this.isSecret) {
+		document.getElementById("secretAchieve").appendChild(ach);
+	} else {
+		document.getElementById("normalAchieve").appendChild(ach);
+	}
 	ach.appendChild(document.createElement("br"));
 	let achBox = document.createElement("button");
 	achBox.id = "achievement" + this.id + "Box";
@@ -1015,11 +1025,7 @@ function hideCompleted() {
 	game.achievement.hideCompleted = !game.achievement.hideCompleted;
 }
 
-function hideHidden() {
-	game.achievement.hideHidden = !game.achievement.hideHidden;
-}
-
-new Achievement("Open the Achievements Tab", "Hi, we exist.", false); //0
+new Achievement("Open the Achievements Tab", "Hi, I exist.", false); //0
 new Achievement("Unlock Multiplier 1", "It begins.", false); //1
 new Achievement("Unlock Multiplier 2", "This is getting out of hand already.", false); //2
 new Achievement("Unlock Multiplier 3", "Many people don't know how to count to 3, so good thing you do know.", false); //3
