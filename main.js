@@ -1029,11 +1029,13 @@ function Achievement(name, desc, hidden) {
 }
 
 function giveAchievement(id) {
-	if (id < 1000) {
-		achievementList[id].complete();
-	} else {
-		secretAchievementList[id - 1000].complete();
-	}
+	setTimeout(function() {
+		if (id < 1000) {
+			achievementList[id].complete();
+		} else {
+			secretAchievementList[id - 1000].complete();
+		}
+	}, 100);
 }
 
 function hideCompleted() {
