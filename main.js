@@ -114,11 +114,6 @@ function importSave() {
 		let err = false;
 		let secret = true;
 		try {
-			localStorage.setItem('emsave', atob(save));
-			load(true);
-		}
-		catch {
-			err = true;
 			switch (save) {
 				case "export text":
 					giveAchievement(1000);
@@ -127,16 +122,22 @@ function importSave() {
 					giveAchievement(1001);
 				break;
 				default:
+					localStorage.setItem('emsave', atob(save));
+					load(true);
 					secret = false;
-					document.getElementById("importButton").innerHTML = "Invalid Save";
 				break;
 			}
+		}
+		catch {
+			err = true;
+			document.getElementById("importButton").innerHTML = "Invalid Save";
+			
+		}
+		if (!err) {
+			document.getElementById("importButton").innerHTML = "Imported!";
 			if (secret) {
 				document.getElementById("importButton").innerHTML = "Secret!";
 			}
-		}
-		if (err == false) {
-			document.getElementById("importButton").innerHTML = "Imported!";
 		}
 		setTimeout(function(){
 			document.getElementById("importButton").innerHTML = "Import"
