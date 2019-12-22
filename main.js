@@ -1028,7 +1028,11 @@ function Achievement(name, desc, hidden) {
 }
 
 function giveAchievement(id) {
-	achievementList[id].complete();
+	if (id < 1000) {
+		achievementList[id].complete();
+	} else {
+		secretAchievementList[id].complete();
+	}
 }
 
 function hideCompleted() {
