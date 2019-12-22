@@ -1031,7 +1031,7 @@ function giveAchievement(id) {
 	if (id < 1000) {
 		achievementList[id].complete();
 	} else {
-		secretAchievementList[id].complete();
+		secretAchievementList[id - 1000].complete();
 	}
 }
 
