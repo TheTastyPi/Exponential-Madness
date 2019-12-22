@@ -698,16 +698,26 @@ function updateAchievement() {
 			achieve.hidden = false;
 			document.getElementById("achievement" + achieve.id + "Box").classList.remove('disabled');
 			document.getElementById("achievement" + achieve.id + "Box").classList.add('enabled');
-			if (game.achievement.hideCompleted) {
-				document.getElementById("achievement" + achieve.id).classList.add('hidden');
-			} else {
-				document.getElementById("achievement" + achieve.id).classList.remove('hidden');
-			}
 		} else {
 			document.getElementById("achievement" + achieve.id + "Box").classList.remove('enabled');
 			document.getElementById("achievement" + achieve.id + "Box").classList.add('disabled');
 		}
-		if (achieve.hidden) {
+		if (achieve.hidden || (game.achievement.completed[achieve.id] && game.achievement.hideCompleted)) {
+			document.getElementById("achievement" + achieve.id).classList.add('hidden');
+		} else {
+			document.getElementById("achievement" + achieve.id).classList.remove('hidden');
+		}
+	});
+	secretAchievementList.forEach(function(achieve) {
+		if (game.achievement.secretCompleted[achieve.id]) {
+			achieve.hidden = false;
+			document.getElementById("achievement" + achieve.id + "Box").classList.remove('disabled');
+			document.getElementById("achievement" + achieve.id + "Box").classList.add('enabled');
+		} else {
+			document.getElementById("achievement" + achieve.id + "Box").classList.remove('enabled');
+			document.getElementById("achievement" + achieve.id + "Box").classList.add('disabled');
+		}
+		if (achieve.hidden || (game.achievement.secretCompleted[achieve.id] && game.achievement.hideCompleted)) {
 			document.getElementById("achievement" + achieve.id).classList.add('hidden');
 		} else {
 			document.getElementById("achievement" + achieve.id).classList.remove('hidden');
