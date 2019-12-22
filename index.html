@@ -143,12 +143,20 @@
       </span>
     </span>
     <span class="hidden tab" id='achievement'>
+      <button type="button" class="big" onclick="toTab('normalAchieve')">
+        Normal Achievements
+      </button>
+      <button type="button" class="big" onclick="toTab('secretAchieve')">
+        Secret Achievements
+      </button>
+      <br>
       <button type="button" onclick="hideCompleted()" id="hideCompletedButton">
         Hide Completed Achievements
       </button>
-      <button type="button" onclick="hideHidden()" id="hideHiddenButton">
-        Show Hidden Achievements
-      </button>
+      <span class="hidden tab" id="normalAchieve">
+      </span>
+      <span class="hidden tab" id="secretAchieve">
+      </span>
     </span>
     <span class="hidden tab" id='stat'>
       <button type="button" class="big" onclick="toTab('normalStat')" id="normalStatTabButton">
