@@ -748,7 +748,9 @@ function updateAll() {
 	updateUpg();
 	updateStat();
 	updateAuto();
-	updateAchievement();
+	setTimeout(function() {
+		updateAchievement();
+	}, 50) // it works, so it's fine
 	document.getElementById("title").innerHTML = "Exponential Madness v" + game.permaStat.version;
 	if (game.autoSave) {
 		document.getElementById("autoSaveButton").innerHTML = "Auto Save: ON";
