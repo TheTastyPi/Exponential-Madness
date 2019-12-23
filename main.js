@@ -267,9 +267,11 @@ function newGame() {
 
 function wipe() {
 	doUpdate = false;
-	game = newGame();
-	doUpdate = true;
+	setTimeout(function() {
+		game = newGame();
+	}, 50);
 	save(true);
+	doUpdate = true;
 }
 
 function wipeConfirm() {
