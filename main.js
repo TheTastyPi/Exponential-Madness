@@ -2,6 +2,7 @@
  * SETUP *
  *********/
 
+var doUpdate = true;
 var lastFrame = 0;
 var lastSave = 0;
 window.requestAnimationFrame(nextFrame);
@@ -24,7 +25,9 @@ function nextFrame(timeStamp) {
 		if (game.auto.bought[0]) {
 			maxAll('normal');
 		}
-		updateAll();
+		if (doUpdate) {
+			updateAll();
+		}
 		lastFrame = timeStamp;
 		game.permaStat.timePlayed += sinceLastFrame;
 	}
@@ -263,7 +266,9 @@ function newGame() {
 }
 
 function wipe() {
+	doUpdate = false;
 	game = newGame();
+	doUpdate = true;
 	save(true);
 }
 
