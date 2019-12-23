@@ -1066,6 +1066,6 @@ function createAchievements() {
 	new Achievement("Import export text", "You... did what I said... I guess?"); //1000
 	new Achievement("Thanks", "I didn't expect that. Thank you for thanking me!"); //1001
 }
-creatAchievements();
+createAchievements();
 
 load(true);
