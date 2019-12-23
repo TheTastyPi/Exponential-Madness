@@ -976,9 +976,6 @@ function Achievement(name, desc, hidden) {
 	}
 	if (this.isSecret) {
 		secretAchievementList.push(this);
-		if (game.achievement.secretCompleted.length <= nextAchieveId - 1000) {
-			game.achievement.secretCompleted.push(false);
-		}
 		this.complete = function() {
 			if (game.achievement.secretCompleted[this.id - 1000] != true) {
 				game.achievement.secretCompleted[this.id - 1000] = true;
@@ -987,9 +984,6 @@ function Achievement(name, desc, hidden) {
 		}
 	} else {
 		achievementList.push(this);
-		if (game.achievement.completed.length <= nextAchieveId) {
-			game.achievement.completed.push(false);
-		}
 		this.complete = function() {
 			if (game.achievement.completed[this.id] != true) {
 				game.achievement.completed[this.id] = true;
