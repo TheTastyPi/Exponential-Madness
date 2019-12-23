@@ -265,6 +265,7 @@ function newGame() {
 function wipe() {
 	game = newGame();
 	save(true);
+	createAchievements();
 }
 
 function wipeConfirm() {
@@ -957,7 +958,6 @@ function unlockAuto(n) {
  * ACHIEVEMENTS *
  ****************/
 
-var nextAchieveId = 0;
 var achievementList = [];
 var secretAchievementList = [];
 
@@ -1042,24 +1042,30 @@ function hideCompleted() {
 	game.achievement.hideCompleted = !game.achievement.hideCompleted;
 }
 
-new Achievement("Open the Achievements Tab", "Hi, I exist.", false); //0
-new Achievement("Unlock Multiplier 1", "It begins.", false); //1
-new Achievement("Unlock Multiplier 2", "This is getting out of hand already.", false); //2
-new Achievement("Unlock Multiplier 3", "Many people don't know how to count to 3, so good thing you do know.", false); //3
-new Achievement("Unlock Multiplier 4", "Wait where's the 5th one?", false); //4
-new Achievement("Unlock Multiplier 5", "Look, ma, one hand!"); //5
-new Achievement("Unlock Multiplier 6", "I couldn't think of a description for this one, so I'll just type my thought in."); //6
-new Achievement("Unlock Multiplier 7", "Number cannibal."); //7
-new Achievement("Unlock Multiplier 8", "90 degrees to infini- wait we're already there."); //8
-new Achievement("Unlock Multiplier 9", "Good thing these aren't dimensions."); //9
-new Achievement("Unlock Multiplier 10", "Oops, you hit the ceiling. That must have hurt."); //10
-new Achievement("Reset", "Backtracking, fun!"); //11
-new Achievement("Plexal", "You've reached a googolplex. It perplexes many, but not you of course."); //12
-new Achievement("Unlock All Plexal Upgrades", "I feel... powerful."); //13
-new Achievement("Inflate", "It's fine! It's fine! Stay calm! I said stay calm god dammit!"); //14
-new Achievement("Unlock Automation", "I've removed some displays that isn't useful anymore because of this inflation that's going on. You better thank me now."); //15
-nextAchieveId = 1000; // 1000+ for secrets
-new Achievement("Import export text", "You... did what I said... I guess?"); //1000
-new Achievement("Thanks", "I didn't expect that. Thank you for thanking me!"); //1001
+function createAchievements() {
+	achievementList = [];
+	secretAchievementList = [];
+	let nextAchieveId = 0;
+	new Achievement("Open the Achievements Tab", "Hi, I exist.", false); //0
+	new Achievement("Unlock Multiplier 1", "It begins.", false); //1
+	new Achievement("Unlock Multiplier 2", "This is getting out of hand already.", false); //2
+	new Achievement("Unlock Multiplier 3", "Many people don't know how to count to 3, so good thing you do know.", false); //3
+	new Achievement("Unlock Multiplier 4", "Wait where's the 5th one?", false); //4
+	new Achievement("Unlock Multiplier 5", "Look, ma, one hand!"); //5
+	new Achievement("Unlock Multiplier 6", "I couldn't think of a description for this one, so I'll just type my thought in."); //6
+	new Achievement("Unlock Multiplier 7", "Number cannibal."); //7
+	new Achievement("Unlock Multiplier 8", "90 degrees to infini- wait we're already there."); //8
+	new Achievement("Unlock Multiplier 9", "Good thing these aren't dimensions."); //9
+	new Achievement("Unlock Multiplier 10", "Oops, you hit the ceiling. That must have hurt."); //10
+	new Achievement("Reset", "Backtracking, fun!"); //11
+	new Achievement("Plexal", "You've reached a googolplex. It perplexes many, but not you of course."); //12
+	new Achievement("Unlock All Plexal Upgrades", "I feel... powerful."); //13
+	new Achievement("Inflate", "It's fine! It's fine! Stay calm! I said stay calm god dammit!"); //14
+	new Achievement("Unlock Automation", "I've removed some displays that isn't useful anymore because of this inflation that's going on. You better thank me now."); //15
+	nextAchieveId = 1000; // 1000+ for secrets
+	new Achievement("Import export text", "You... did what I said... I guess?"); //1000
+	new Achievement("Thanks", "I didn't expect that. Thank you for thanking me!"); //1001
+}
+creatAchievements();
 
 load(true);
