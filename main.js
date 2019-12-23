@@ -500,7 +500,6 @@ function updateMult() {
 			if (i != m.maxMult) {
 				document.getElementById("mult"+(i+1)).classList.remove('hidden');
 			}
-			giveAchievement(i);
 		}
 		if (game.number.greaterThanOrEqualTo(m.cost[i])) {
 			document.getElementById("multButton" + i).classList.remove('disabled');
@@ -774,6 +773,7 @@ function buyMult(n, type) {
 					if (game.mult.unlocked[n] == false) {
 						game.mult.amount[n] = new Decimal(1.25);
 						game.mult.unlocked[n] = true;
+						giveAchievement(n);
 					} else {
 						game.mult.upgradeAmount[n] = game.mult.upgradeAmount[n].add(1);
 					}
@@ -798,6 +798,7 @@ function maxMult(n, type) {
 						game.mult.amount[n] = new Decimal(1.25);
 						game.mult.unlocked[n] = true;
 						game.number = game.number.div(game.mult.cost[n]);
+						giveAchievement(n);
 						maxMult(n, "normal");
 					} else {
 						game.number = game.number.div((new Decimal(10)).pow((new Decimal(10)).pow(totalCost)));
