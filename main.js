@@ -265,7 +265,6 @@ function newGame() {
 function wipe() {
 	game = newGame();
 	save(true);
-	createAchievements();
 }
 
 function wipeConfirm() {
