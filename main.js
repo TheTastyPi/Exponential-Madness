@@ -122,7 +122,11 @@ function importSave() {
 					giveAchievement(1000);
 				break;
 				case "Thank you!":
-					giveAchievement(1001);
+					if (game.achievement.completed[15]) {
+						giveAchievement(1001);
+					} else {
+						secret = false;
+					}
 				break;
 				default:
 					localStorage.setItem('emsave', atob(save));
