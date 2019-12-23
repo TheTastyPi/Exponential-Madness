@@ -269,9 +269,9 @@ function wipe() {
 	doUpdate = false;
 	setTimeout(function() {
 		game = newGame();
+		save(true);
+		doUpdate = true;
 	}, 50);
-	save(true);
-	doUpdate = true;
 }
 
 function wipeConfirm() {
