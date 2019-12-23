@@ -960,6 +960,7 @@ function unlockAuto(n) {
 
 var achievementList = [];
 var secretAchievementList = [];
+var nextAchieveId = 0;
 
 function Achievement(name, desc, hidden) {
 	this.name = name;
@@ -1045,7 +1046,7 @@ function hideCompleted() {
 function createAchievements() {
 	achievementList = [];
 	secretAchievementList = [];
-	let nextAchieveId = 0;
+	nextAchieveId = 0;
 	new Achievement("Open the Achievements Tab", "Hi, I exist.", false); //0
 	new Achievement("Unlock Multiplier 1", "It begins.", false); //1
 	new Achievement("Unlock Multiplier 2", "This is getting out of hand already.", false); //2
