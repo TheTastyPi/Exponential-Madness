@@ -24,9 +24,7 @@ function nextFrame(timeStamp) {
 		if (game.auto.bought[0]) {
 			maxAll('normal');
 		}
-		setTimeout(function() {
-			updateAll();
-		}, 50) // it works, so it's fine
+		updateAll();
 		lastFrame = timeStamp;
 		game.permaStat.timePlayed += sinceLastFrame;
 	}
