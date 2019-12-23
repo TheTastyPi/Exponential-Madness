@@ -24,7 +24,9 @@ function nextFrame(timeStamp) {
 		if (game.auto.bought[0]) {
 			maxAll('normal');
 		}
-		updateAll();
+		setTimeout(function() {
+			updateAll();
+		}, 50) // it works, so it's fine
 		lastFrame = timeStamp;
 		game.permaStat.timePlayed += sinceLastFrame;
 	}
@@ -748,9 +750,7 @@ function updateAll() {
 	updateUpg();
 	updateStat();
 	updateAuto();
-	setTimeout(function() {
-		updateAchievement();
-	}, 50) // it works, so it's fine
+	updateAchievement();
 	document.getElementById("title").innerHTML = "Exponential Madness v" + game.permaStat.version;
 	if (game.autoSave) {
 		document.getElementById("autoSaveButton").innerHTML = "Auto Save: ON";
