@@ -163,7 +163,7 @@ function objectToDecimal(object) {
 function merge(base, source) {
 	for (i in base) {
 		if (source[i] != undefined) {
-			if (typeof(base[i]) == "object" && typeof(source[i]) == "object" && !isDecimal(base[i]) && !isDecimal(source[i])) {
+			if (typeof(base[i]) == "object" && typeof(source[i]) == "object" && !isDecimal(base[i]) && !isDecimal(source[i]) && base[i] != game.achievement) {
 				merge(base[i], source[i]);
 			} else {
 				base[i] = source[i];
