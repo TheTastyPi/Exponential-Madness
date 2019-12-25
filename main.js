@@ -153,7 +153,7 @@ function importSave() {
 
 // totally didn't copy this from somewhere else
 function objectToDecimal(object) { 
-	for (i in object) {
+	for (let i in object) {
 		if (typeof(object[i]) == "string" && !isNaN(new Decimal(object[i]).mag) && !(new Decimal(object[i]).sign == 0 && object[i] != "0")) {
 			object[i] = new Decimal(object[i]);
 		}
@@ -164,7 +164,7 @@ function objectToDecimal(object) {
 }
 
 function merge(base, source) {
-	for (i in base) {
+	for (let i in base) {
 		if (source[i] != undefined) {
 			if (typeof(base[i]) == "object" && typeof(source[i]) == "object" && !isDecimal(base[i]) && !isDecimal(source[i]) && base[i] != game.achievement) {
 				merge(base[i], source[i]);
@@ -715,35 +715,35 @@ function updateAuto() {
 
 function updateAchievement() {
 	for (achieve in achievement.normal) {
-		let a = achievement.normal[achieve].alias;
-		if (game.achievement.normalCompleted.includes(a)) {
-			achieve.hidden = false;
-			document.getElementById(a + "AchieveBox").classList.remove('disabled');
-			document.getElementById(a + "AchieveBox").classList.add('enabled');
+		let a = achievement.normal[achieve];
+		if (game.achievement.normalCompleted.includes(a.alias)) {
+			a.hidden = false;
+			document.getElementById(a.alias + "AchieveBox").classList.remove('disabled');
+			document.getElementById(a.alias + "AchieveBox").classList.add('enabled');
 		} else {
-			document.getElementById(a + "AchieveBox").classList.remove('enabled');
-			document.getElementById(a + "AchieveBox").classList.add('disabled');
+			document.getElementById(a.alias + "AchieveBox").classList.remove('enabled');
+			document.getElementById(a.alias + "AchieveBox").classList.add('disabled');
 		}
-		if (achieve.hidden || (game.achievement.normalCompleted.includes(a) && game.achievement.hideCompleted)) {
-			document.getElementById(a + "Achieve").classList.add('hidden');
+		if (a.hidden || (game.achievement.normalCompleted.includes(a) && game.achievement.hideCompleted)) {
+			document.getElementById(a.alias + "Achieve").classList.add('hidden');
 		} else {
-			document.getElementById(a + "Achieve").classList.remove('hidden');
+			document.getElementById(a.alias + "Achieve").classList.remove('hidden');
 		}
 	}
 	for (achieve in achievement.secret) {
-		let a = achievement.secret[achieve].alias;
-		if (game.achievement.secretCompleted.includes(a)) {
-			achieve.hidden = false;
-			document.getElementById(a + "AchieveBox").classList.remove('disabled');
-			document.getElementById(a + "AchieveBox").classList.add('enabled');
+		let a = achievement.secret[achieve];
+		if (game.achievement.secretCompleted.includes(a.alias)) {
+			a.hidden = false;
+			document.getElementById(a.alias + "AchieveBox").classList.remove('disabled');
+			document.getElementById(a.alias + "AchieveBox").classList.add('enabled');
 		} else {
-			document.getElementById(a + "AchieveBox").classList.remove('enabled');
-			document.getElementById(a + "AchieveBox").classList.add('disabled');
+			document.getElementById(a.alias + "AchieveBox").classList.remove('enabled');
+			document.getElementById(a.alias + "AchieveBox").classList.add('disabled');
 		}
-		if (achieve.hidden || (game.achievement.secretCompleted.includes(a) && game.achievement.hideCompleted)) {
-			document.getElementById(a + "Achieve").classList.add('hidden');
+		if (a.hidden || (game.achievement.secretCompleted.includes(a) && game.achievement.hideCompleted)) {
+			document.getElementById(a.alias + "Achieve").classList.add('hidden');
 		} else {
-			document.getElementById(a + "Achieve").classList.remove('hidden');
+			document.getElementById(a.alias + "Achieve").classList.remove('hidden');
 		}
 	}
 	if (game.achievement.hideCompleted) {
