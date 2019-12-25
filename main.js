@@ -281,10 +281,8 @@ function wipe() {
 	setTimeout(function() {
 		game = newGame();
 		save(true);
-		document.getElementById("achievement").querySelectorAll("span").forEach(function(element) {
-			if (element.id.endsWith("Achieve")) {
-				element.classList.add('hidden');
-			}
+		document.getElementById("achievement").querySelectorAll(".achieve").forEach(function(element) {
+			element.classList.add('hidden');
 		});
 		document.getElementById("openAchieveAchieve").classList.remove('hidden');
 		document.getElementById("unlock1Achieve").classList.remove('hidden');
@@ -1038,6 +1036,7 @@ function Achievement(name, desc, alias, hidden, secret) {
 	
 	let ach = document.createElement("span");
 	ach.id = this.alias + "Achieve";
+	ach.classList.add('achieve');
 	if (this.secret) {
 		document.getElementById("secretAchieve").appendChild(ach);
 	} else {
