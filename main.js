@@ -80,15 +80,17 @@ function load(auto) {
 	if (localStorage.getItem('emsave')) {
 		pastGame = JSON.parse(localStorage.getItem('emsave'));
 		objectToDecimal(pastGame);
-		setTimeout(function() {
 			if (pastGame.permaStat != undefined) {
 				if (pastGame.permaStat.version == undefined || pastGame.permaStat.version < newGame().permaStat.version) {
-					notify('Welcome to version ' + newGame().permaStat.version + '!');
+					setTimeout(function() {
+						notify('Welcome to version ' + newGame().permaStat.version + '!');
+					}, 1000)
 				}
 			} else {
-				notify('Welcome to version ' + newGame().permaStat.version + '!');
+				setTimeout(function() {
+					notify('Welcome to version ' + newGame().permaStat.version + '!');
+				}, 1000)
 			}
-		}, 1000)
 		merge(game, pastGame);
 		game.permaStat.version = newGame().permaStat.version;
 		if(!auto) {
