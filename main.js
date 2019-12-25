@@ -9,8 +9,6 @@ var lastSave = 0;
 var pastGame;
 var game = newGame();
 
-createAchievements();
-
 /************* 
  * GAME LOOP *
  *************/
@@ -1068,5 +1066,6 @@ function createAchievements() {
 	new Achievement("Thanks", "I didn't expect that. Thank you for thanking me!", "thanks", true, true);
 }
 
+createAchievements();
 load(true);
 window.requestAnimationFrame(nextFrame);
