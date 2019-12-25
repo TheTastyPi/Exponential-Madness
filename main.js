@@ -511,7 +511,7 @@ function updateMult() {
 			if (i != m.maxMult) {
 				document.getElementById("mult"+(i+1)).classList.remove('hidden');
 			}
-			achievement.normal.["unlock" + i].complete();
+			achievement.normal["unlock" + i].complete();
 		}
 		if (game.number.greaterThanOrEqualTo(m.cost[i])) {
 			document.getElementById("multButton" + i).classList.remove('disabled');
@@ -540,7 +540,7 @@ function updateReset() {
 	}
 	for (let i = 0; i < 5; i++) {
 		if (game.reset.amount.greaterThan(new Decimal(i))) {
-			achievement.normal.["unlock" + (i+6)].hidden = false;
+			achievement.normal["unlock" + (i+6)].hidden = false;
 		}
 	}
 	if (game.reset.unlocked == true) {
@@ -995,7 +995,7 @@ function Achievement(name, desc, alias, hidden, secret) {
 		this.hidden = false;
 	}
 	if (this.secret) {
-		achievement.secret.[alias] = this;
+		achievement.secret[alias] = this;
 		this.complete = function() {
 			if (!game.achievement.secretCompleted.includes(this.alias)) {
 				game.achievement.secretCompleted.push(this.alias);
@@ -1003,7 +1003,7 @@ function Achievement(name, desc, alias, hidden, secret) {
 			}
 		}
 	} else {
-		achievement.normal.[alias] = this;
+		achievement.normal[alias] = this;
 		this.complete = function() {
 			if (!game.achievement.normalCompleted.includes(this.alias)) {
 				game.achievement.normalCompleted.push(this.alias);
