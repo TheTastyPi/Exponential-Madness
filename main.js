@@ -281,6 +281,17 @@ function wipe() {
 	setTimeout(function() {
 		game = newGame();
 		save(true);
+		for (achieve in achievement.normal) {
+			document.getElementById(achievement.normal[achieve].alias).classList.add('hidden');
+		}
+		for (achieve in achievement.secret) {
+			document.getElementById(achievement.secret[achieve].alias).classList.add('hidden');
+		}
+		document.getElementById("openAchieve").classList.remove('hidden');
+		document.getElementById("unlock1").classList.remove('hidden');
+		document.getElementById("unlock2").classList.remove('hidden');
+		document.getElementById("unlock3").classList.remove('hidden');
+		document.getElementById("unlock4").classList.remove('hidden');
 		doUpdate = true;
 	}, 50);
 }
@@ -401,30 +412,30 @@ function findTimeDisplay(ms) {
 	let time = "";
 	let seg = 0;
 	if (s < 60) {
-		time = ds + " second" + pluralCheck(ds, false);
+		time = ds + " second" + pluralCheck(ds);
 		seg++;
 	} else {
-		time = "and " + ds + " second" + pluralCheck(ds, false);
+		time = "and " + ds + " second" + pluralCheck(ds);
 		seg++;
 	}
 	if (dm >= 1) {
-		time = dm + " minute" + pluralCheck(dm, false) + ", " + time;
+		time = dm + " minute" + pluralCheck(dm) + ", " + time;
 		seg++;
 	}
 	if (dh >= 1) {
-		time = dh + " hour" + pluralCheck(dh, false) + ", " + time;
+		time = dh + " hour" + pluralCheck(dh) + ", " + time;
 		seg++;
 	}
 	if (dd >= 1) {
-		time = dh + " day" + pluralCheck(dd, false) + ", " + time;
+		time = dh + " day" + pluralCheck(dd) + ", " + time;
 		seg++;
 	}
 	if (dmo >= 1) {
-		time = dh + " month" + pluralCheck(dmo, false) + ", " + time;
+		time = dh + " month" + pluralCheck(dmo) + ", " + time;
 		seg++;
 	}
 	if (dy >= 1) {
-		time = dh + " year" + pluralCheck(dy, false) + ", " + time;
+		time = dh + " year" + pluralCheck(dy) + ", " + time;
 		seg++;
 	}
 	if (seg == 2) {
@@ -433,8 +444,8 @@ function findTimeDisplay(ms) {
 	return time;
 }
 
-function pluralCheck(x, decimal) {
-	if (decimal) {
+function pluralCheck(x) {
+	if (isDecimal(x)) {
 		if (x.equal(1)) {
 			return "";
 		} else {
@@ -698,8 +709,13 @@ function updateUpg() {
 function updateStat() {
 	document.getElementById("timePlayed").innerHTML = findTimeDisplay(game.permaStat.timePlayed);
 	document.getElementById("highestNum").innerHTML = findDisplay(game.permaStat.highestNum);
-	document.getElementById("totalReset").innerHTML = findDisplay(game.permaStat.totalReset);
-	document.getElementById("plexalAmount").innerHTML = findDisplay(game.plexal.amount);
+	document.getElementById("totalReset").innerHTML = "You have reseted a total of " + findDisplay(game.permaStat.totalReset) + " time" + pluralCheck(game.permaStat.totalReset);
+	document.getElementById("plexalAmount").innerHTML = findDisplay(game.plexal.amount) + " time" + pluralCheck(game.plexal.amount);
+	if (game.permaStat.totalReset.greaterThan(0)) {
+		document.getElementById("totalReset").classList.remove('hidden');
+	} else {
+		document.getElementById("totalReset").classList.add('hidden');
+	}
 }
 
 function updateAuto() {
