@@ -281,12 +281,9 @@ function wipe() {
 	setTimeout(function() {
 		game = newGame();
 		save(true);
-		for (achieve in achievement.normal) {
-			document.getElementById(achievement.normal[achieve].alias + "Achieve").classList.add('hidden');
-		}
-		for (achieve in achievement.secret) {
-			document.getElementById(achievement.secret[achieve].alias + "Achieve").classList.add('hidden');
-		}
+		document.getElementById("achievement").querySelectorAll(".achievement").forEach(function(element) {
+			element.classList.add('hidden');
+		});
 		document.getElementById("openAchieveAchieve").classList.remove('hidden');
 		document.getElementById("unlock1Achieve").classList.remove('hidden');
 		document.getElementById("unlock2Achieve").classList.remove('hidden');
