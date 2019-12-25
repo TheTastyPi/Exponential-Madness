@@ -122,11 +122,15 @@ function importSave() {
 		try {
 			switch (save) {
 				case "export text":
-					achievement.secret.followInstruction.complete();
+					setTimeout(function() {
+						achievement.secret.followInstruction.complete();
+					}, 500)
 				break;
 				case "Thank you!":
 					if (game.achievement.completed[15]) {
-						achievement.secret.thanks.complete();
+						setTimeout(function() {
+							achievement.secret.thanks.complete();
+						}, 500)
 					} else {
 						secret = false;
 					}
