@@ -287,11 +287,11 @@ function wipe() {
 		for (achieve in achievement.secret) {
 			document.getElementById(achievement.secret[achieve].alias + "Achieve").classList.add('hidden');
 		}
-		document.getElementById("openAchieve").classList.remove('hidden');
-		document.getElementById("unlock1").classList.remove('hidden');
-		document.getElementById("unlock2").classList.remove('hidden');
-		document.getElementById("unlock3").classList.remove('hidden');
-		document.getElementById("unlock4").classList.remove('hidden');
+		document.getElementById("openAchieveAchieve").classList.remove('hidden');
+		document.getElementById("unlock1Achieve").classList.remove('hidden');
+		document.getElementById("unlock2Achieve").classList.remove('hidden');
+		document.getElementById("unlock3Achieve").classList.remove('hidden');
+		document.getElementById("unlock4Achieve").classList.remove('hidden');
 		doUpdate = true;
 	}, 50);
 }
