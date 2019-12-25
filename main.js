@@ -1027,7 +1027,7 @@ function Achievement(name, desc, alias, hidden, secret) {
 	let achBox = document.createElement("button");
 	achBox.id = this.alias + "AchieveBox";
 	achBox.classList.add('noHover');
-	achBox.classList.add('veryBig');
+	achBox.classList.add('achievement');
 	ach.appendChild(achBox);
 	
 	let nameText = document.createTextNode(this.name);
