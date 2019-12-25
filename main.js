@@ -153,7 +153,7 @@ function importSave() {
 
 // totally didn't copy this from somewhere else
 function objectToDecimal(object) { 
-	for (let i in object) {
+	for (i in object) {
 		if (typeof(object[i]) == "string" && !isNaN(new Decimal(object[i]).mag) && !(new Decimal(object[i]).sign == 0 && object[i] != "0")) {
 			object[i] = new Decimal(object[i]);
 		}
@@ -164,7 +164,7 @@ function objectToDecimal(object) {
 }
 
 function merge(base, source) {
-	for (let i in base) {
+	for (i in base) {
 		if (source[i] != undefined) {
 			if (typeof(base[i]) == "object" && typeof(source[i]) == "object" && !isDecimal(base[i]) && !isDecimal(source[i]) && base[i] != game.achievement) {
 				merge(base[i], source[i]);
@@ -714,7 +714,7 @@ function updateAuto() {
 }
 
 function updateAchievement() {
-	for (let achieve in achievement.normal) {
+	for (achieve in achievement.normal) {
 		let a = achievement.normal[achieve].alias;
 		if (game.achievement.normalCompleted.includes(a)) {
 			achieve.hidden = false;
@@ -730,7 +730,7 @@ function updateAchievement() {
 			document.getElementById(a + "Achieve").classList.remove('hidden');
 		}
 	}
-	for (let achieve in achievement.secret) {
+	for (achieve in achievement.secret) {
 		let a = achievement.secret[achieve].alias;
 		if (game.achievement.secretCompleted.includes(a)) {
 			achieve.hidden = false;
