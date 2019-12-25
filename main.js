@@ -718,32 +718,32 @@ function updateAchievement() {
 		let a = achievement.normal[achieve].alias;
 		if (game.achievement.normalCompleted.includes(a)) {
 			achieve.hidden = false;
-			document.getElementById(a + "Box").classList.remove('disabled');
-			document.getElementById(a + "Box").classList.add('enabled');
+			document.getElementById(a + "AchieveBox").classList.remove('disabled');
+			document.getElementById(a + "AchieveBox").classList.add('enabled');
 		} else {
-			document.getElementById(a + "Box").classList.remove('enabled');
-			document.getElementById(a + "Box").classList.add('disabled');
+			document.getElementById(a + "AchieveBox").classList.remove('enabled');
+			document.getElementById(a + "AchieveBox").classList.add('disabled');
 		}
 		if (achieve.hidden || (game.achievement.normalCompleted.includes(a) && game.achievement.hideCompleted)) {
-			document.getElementById(a).classList.add('hidden');
+			document.getElementById(a + "Achieve").classList.add('hidden');
 		} else {
-			document.getElementById(a).classList.remove('hidden');
+			document.getElementById(a + "Achieve").classList.remove('hidden');
 		}
 	}
 	for (let achieve in achievement.secret) {
 		let a = achievement.secret[achieve].alias;
 		if (game.achievement.secretCompleted.includes(a)) {
 			achieve.hidden = false;
-			document.getElementById(a + "Box").classList.remove('disabled');
-			document.getElementById(a + "Box").classList.add('enabled');
+			document.getElementById(a + "AchieveBox").classList.remove('disabled');
+			document.getElementById(a + "AchieveBox").classList.add('enabled');
 		} else {
-			document.getElementById(a + "Box").classList.remove('enabled');
-			document.getElementById(a + "Box").classList.add('disabled');
+			document.getElementById(a + "AchieveBox").classList.remove('enabled');
+			document.getElementById(a + "AchieveBox").classList.add('disabled');
 		}
 		if (achieve.hidden || (game.achievement.secretCompleted.includes(a) && game.achievement.hideCompleted)) {
-			document.getElementById(a).classList.add('hidden');
+			document.getElementById(a + "Achieve").classList.add('hidden');
 		} else {
-			document.getElementById(a).classList.remove('hidden');
+			document.getElementById(a + "Achieve").classList.remove('hidden');
 		}
 	}
 	if (game.achievement.hideCompleted) {
@@ -1012,7 +1012,7 @@ function Achievement(name, desc, alias, hidden, secret) {
 	}
 	
 	let ach = document.createElement("span");
-	ach.id = this.alias;
+	ach.id = this.alias + "Achieve";
 	if (this.secret) {
 		document.getElementById("secretAchieve").appendChild(ach);
 	} else {
@@ -1021,7 +1021,7 @@ function Achievement(name, desc, alias, hidden, secret) {
 	
 	ach.appendChild(document.createElement("br"));
 	let achBox = document.createElement("button");
-	achBox.id = this.alias + "Box";
+	achBox.id = this.alias + "AchieveBox";
 	achBox.classList.add('noHover');
 	achBox.classList.add('veryBig');
 	ach.appendChild(achBox);
@@ -1030,14 +1030,14 @@ function Achievement(name, desc, alias, hidden, secret) {
 	let big = document.createElement("span");
 	achBox.appendChild(big);
 	big.appendChild(nameText);
-	big.id = this.alias + "Name";
+	big.id = this.alias + "AchieveName";
 	
 	achBox.appendChild(document.createElement("br"));
 	let descText = document.createTextNode(this.desc); 
 	let small = document.createElement("span");
 	achBox.appendChild(small);
 	small.appendChild(descText);
-	small.id = this.alias + "Desc";
+	small.id = this.alias + "AchieveDesc";
 	small.style.fontSize = "10px";
 }
 
@@ -1052,7 +1052,7 @@ function createAchievements() {
 	new Achievement("Unlock Multiplier 2", "This is getting out of hand already.", "unlock2", false);
 	new Achievement("Unlock Multiplier 3", "Many people don't know how to count to 3, so good thing you do know.", "unlock3", false);
 	new Achievement("Unlock Multiplier 4", "Wait where's the 5th one?", "unlock4", false);
-	new Achievement("Unlock Multiplier 5", "Look, ma, one hand!", "unlock5");
+	new Achievement("Unlock Multiplier 5", "So this is where it was!", "unlock5");
 	new Achievement("Unlock Multiplier 6", "I couldn't think of a description for this one, so I'll just type my thought in.", "unlock6");
 	new Achievement("Unlock Multiplier 7", "7 is a number cannibal.", "unlock7");
 	new Achievement("Unlock Multiplier 8", "90 degrees to infini- wait we're already there.", "unlock8");
