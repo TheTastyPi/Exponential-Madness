@@ -81,6 +81,10 @@ button.veryBig {
   height: 75px;
   font-size: 20px;
 }
+button.achievement {
+  width: 75%;
+  height: 100px;
+}
 button.plexal {
   color: purple;
   border: 2px solid purple;
