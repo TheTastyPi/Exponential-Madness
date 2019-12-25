@@ -5,10 +5,11 @@
 var doUpdate = true;
 var lastFrame = 0;
 var lastSave = 0;
-window.requestAnimationFrame(nextFrame);
 
 var pastGame;
 var game = newGame();
+
+createAchievements();
 
 /************* 
  * GAME LOOP *
@@ -1066,6 +1067,6 @@ function createAchievements() {
 	new Achievement("Import export text", "You... did what I said... I guess?", "followInstruction", true, true);
 	new Achievement("Thanks", "I didn't expect that. Thank you for thanking me!", "thanks", true, true);
 }
-createAchievements();
 
 load(true);
+window.requestAnimationFrame(nextFrame);
