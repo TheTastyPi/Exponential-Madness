@@ -715,7 +715,7 @@ function updateAuto() {
 }
 
 function updateAchievement() {
-	achievement.normal.forEach(function(achieve) {
+	for (achieve in achievement.normal) {
 		let a = achieve.alias;
 		if (game.achievement.normalCompleted.includes(a)) {
 			achieve.hidden = false;
@@ -730,8 +730,8 @@ function updateAchievement() {
 		} else {
 			document.getElementById(a).classList.remove('hidden');
 		}
-	});
-	achievement.secret.forEach(function(achieve) {
+	}
+	for (achieve in achievement.secret) {
 		let a = achieve.alias;
 		if (game.achievement.secretCompleted.includes(a)) {
 			achieve.hidden = false;
@@ -746,7 +746,7 @@ function updateAchievement() {
 		} else {
 			document.getElementById(a).classList.remove('hidden');
 		}
-	});
+	}
 	if (game.achievement.hideCompleted) {
 		document.getElementById("hideCompletedButton").innerHTML = "Show Completed Achievements";
 	} else {
