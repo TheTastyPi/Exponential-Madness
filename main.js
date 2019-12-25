@@ -775,8 +775,8 @@ function updateAchievement() {
 	} else {
 		document.getElementById("hideCompletedButton").innerHTML = "Hide Completed Achievements";
 	}
-	document.getElementById("normalAchieveCount").innerHTML = game.achievement.normalCompleted.length + "/" + achievement.normal.length;
-	document.getElementById("secretAchieveCount").innerHTML = game.achievement.secretCompleted.length + "/" + achievement.secret.length;
+	document.getElementById("normalAchieveCount").innerHTML = game.achievement.normalCompleted.length + "/" + Object.keys(achievement.normal).length;
+	document.getElementById("secretAchieveCount").innerHTML = game.achievement.secretCompleted.length + "/" + Object.keys(achievement.secret).length;
 }
 
 function updateAll() {
