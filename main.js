@@ -724,7 +724,7 @@ function updateAchievement() {
 			document.getElementById(a.alias + "AchieveBox").classList.remove('enabled');
 			document.getElementById(a.alias + "AchieveBox").classList.add('disabled');
 		}
-		if (a.hidden || (game.achievement.normalCompleted.includes(a) && game.achievement.hideCompleted)) {
+		if (a.hidden || (game.achievement.normalCompleted.includes(a.alias) && game.achievement.hideCompleted)) {
 			document.getElementById(a.alias + "Achieve").classList.add('hidden');
 		} else {
 			document.getElementById(a.alias + "Achieve").classList.remove('hidden');
@@ -740,7 +740,7 @@ function updateAchievement() {
 			document.getElementById(a.alias + "AchieveBox").classList.remove('enabled');
 			document.getElementById(a.alias + "AchieveBox").classList.add('disabled');
 		}
-		if (a.hidden || (game.achievement.secretCompleted.includes(a) && game.achievement.hideCompleted)) {
+		if (a.hidden || (game.achievement.secretCompleted.includes(a.alias) && game.achievement.hideCompleted)) {
 			document.getElementById(a.alias + "Achieve").classList.add('hidden');
 		} else {
 			document.getElementById(a.alias + "Achieve").classList.remove('hidden');
