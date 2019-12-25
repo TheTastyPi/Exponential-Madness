@@ -281,8 +281,10 @@ function wipe() {
 	setTimeout(function() {
 		game = newGame();
 		save(true);
-		document.getElementById("achievement").querySelectorAll(".achievement").forEach(function(element) {
-			element.classList.add('hidden');
+		document.getElementById("achievement").querySelectorAll("span").forEach(function(element) {
+			if (element.id.endsWith("Achieve")) {
+				element.classList.add('hidden');
+			}
 		});
 		document.getElementById("openAchieveAchieve").classList.remove('hidden');
 		document.getElementById("unlock1Achieve").classList.remove('hidden');
