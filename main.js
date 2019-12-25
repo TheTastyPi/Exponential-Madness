@@ -446,7 +446,7 @@ function findTimeDisplay(ms) {
 
 function pluralCheck(x) {
 	if (isDecimal(x)) {
-		if (x.equal(1)) {
+		if (x.equals(1)) {
 			return "";
 		} else {
 			return "s";
@@ -775,6 +775,8 @@ function updateAchievement() {
 	} else {
 		document.getElementById("hideCompletedButton").innerHTML = "Hide Completed Achievements";
 	}
+	document.getElementById("normalAchieveCount").innerHTML = game.achievement.normalCompleted.length + "/" + achievement.normal.length;
+	document.getElementById("secretAchieveCount").innerHTML = game.achievement.secretCompleted.length + "/" + achievement.secret.length;
 }
 
 function updateAll() {
