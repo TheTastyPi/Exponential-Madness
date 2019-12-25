@@ -1,11 +1,11 @@
 # Change Log
-## v0.3: Wow, that's a lot - TBD
+## v0.3: i didnt name this one - TBD
 * Increased version number by an order of magnitute and then some because this update is just that big
 * Additions
   * Added new prestige layer: "Plexal"
     * Added new currency: "Plexal Essence"
     * Added the "Iterator"
-    * Added 6 plexal upgrades
+    * Added plexal upgrades
   * Added a tab system
   * Added hotkeys
   * Added dark theme
