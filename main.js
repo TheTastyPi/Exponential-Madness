@@ -282,10 +282,10 @@ function wipe() {
 		game = newGame();
 		save(true);
 		for (achieve in achievement.normal) {
-			document.getElementById(achievement.normal[achieve].alias).classList.add('hidden');
+			document.getElementById(achievement.normal[achieve].alias + "Achieve").classList.add('hidden');
 		}
 		for (achieve in achievement.secret) {
-			document.getElementById(achievement.secret[achieve].alias).classList.add('hidden');
+			document.getElementById(achievement.secret[achieve].alias + "Achieve").classList.add('hidden');
 		}
 		document.getElementById("openAchieve").classList.remove('hidden');
 		document.getElementById("unlock1").classList.remove('hidden');
