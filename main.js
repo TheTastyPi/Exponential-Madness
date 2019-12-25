@@ -119,11 +119,11 @@ function importSave() {
 		try {
 			switch (save) {
 				case "export text":
-					giveAchievement(1000);
+					achievement.secret.followInstruction.complete();
 				break;
 				case "Thank you!":
 					if (game.achievement.completed[15]) {
-						giveAchievement(1001);
+						achievement.secret.thanks.complete();
 					} else {
 						secret = false;
 					}
@@ -253,7 +253,7 @@ function newGame() {
 			unlocked: false
 		},
 		achievement: {
-			completed: [],
+			normalCompleted: [],
 			secretCompleted: [],
 			hideCompleted: false
 		},
@@ -334,7 +334,7 @@ function toTab(tab) {
 	});
 	document.getElementById(tab).classList.remove('hidden');
 	if (tab == 'achievement') {
-		giveAchievement(0);
+		achievement.normal.openAchieve.complete();
 	}
 }
 
@@ -352,7 +352,7 @@ function updateTab() {
 	}
 	if (game.auto.unlocked) {
 		document.getElementById("autoTabButton").classList.remove('hidden');
-		giveAchievement(15);
+		achievement.normal.startAuto.complete();
 	}
 }
 
@@ -511,7 +511,7 @@ function updateMult() {
 			if (i != m.maxMult) {
 				document.getElementById("mult"+(i+1)).classList.remove('hidden');
 			}
-			giveAchievement(i);
+			achievement.normal.["unlock" + i].complete();
 		}
 		if (game.number.greaterThanOrEqualTo(m.cost[i])) {
 			document.getElementById("multButton" + i).classList.remove('disabled');
@@ -535,6 +535,13 @@ function updateReset() {
 	if (game.reset.amount.greaterThan(new Decimal(0))
 	   || game.number.greaterThan(Decimal.fromComponents(1, 2, 8))) {
 		game.reset.unlocked = true;
+		achievement.normal.reset.hidden = false;
+		achievement.normal.unlock5.hidden = false;
+	}
+	for (let i = 0; i < 5; i++) {
+		if (game.reset.amount.greaterThan(new Decimal(i))) {
+			achievement.normal.["unlock" + (i+6)].hidden = false;
+		}
 	}
 	if (game.reset.unlocked == true) {
 		document.getElementById("reset").classList.remove('hidden');
@@ -570,11 +577,14 @@ function updatePlexal() {
 	}
 	if (game.plexal.amount.greaterThan(new Decimal(0))) {
 		document.getElementById("plexalTabButton").classList.remove('hidden');
+		achievement.normal.inflate.hidden = false;
+		achievement.normal.startAuto.hidden = false;
 	} else {
 		document.getElementById("plexalTabButton").classList.add('hidden');
 	}
 	if (game.plexal.unlocked == true) {
 		document.getElementById("plexButton").classList.remove('hidden');
+		achievement.normal.plexal.hidden = false;
 	} else {
 		document.getElementById("plexButton").classList.add('hidden');
 	}
@@ -705,34 +715,36 @@ function updateAuto() {
 }
 
 function updateAchievement() {
-	achievementList.forEach(function(achieve) {
-		if (game.achievement.completed[achieve.id]) {
+	achievement.normal.forEach(function(achieve) {
+		let a = achieve.alias;
+		if (game.achievement.normalCompleted.includes(a)) {
 			achieve.hidden = false;
-			document.getElementById("achievement" + achieve.id + "Box").classList.remove('disabled');
-			document.getElementById("achievement" + achieve.id + "Box").classList.add('enabled');
+			document.getElementById(a + "Box").classList.remove('disabled');
+			document.getElementById(a + "Box").classList.add('enabled');
 		} else {
-			document.getElementById("achievement" + achieve.id + "Box").classList.remove('enabled');
-			document.getElementById("achievement" + achieve.id + "Box").classList.add('disabled');
+			document.getElementById(a + "Box").classList.remove('enabled');
+			document.getElementById(a + "Box").classList.add('disabled');
 		}
-		if (achieve.hidden || (game.achievement.completed[achieve.id] && game.achievement.hideCompleted)) {
-			document.getElementById("achievement" + achieve.id).classList.add('hidden');
+		if (achieve.hidden || (game.achievement.normalCompleted.includes(a) && game.achievement.hideCompleted)) {
+			document.getElementById(a).classList.add('hidden');
 		} else {
-			document.getElementById("achievement" + achieve.id).classList.remove('hidden');
+			document.getElementById(a).classList.remove('hidden');
 		}
 	});
-	secretAchievementList.forEach(function(achieve) {
-		if (game.achievement.secretCompleted[achieve.id - 1000]) {
+	achievement.secret.forEach(function(achieve) {
+		let a = achieve.alias;
+		if (game.achievement.secretCompleted.includes(a)) {
 			achieve.hidden = false;
-			document.getElementById("achievement" + achieve.id + "Box").classList.remove('disabled');
-			document.getElementById("achievement" + achieve.id + "Box").classList.add('enabled');
+			document.getElementById(a + "Box").classList.remove('disabled');
+			document.getElementById(a + "Box").classList.add('enabled');
 		} else {
-			document.getElementById("achievement" + achieve.id + "Box").classList.remove('enabled');
-			document.getElementById("achievement" + achieve.id + "Box").classList.add('disabled');
+			document.getElementById(a + "Box").classList.remove('enabled');
+			document.getElementById(a + "Box").classList.add('disabled');
 		}
-		if (achieve.hidden || (game.achievement.secretCompleted[achieve.id - 1000] && game.achievement.hideCompleted)) {
-			document.getElementById("achievement" + achieve.id).classList.add('hidden');
+		if (achieve.hidden || (game.achievement.secretCompleted.includes(a) && game.achievement.hideCompleted)) {
+			document.getElementById(a).classList.add('hidden');
 		} else {
-			document.getElementById("achievement" + achieve.id).classList.remove('hidden');
+			document.getElementById(a).classList.remove('hidden');
 		}
 	});
 	if (game.achievement.hideCompleted) {
@@ -747,7 +759,7 @@ function updateAll() {
 		game.permaStat.highestNum = game.number;
 	}
 	if (game.number.greaterThan(Decimal.fromComponents(1, 3, 20))) {
-		
+		achievement.normal.inflate.complete();
 	}
 	document.getElementById("multPerSecond").innerHTML = findDisplay(game.mult.generation[1]);
 	document.getElementById("number").innerHTML = findDisplay(game.number);
@@ -846,7 +858,7 @@ function reset(level) {
 				game.mult = newGame().mult;
 				game.reset.amount = game.reset.amount.add(1);
 				game.permaStat.totalReset = game.permaStat.totalReset.add(1);
-				giveAchievement(11);
+				achievement.normal.reset.complete();
 			}
 		break;
 		case 1:
@@ -861,7 +873,7 @@ function reset(level) {
 				game.plexal.amount = game.plexal.amount.add(1);
 				game.permaStat.totalPlexal = game.permaStat.totalPlexal.add(1);
 				game.plexal.essence = game.plexal.essence.add(game.plexal.gain);
-				giveAchievement(12);
+				achievement.normal.plexal.complete();
 			}
 		break;
 	}
@@ -884,7 +896,7 @@ function maxReset() {
 			game.mult = newGame().mult;
 			game.reset.amount = game.reset.amount.add(buyAmount);
 			game.permaStat.totalReset = game.permaStat.totalReset.add(buyAmount);
-			giveAchievement(11);
+			achievement.normal.reset.complete();
 		}
 	}
 }
@@ -945,9 +957,6 @@ function buyUpgrade(n, type) {
 			   game.plexal.upgrade.unlocked[n-1] == true) {
 				game.plexal.essence = game.plexal.essence.sub(game.plexal.upgrade.cost[n]);
 				game.plexal.upgrade.unlocked[n] = true;
-				if (n == 6) {
-					giveAchievement(13);
-				}
 			}
 		break;
 	}
@@ -968,50 +977,52 @@ function unlockAuto(n) {
  * ACHIEVEMENTS *
  ****************/
 
-var achievementList = [];
-var secretAchievementList = [];
-var nextAchieveId = 0;
+const achievement = {
+	normal:{},
+	secret:{}
+};
 
-function Achievement(name, desc, hidden) {
+function Achievement(name, desc, alias, hidden, secret) {
 	this.name = name;
 	this.desc = desc;
-	this.id = nextAchieveId;
+	this.alias = alias;
+	this.secret = false;
 	this.hidden = true;
-	this.isSecret = false;
+	if (secret == true) {
+		this.secret = true;
+	}
 	if (hidden == false) {
 		this.hidden = false;
 	}
-	if (this.id > 999) {
-		this.isSecret = true;
-	}
-	if (this.isSecret) {
-		secretAchievementList.push(this);
+	if (this.secret) {
+		achievement.secret.[alias] = this;
 		this.complete = function() {
-			if (game.achievement.secretCompleted[this.id - 1000] != true) {
-				game.achievement.secretCompleted[this.id - 1000] = true;
+			if (!game.achievement.secretCompleted.includes(this.alias)) {
+				game.achievement.secretCompleted.push(this.alias);
 				notify("Achievement Completed:", this.name);
 			}
 		}
 	} else {
-		achievementList.push(this);
+		achievement.normal.[alias] = this;
 		this.complete = function() {
-			if (game.achievement.completed[this.id] != true) {
-				game.achievement.completed[this.id] = true;
+			if (!game.achievement.normalCompleted.includes(this.alias)) {
+				game.achievement.normalCompleted.push(this.alias);
 				notify("Achievement Completed:", this.name);
 			}
 		}
 	}
 	
 	let ach = document.createElement("span");
-	ach.id = "achievement" + this.id;
-	if (this.isSecret) {
+	ach.id = this.alias;
+	if (this.secret) {
 		document.getElementById("secretAchieve").appendChild(ach);
 	} else {
 		document.getElementById("normalAchieve").appendChild(ach);
 	}
+	
 	ach.appendChild(document.createElement("br"));
 	let achBox = document.createElement("button");
-	achBox.id = "achievement" + this.id + "Box";
+	achBox.id = this.alias + "Box";
 	achBox.classList.add('noHover');
 	achBox.classList.add('veryBig');
 	ach.appendChild(achBox);
@@ -1020,27 +1031,15 @@ function Achievement(name, desc, hidden) {
 	let big = document.createElement("span");
 	achBox.appendChild(big);
 	big.appendChild(nameText);
-	big.id = "achievement" + this.id + "Name";
+	big.id = this.alias + "Name";
 	
 	achBox.appendChild(document.createElement("br"));
 	let descText = document.createTextNode(this.desc); 
 	let small = document.createElement("span");
 	achBox.appendChild(small);
 	small.appendChild(descText);
-	small.id = "achievement" + this.id + "Desc";
+	small.id = this.alias + "Desc";
 	small.style.fontSize = "10px";
-	
-	nextAchieveId++;
-}
-
-function giveAchievement(id) {
-	setTimeout(function() {
-		if (id < 1000) {
-			achievementList[id].complete();
-		} else {
-			secretAchievementList[id - 1000].complete();
-		}
-	}, 100);
 }
 
 function hideCompleted() {
@@ -1048,28 +1047,24 @@ function hideCompleted() {
 }
 
 function createAchievements() {
-	achievementList = [];
-	secretAchievementList = [];
-	nextAchieveId = 0;
-	new Achievement("Open the Achievements Tab", "Hi, I exist.", false); //0
-	new Achievement("Unlock Multiplier 1", "It begins.", false); //1
-	new Achievement("Unlock Multiplier 2", "This is getting out of hand already.", false); //2
-	new Achievement("Unlock Multiplier 3", "Many people don't know how to count to 3, so good thing you do know.", false); //3
-	new Achievement("Unlock Multiplier 4", "Wait where's the 5th one?", false); //4
-	new Achievement("Unlock Multiplier 5", "Look, ma, one hand!"); //5
-	new Achievement("Unlock Multiplier 6", "I couldn't think of a description for this one, so I'll just type my thought in."); //6
-	new Achievement("Unlock Multiplier 7", "Number cannibal."); //7
-	new Achievement("Unlock Multiplier 8", "90 degrees to infini- wait we're already there."); //8
-	new Achievement("Unlock Multiplier 9", "Good thing these aren't dimensions."); //9
-	new Achievement("Unlock Multiplier 10", "Oops, you hit the ceiling. That must have hurt."); //10
-	new Achievement("Reset", "Backtracking, fun!"); //11
-	new Achievement("Plexal", "You've reached a googolplex. It perplexes many, but not you of course."); //12
-	new Achievement("Unlock All Plexal Upgrades", "I feel... powerful."); //13
-	new Achievement("Inflate", "It's fine! It's fine! Stay calm! I said stay calm god dammit!"); //14
-	new Achievement("Unlock Automation", "I've removed some displays that isn't useful anymore because of this inflation that's going on. You better thank me now."); //15
-	nextAchieveId = 1000; // 1000+ for secrets
-	new Achievement("Import export text", "You... did what I said... I guess?"); //1000
-	new Achievement("Thanks", "I didn't expect that. Thank you for thanking me!"); //1001
+	// (name, desc, alias, [hidden?](default: true), [secret?](default: false))
+	new Achievement("Open the Achievements Tab", "Hi, I exist.", "openAchieve", false);
+	new Achievement("Unlock Multiplier 1", "It begins.", "unlock1", false);
+	new Achievement("Unlock Multiplier 2", "This is getting out of hand already.", "unlock2", false);
+	new Achievement("Unlock Multiplier 3", "Many people don't know how to count to 3, so good thing you do know.", "unlock3", false);
+	new Achievement("Unlock Multiplier 4", "Wait where's the 5th one?", "unlock4", false);
+	new Achievement("Unlock Multiplier 5", "Look, ma, one hand!", "unlock5");
+	new Achievement("Unlock Multiplier 6", "I couldn't think of a description for this one, so I'll just type my thought in.", "unlock6");
+	new Achievement("Unlock Multiplier 7", "7 is a number cannibal.", "unlock7");
+	new Achievement("Unlock Multiplier 8", "90 degrees to infini- wait we're already there.", "unlock8");
+	new Achievement("Unlock Multiplier 9", "Good thing these aren't dimensions.", "unlock9");
+	new Achievement("Unlock Multiplier 10", "Oops, you hit the ceiling. That must have hurt.", "unlock10");
+	new Achievement("Reset", "Backtracking, fun!", "reset");
+	new Achievement("Plexal", "You've reached a googolplex. It perplexes many, but not you of course.", "plexal");
+	new Achievement("Inflate", "It's fine! It's fine! Stay calm! I said stay calm god dammit!", "inflate");
+	new Achievement("Start Automation", "I've removed some displays that isn't useful anymore because of this inflation that's going on. You better thank me now.", "startAuto");
+	new Achievement("Import export text", "You... did what I said... I guess?", "followInstruction", true, true);
+	new Achievement("Thanks", "I didn't expect that. Thank you for thanking me!", "thanks", true, true);
 }
 createAchievements();
 
