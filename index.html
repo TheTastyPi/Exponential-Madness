@@ -27,7 +27,7 @@
     <button type="button" class="veryBig hidden plexal" onclick="toTab('plexal')" id="plexalTabButton">
       Plexal
     </button>
-    <button type="button" style="font-size:13px" class="veryBig hidden plexal" onclick="reset(1)" id="plexButton">
+    <button type="button" style="font-size:13px" class="veryBig hidden plexal" onclick="plexal()" id="plexButton">
       ???
       <br>
       Requires: ee100
@@ -38,7 +38,7 @@
     <br>
     <br>
     Multiplying by <span id="multPerSecond"> 1 </span> every second
-    <button type="button" onclick="maxAll('normal')">
+    <button type="button" onclick="maxAll()">
       Max All
     </button>
     <br>
@@ -56,7 +56,7 @@
       <span id="mult1">
         <span id="multPower1"> ^1 </span>
         Multiplier 1: <span id="multAmount1"> 1 </span>
-        <button type="button" onclick="buyMult(1, 'normal')" id="multButton1">
+        <button type="button" onclick="buyMult(1)" id="multButton1">
           Unlock Multiplier 1 Cost: 10
         </button>
       </span>
@@ -64,7 +64,7 @@
         <br>
         <span id="multPower2"> ^1 </span>
         Multiplier 2: <span id="multAmount2"> 1 </span>
-        <button type="button" onclick="buyMult(2, 'normal')" id="multButton2">
+        <button type="button" onclick="buyMult(2)" id="multButton2">
           Unlock Multiplier 2 Cost: 1e10
         </button>
       </span>
@@ -72,7 +72,7 @@
         <br>
         <span id="multPower3"> ^1 </span>
         Multiplier 3: <span id="multAmount3"> 1 </span>
-        <button type="button" onclick="buyMult(3, 'normal')"  id="multButton3">
+        <button type="button" onclick="buyMult(3)"  id="multButton3">
           Unlock Multiplier 3 Cost: e1000
         </button>
       </span>
@@ -80,7 +80,7 @@
         <br>
         <span id="multPower4"> ^1 </span>
         Multiplier 4: <span id="multAmount4"> 1 </span>
-        <button type="button" onclick="buyMult(4, 'normal')" id="multButton4">
+        <button type="button" onclick="buyMult(4)" id="multButton4">
           Unlock Multiplier 4 Cost: e1e5
         </button>
       </span>
@@ -88,7 +88,7 @@
         <br>
         <span id="multPower5"> ^1 </span>
         Multiplier 5: <span id="multAmount5"> 1 </span>
-        <button type="button" onclick="buyMult(5, 'normal')" id="multButton5">
+        <button type="button" onclick="buyMult(5)" id="multButton5">
           Unlock Multiplier 5 Cost: e1e5
         </button>
       </span>
@@ -96,7 +96,7 @@
         <br>
         <span id="multPower6"> ^1 </span>
         Multiplier 6: <span id="multAmount6"> 1 </span>
-        <button type="button" onclick="buyMult(6, 'normal')" id="multButton6">
+        <button type="button" onclick="buyMult(6)" id="multButton6">
           Unlock Multiplier 6 Cost: e1e5
         </button>
       </span>
@@ -104,7 +104,7 @@
         <br>
         <span id="multPower7"> ^1 </span>
         Multiplier 7: <span id="multAmount7"> 1 </span>
-        <button type="button" onclick="buyMult(7, 'normal')" id="multButton7">
+        <button type="button" onclick="buyMult(7)" id="multButton7">
           Unlock Multiplier 7 Cost: e1e5
         </button>
       </span>
@@ -112,7 +112,7 @@
         <br>
         <span id="multPower8"> ^1 </span>
         Multiplier 8: <span id="multAmount8"> 1 </span>
-        <button type="button" onclick="buyMult(8, 'normal')" id="multButton8">
+        <button type="button" onclick="buyMult(8)" id="multButton8">
           Unlock Multiplier 8 Cost: e1e5
         </button>
       </span>
@@ -120,7 +120,7 @@
         <br>
         <span id="multPower9"> ^1 </span>
         Multiplier 9: <span id="multAmount9"> 1 </span>
-        <button type="button" onclick="buyMult(9, 'normal')" id="multButton9">
+        <button type="button" onclick="buyMult(9)" id="multButton9">
           Unlock Multiplier 9 Cost: e1e5
         </button>
       </span>
@@ -128,7 +128,7 @@
         <br>
         <span id="multPower10"> ^1 </span>
         Multiplier 10: <span id="multAmount10"> 1 </span>
-        <button type="button" onclick="buyMult(10, 'normal')" id="multButton10">
+        <button type="button" onclick="buyMult(10)" id="multButton10">
           Unlock Multiplier 10 Cost: e1e5
         </button>
       </span>
@@ -137,8 +137,11 @@
         <br>
         <span id="resetPower"> ^1 </span>
         Reset: <span id="resetAmount"> 0 </span>
-        <button type="button" onclick="reset(0)" id="resetButton"> 
+        <button type="button" onclick="reset()" id="resetButton"> 
           Reset the game for a new multiplier Requires: ee11
+        </button>
+        <button type="button" class="hidden" onclick="maxReset()" id="maxResetButton">
+          Max Reset
         </button>
       </span>
     </span>
@@ -214,12 +217,27 @@
       <button type="button" class="big warning" onclick="wipeConfirm()">
         WIPE SAVE
       </button>
+      <br>
+      <span style="font-size: 10px">
+        Hotkeys:
+        <br>Hold Shift to Max (if applicable)
+        <br>Numbers: Multiplier upgrades
+        <br>M: Max all
+        <span id="hotkeyReset"><br>R: Reset</span>
+        <span id="hotkeyPlexal"><br>P: Plexal
+        <br>I: Iterate</span>
+      </span>
     </span>
     <span class="hidden tab" id="auto">
-      <button type="button" onclick="unlockAuto(0)" id="autoButton0">
-        Unlock Auto Max All
+      <button type="button" onclick="toggleAuto('mult')" id="autoMultButton">
+        Auto Multiplier Upgrade
         <br>
-        Cost: ee100 plexal essence
+        ON
+      </button>
+      <button type="button" onclick="toggleAuto('iterate')" id="autoIterateButton">
+        Auto Iterate
+        <br>
+        ON
       </button>
     </span>
     <span class="hidden tab" id="plexal">
@@ -297,6 +315,22 @@
           Current: x<span id="plexalUpg6Boost">1</span>
           <br>
           Cost: 15 Plexal Essence
+        </button>
+        <br>
+        <button type="button" style="font-size:12px;" class="veryBig" onclick="buyUpgrade(7, 'plexal')" id="plexalUpg7">
+          Unlock automation
+          <br>
+          Cost: ee200 Plexal Essence
+        </button>
+        <button type="button" style="font-size:12px;" class="veryBig" onclick="buyUpgrade(8, 'plexal')" id="plexalUpg8">
+          Resets also boost iterator upgrades
+          <br>
+          Cost: eee10 Plexal Essence
+        </button>
+        <button type="button" style="font-size:12px;" class="veryBig" onclick="buyUpgrade(9, 'plexal')" id="plexalUpg9">
+          You can now max reset
+          <br>
+          Cost: eee10 Plexal Essence
         </button>
       </span>
     </span>
