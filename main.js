@@ -717,7 +717,6 @@ function updateAuto() {
 		document.getElementById("autoMultButton").innerHTML ="Auto Iterate/nOFF"
 	}
 }
-}
 
 function updateAchievement() {
 	for (achieve in achievement.normal) {
