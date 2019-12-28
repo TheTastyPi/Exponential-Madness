@@ -238,7 +238,7 @@ function newGame() {
 			gain: new Decimal(0),
 			essence: new Decimal(0),
 			upgrade: {
-				cost: ["lol", new Decimal(1), new Decimal(2), new Decimal(1), new Decimal(3), new Decimal(8), new Decimal(15), Decimal.fromComponents(1, 2, 200), Decimal.fromComponents(1, 3, 10), Decimal.fromComponents(1, 3, 10)],
+				cost: ["lol", new Decimal(1), new Decimal(2), new Decimal(1), new Decimal(3), new Decimal(8), new Decimal(15), Decimal.fromComponents(1, 2, 200), Decimal.fromComponents(1, 3, 3), Decimal.fromComponents(1, 3, 10)],
 				unlocked: [true, false, false, false, false, false, false, false, false, false],
 				boost: ["lol", new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(0), new Decimal(1)]
 			},
