@@ -1,4 +1,8 @@
 # Change Log
+## v0.301: Mini-Bug Fix - December 28th, 2019
+* Fixed two bugs related to Edge
+  * One related to catch()
+  * One related to :scope
 ## v0.3: Biggest Update Thus Far - December 28th, 2019
 * Increased version number by an order of magnitute and then some because this update is just that big
 * Additions
