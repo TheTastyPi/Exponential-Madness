@@ -83,17 +83,20 @@ function load(auto) {
 	if (localStorage.getItem('emsave')) {
 		pastGame = JSON.parse(localStorage.getItem('emsave'));
 		objectToDecimal(pastGame);
-			if (pastGame.permaStat != undefined) {
-				if (pastGame.permaStat.version == undefined || pastGame.permaStat.version < newGame().permaStat.version) {
-					setTimeout(function() {
-						notify('Welcome to version ' + newGame().permaStat.version + '!');
-					}, 1000)
-				}
-			} else {
+		if (pastGame.permaStat != undefined) {
+			if (pastGame.permaStat.version == undefined || pastGame.permaStat.version < newGame().permaStat.version) {
 				setTimeout(function() {
 					notify('Welcome to version ' + newGame().permaStat.version + '!');
 				}, 1000)
 			}
+			if (pastGame.permaStat.endgame != newGame().permaStat.endgame && pastGame.achievement.normalCompleted.includes("endgame")) {
+				pastGame.achievement.normalCompleted.splice(pastGame.achievement.normalCompleted.indexOf("endgame"), 1);
+			}
+		} else {
+			setTimeout(function() {
+				notify('Welcome to version ' + newGame().permaStat.version + '!');
+			}, 1000)
+		}
 		merge(game, pastGame);
 		game.permaStat.version = newGame().permaStat.version;
 		if(!auto) {
@@ -198,6 +201,7 @@ function newGame() {
 	let save = {
 		permaStat: {
 			version: 0.3,
+			endgame: Decimal.fromComponents(1, 5, 1),
 			timePlayed: 0,
 			highestNum: new Decimal(10),
 			totalReset: new Decimal(0),
@@ -569,6 +573,8 @@ function updatePlexal() {
 		document.getElementById("plexalTabButton").classList.remove('hidden');
 		achievement.normal.inflate.hidden = false;
 		achievement.normal.startAuto.hidden = false;
+		achievement.normal.googolduplex.hidden = false;
+		achievement.normal.googoltriplex.hidden = false;
 	} else {
 		document.getElementById("plexalTabButton").classList.add('hidden');
 	}
@@ -766,8 +772,14 @@ function updateAll() {
 	if (game.number.greaterThan(game.permaStat.highestNum)){
 		game.permaStat.highestNum = game.number;
 	}
+	if (game.number.greaterThan(game.permaStat.endgame)) {
+		achievement.normal.endgame.complete();
+	}
 	if (game.number.greaterThan(Decimal.fromComponents(1, 3, 20))) {
 		achievement.normal.inflate.complete();
+	}
+	if (game.number.greaterThan(Decimal.fromComponents(1, 3, 100))) {
+		achievement.normal.googolduplex.complete();
 	}
 	document.getElementById("multPerSecond").innerHTML = findDisplay(game.mult.generation[1]);
 	document.getElementById("number").innerHTML = findDisplay(game.number);
@@ -854,7 +866,6 @@ function maxAllMult() {
 	maxMult(8);
 	maxMult(9);
 	maxMult(10);
-	
 }
 
 function maxAll() {
@@ -1141,9 +1152,12 @@ function createAchievements() {
 	new Achievement("Reset", "Backtracking, fun!", "reset");
 	new Achievement("Plexal", "You've reached a googolplex. It perplexes many, but not you of course.", "plexal");
 	new Achievement("Inflate", "It's fine! It's fine! Stay calm! I said stay calm god dammit!", "inflate");
-	new Achievement("Start Automation", "I've removed some displays that isn't useful anymore because of this inflation that's going on. You better thank me now.", "startAuto");
+	new Achievement("Start Automation", "I've finally added automation. You better thank me now.", "startAuto");
 	new Achievement("Import export text", "You... did what I said... I guess?", "followInstruction", true, true);
 	new Achievement("Thanks", "I didn't expect that. Thank you for thanking me!", "thanks", true, true);
+	new Achievement("Reach a Googolduplex", "Super-duper-duplex", "googolduplex");
+	// new Achievement("Reach a Googoltriplex", "Thri", "googoltriplex");
+	new Achievement("Reach the current endgame", "You will lose this achievement if the endgame gets changed, but anyway, this is the endgame now", "endgame");
 }
 
 createAchievements();
