@@ -697,9 +697,11 @@ function updateStat() {
 
 function updateAuto() {
 	if (game.plexal.upgrade.unlocked[7]) {
+		game.auto.tabUnlocked = true;
 		game.auto.unlocked[0] = true;
 		game.auto.unlocked[1] = true;
 	} else {
+		game.auto.tabUnlocked = false;
 		game.auto.unlocked[0] = false;
 		game.auto.unlocked[1] = false;
 	}
