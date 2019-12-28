@@ -711,9 +711,9 @@ function updateAuto() {
 		document.getElementById("autoMultButton").innerHTML ="Auto Multiplier Upgrade\nOFF"
 	}
 	if (game.auto.on[1]) {
-		document.getElementById("autoMultButton").innerHTML ="Auto Iterate\nON"
+		document.getElementById("autoIterateButton").innerHTML ="Auto Iterate\nON"
 	} else {
-		document.getElementById("autoMultButton").innerHTML ="Auto Iterate\nOFF"
+		document.getElementById("autoIterateButton").innerHTML ="Auto Iterate\nOFF"
 	}
 }
 
