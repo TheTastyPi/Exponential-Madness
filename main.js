@@ -706,14 +706,14 @@ function updateAuto() {
 		game.auto.unlocked[1] = false;
 	}
 	if (game.auto.on[0]) {
-		document.getElementById("autoMultButton").innerHTML ="Auto Multiplier Upgrade\nON"
+		document.getElementById("autoMultButton").innerHTML ="Auto Multiplier Upgrade \n ON"
 	} else {
-		document.getElementById("autoMultButton").innerHTML ="Auto Multiplier Upgrade\nOFF"
+		document.getElementById("autoMultButton").innerHTML ="Auto Multiplier Upgrade \n OFF"
 	}
 	if (game.auto.on[1]) {
-		document.getElementById("autoIterateButton").innerHTML ="Auto Iterate\nON"
+		document.getElementById("autoIterateButton").innerHTML ="Auto Iterate \n ON"
 	} else {
-		document.getElementById("autoIterateButton").innerHTML ="Auto Iterate\nOFF"
+		document.getElementById("autoIterateButton").innerHTML ="Auto Iterate \n OFF"
 	}
 }
 
