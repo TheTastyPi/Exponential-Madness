@@ -205,8 +205,8 @@ function newGame() {
 		},
 		auto: {
 			tabUnlocked: false,
-			on: [false],
-			unlocked: [false]
+			on: [false, false],
+			unlocked: [false, false]
 		},
 		number: new Decimal(10),
 		mult: {
@@ -332,9 +332,6 @@ function updateTab() {
 		if (!document.getElementById("plexalStat").classList.contains('hidden')) {
 			toTab('normalStat');
 		}
-	}
-	if (game.plexal.essence.greaterThan(Decimal.fromComponents(1, 2, 50))) {
-		game.auto.tabUnlocked = true;
 	}
 	if (game.auto.tabUnlocked) {
 		document.getElementById("autoTabButton").classList.remove('hidden');
@@ -707,14 +704,14 @@ function updateAuto() {
 		game.auto.unlocked[1] = false;
 	}
 	if (game.auto.on[0]) {
-		document.getElementById("autoMultButton").innerHTML ="Auto Multiplier Upgrade/nON"
+		document.getElementById("autoMultButton").innerHTML ="Auto Multiplier Upgrade\nON"
 	} else {
-		document.getElementById("autoMultButton").innerHTML ="Auto Multiplier Upgrade/nOFF"
+		document.getElementById("autoMultButton").innerHTML ="Auto Multiplier Upgrade\nOFF"
 	}
 	if (game.auto.on[1]) {
-		document.getElementById("autoMultButton").innerHTML ="Auto Iterate/nON"
+		document.getElementById("autoMultButton").innerHTML ="Auto Iterate\nON"
 	} else {
-		document.getElementById("autoMultButton").innerHTML ="Auto Iterate/nOFF"
+		document.getElementById("autoMultButton").innerHTML ="Auto Iterate\nOFF"
 	}
 }
 
@@ -965,6 +962,10 @@ function buyUpgrade(n, type) {
 			}
 		break;
 	}
+}
+
+function toggleAuto(n) {
+	game.auto.on[n] = !game.auto.on[n];
 }
 
 /*********** 
