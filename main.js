@@ -206,7 +206,7 @@ function isDecimal(x) {
 function newGame() {
 	let save = {
 		permaStat: {
-			version: 0.3,
+			version: 0.301,
 			endgame: Decimal.fromComponents(1, 5, 1),
 			timePlayed: 0,
 			highestNum: new Decimal(10),
