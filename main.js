@@ -148,7 +148,7 @@ function importSave() {
 				break;
 			}
 		}
-		catch {
+		catch(why) {
 			err = true;
 			document.getElementById("importButton").innerHTML = "Invalid Save";
 			
