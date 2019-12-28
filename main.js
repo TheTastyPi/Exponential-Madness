@@ -89,7 +89,7 @@ function load(auto) {
 					notify('Welcome to version ' + newGame().permaStat.version + '!');
 				}, 1000)
 			}
-			if (pastGame.permaStat.endgame != newGame().permaStat.endgame && pastGame.achievement.normalCompleted.includes("endgame")) {
+			if (pastGame.permaStat.endgame.notEquals(newGame().permaStat.endgame) && pastGame.achievement.normalCompleted.includes("endgame")) {
 				pastGame.achievement.normalCompleted.splice(pastGame.achievement.normalCompleted.indexOf("endgame"), 1);
 			}
 		} else {
