@@ -760,6 +760,9 @@ function updateAchievement() {
 }
 
 function updateAll() {
+	if (game.number.lessThanOrEqualTo(1)) {
+		game.number = new Decimal(10);
+	}
 	if (game.number.greaterThan(game.permaStat.highestNum)){
 		game.permaStat.highestNum = game.number;
 	}
