@@ -133,7 +133,7 @@ function importSave() {
 					}, 500)
 				break;
 				case "Thank you!":
-					if (game.achievement.completed[15]) {
+					if (game.achievement.normalCompleted.includes("startAuto")) {
 						setTimeout(function() {
 							achievement.secret.thanks.complete();
 						}, 500)
