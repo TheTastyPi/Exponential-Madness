@@ -875,7 +875,7 @@ function reset() {
 function maxReset() {
 	if (game.reset.unlocked == true) {
 		let num = game.number.log10().log10();
-		num.mag = num.mag*0.999;
+		num.mag = num.mag*0.99999;
 		let startCost = game.reset.cost.log10().log10();
 		if (num.greaterThanOrEqualTo(startCost)) {
 			let baseCost = game.reset.baseCost.log10().log10();
@@ -927,7 +927,7 @@ function iterate() {
 function maxIterate() {
 	if (game.iterator.unlocked == true) {
 		let num = game.number.log10().log10();
-		num.mag = num.mag*0.999;
+		num.mag = num.mag*0.99999;
 		let startCost = game.iterator.cost.log10().log10();
 		if (num.greaterThanOrEqualTo(startCost)) {
 			let increase = game.iterator.costIncrease.log10();
@@ -949,7 +949,7 @@ function upgradeIterator() {
 
 function maxUpgradeIterator() {
 	let PE = game.plexal.essence.log10().log10();
-	PE.mag = PE.mag*0.999;
+	PE.mag = PE.mag*0.99999;
 	let startCost = game.iterator.upgrade.cost.log10().log10();
 	if (PE.greaterThanOrEqualTo(startCost)) {
 		let increase = game.iterator.upgrade.costIncrease.log10();
