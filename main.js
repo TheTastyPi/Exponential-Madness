@@ -1137,26 +1137,26 @@ function hideCompleted() {
 
 function createAchievements() {
 	// (name, desc, alias, [hidden?](default: true), [secret?](default: false))
-	new Achievement("Open the Achievements Tab", "Hi, I exist.", "openAchieve", false);
+	new Achievement("Open the Achievements Tab", "Hi, this exist.", "openAchieve", false);
 	new Achievement("Unlock Multiplier 1", "It begins.", "unlock1", false);
 	new Achievement("Unlock Multiplier 2", "This is getting out of hand already.", "unlock2", false);
-	new Achievement("Unlock Multiplier 3", "Many people don't know how to count to 3, so good thing you do know.", "unlock3", false);
-	new Achievement("Unlock Multiplier 4", "Wait where's the 5th one?", "unlock4", false);
+	new Achievement("Unlock Multiplier 3", "Many people don't know how to count to three, so good thing you do know.", "unlock3", false);
+	new Achievement("Unlock Multiplier 4", "Wait where's the fifth one?", "unlock4", false);
 	new Achievement("Unlock Multiplier 5", "So this is where it was!", "unlock5");
-	new Achievement("Unlock Multiplier 6", "I couldn't think of a description for this one, so I'll just type my thought in.", "unlock6");
-	new Achievement("Unlock Multiplier 7", "7 is a number cannibal.", "unlock7");
-	new Achievement("Unlock Multiplier 8", "90 degrees to infini- wait we're already there.", "unlock8");
+	new Achievement("Unlock Multiplier 6", "Six is sexy. I think nine agrees", "unlock6");
+	new Achievement("Unlock Multiplier 7", "Seven is a number cannibal. That's why everyone's scared of him/her.", "unlock7");
+	new Achievement("Unlock Multiplier 8", "Ninty degrees to infini- wait we're already there.", "unlock8");
 	new Achievement("Unlock Multiplier 9", "Good thing these aren't dimensions.", "unlock9");
-	new Achievement("Unlock Multiplier 10", "Oops, you hit the ceiling. That must have hurt.", "unlock10");
-	new Achievement("Reset", "Backtracking, fun!", "reset");
+	new Achievement("Unlock Multiplier 10", "You have hit the ceiling. That must have hurt.", "unlock10");
+	new Achievement("Reset", "Don't worry, this isn't a hard reset.", "reset");
 	new Achievement("Plexal", "You've reached a googolplex. It perplexes many, but not you of course.", "plexal");
 	new Achievement("Inflate", "It's fine! It's fine! Stay calm! I said stay calm god dammit!", "inflate");
 	new Achievement("Start Automation", "I've finally added automation. You better thank me now.", "startAuto");
-	new Achievement("Import export text", "You... did what I said... I guess?", "followInstruction", true, true);
-	new Achievement("Thanks", "I didn't expect that. Thank you for thanking me!", "thanks", true, true);
-	new Achievement("Reach a Googolduplex", "Super-duper-duplex", "googolduplex");
+	new Achievement('Import "export text"', "You... did what I said... I guess?", "followInstruction", true, true);
+	new Achievement("Thank Me", "I didn't expect that. Thank you.", "thanks", true, true);
+	new Achievement("Reach a Googolduplex", "Super-duper-duplex.", "googolduplex");
 	// new Achievement("Reach a Googoltriplex", "Thri", "googoltriplex");
-	new Achievement("Reach the current endgame", "You will lose this achievement if the endgame gets changed, but anyway, this is the endgame now", "endgame", false);
+	new Achievement("Reach the current endgame", "You will lose this achievement if the endgame gets changed, but anyway, this is the endgame now.", "endgame", false);
 }
 
 createAchievements();
