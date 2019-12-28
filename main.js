@@ -1,26 +1,37 @@
+/********* 
+ * SETUP *
+ *********/
+
+var doUpdate = true;
 var lastFrame = 0;
 var lastSave = 0;
-window.requestAnimationFrame(nextFrame);
 
 var pastGame;
 var game = newGame();
-load(true);
+
+/************* 
+ * GAME LOOP *
+ *************/
 
 function nextFrame(timeStamp) {
 	let sinceLastFrame = timeStamp - lastFrame;
 	let sinceLastSave = timeStamp - lastSave;
 	if (sinceLastFrame >= game.updateSpeed) {
-		game.number = game.number.mul(game.mult.generation[1].root(1000/game.updateSpeed/game.gameSpeed));
+		game.number = game.number.mul(game.mult.generation[1].root(1000/game.updateSpeed/game.speed));
 		for (let i = 1; i < game.mult.maxMult; i++) {
-			game.mult.amount[i] = game.mult.amount[i].mul(game.mult.generation[i+1].root(1000/game.updateSpeed/game.gameSpeed));
-		};
-		game.mult.powerPerBuy = game.mult.powerPerBuy.mul(game.superMult.generation[1].root(1000/game.updateSpeed/game.gameSpeed))
-		for (let i = 1; i < game.superMult.maxMult; i++) {
-			game.superMult.amount[i] = game.superMult.amount[i].mul(game.superMult.generation[i+1].root(1000/game.updateSpeed/game.gameSpeed));
-		};
-		updateAll();
+			game.mult.amount[i] = game.mult.amount[i].mul(game.mult.generation[i+1].root(1000/game.updateSpeed/game.speed));
+		}
+		if (game.auto.on[0]) {
+			maxAllMult();
+		}
+		if (game.auto.on[1]) {
+			maxIterate();
+		}
+		if (doUpdate) {
+			updateAll();
+		}
 		lastFrame = timeStamp;
-		game.timePlayed += sinceLastFrame;
+		game.permaStat.timePlayed += sinceLastFrame;
 	}
 	if (sinceLastSave >= game.autoSaveSpeed) {
 		if (game.autoSave) {
@@ -54,6 +65,10 @@ function changeAutoSaveSpeed() {
 	}
 }
 
+/**********
+ * SAVING *
+ **********/
+
 function save(auto) {
 	localStorage.setItem('emsave', JSON.stringify(game));
 	if (!auto) {
@@ -68,7 +83,22 @@ function load(auto) {
 	if (localStorage.getItem('emsave')) {
 		pastGame = JSON.parse(localStorage.getItem('emsave'));
 		objectToDecimal(pastGame);
-		mergeToGame(pastGame, false);
+		if (pastGame.permaStat != undefined) {
+			if (pastGame.permaStat.version == undefined || pastGame.permaStat.version < newGame().permaStat.version) {
+				setTimeout(function() {
+					notify('Welcome to version ' + newGame().permaStat.version + '!');
+				}, 1000)
+			}
+			if (pastGame.permaStat.endgame.notEquals(newGame().permaStat.endgame) && pastGame.achievement.normalCompleted.includes("endgame")) {
+				pastGame.achievement.normalCompleted.splice(pastGame.achievement.normalCompleted.indexOf("endgame"), 1);
+			}
+		} else {
+			setTimeout(function() {
+				notify('Welcome to version ' + newGame().permaStat.version + '!');
+			}, 1000)
+		}
+		merge(game, pastGame);
+		game.permaStat.version = newGame().permaStat.version;
 		if(!auto) {
 			document.getElementById("loadButton").innerHTML = "Loaded!";
 			setTimeout(function(){
@@ -93,19 +123,52 @@ function exportSave() {
 function importSave() {
 	let save = prompt("Please enter export text.\nWarning: Your current save will be over-written.");
 	if (save != null) {
-		localStorage.setItem('emsave', atob(save));
-		load();
-		document.getElementById("importButton").innerHTML = "Imported!";
+		let err = false;
+		let secret = true;
+		try {
+			switch (save) {
+				case "export text":
+					setTimeout(function() {
+						achievement.secret.followInstruction.complete();
+					}, 500)
+				break;
+				case "Thank you!":
+					if (game.achievement.normalCompleted.includes("startAuto")) {
+						setTimeout(function() {
+							achievement.secret.thanks.complete();
+						}, 500)
+					} else {
+						secret = false;
+					}
+				break;
+				default:
+					localStorage.setItem('emsave', atob(save));
+					load(true);
+					secret = false;
+				break;
+			}
+		}
+		catch {
+			err = true;
+			document.getElementById("importButton").innerHTML = "Invalid Save";
+			
+		}
+		if (!err) {
+			document.getElementById("importButton").innerHTML = "Imported!";
+			if (secret) {
+				document.getElementById("importButton").innerHTML = "Secret!";
+			}
+		}
 		setTimeout(function(){
-			document.getElementById("ImportButton").innerHTML = "Import"
+			document.getElementById("importButton").innerHTML = "Import"
 		}, 1000);
 	}
 }
 
 // totally didn't copy this from somewhere else
 function objectToDecimal(object) { 
-	for (i in object) {
-		if (typeof(object[i]) == "string" && !isNaN(new Decimal(object[i]).mag)) {
+	for (let i in object) {
+		if (typeof(object[i]) == "string" && !isNaN(new Decimal(object[i]).mag) && !(new Decimal(object[i]).sign == 0 && object[i] != "0")) {
 			object[i] = new Decimal(object[i]);
 		}
 		if (typeof(object[i]) == "object") {
@@ -114,33 +177,41 @@ function objectToDecimal(object) {
 	}
 }
 
-function mergeToGame(object, parent) {
-	if (parent) {
-		for (i in game[parent]) {
-			if (object[i] != undefined) {
-				if (typeof(game[i]) == "object") {
-					mergeToGame(object[i], parent[i]);
-				} else {
-					game[parent][i] = object[i];
-				}
-			}
-		}
-	} else {
-		for (i in game) {
-			if (object[i] != undefined) {
-				if (typeof(game[i]) == "object") {
-					mergeToGame(object[i], i);
-				} else {
-					game[i] = object[i];
-				}
+function merge(base, source) {
+	for (let i in base) {
+		if (source[i] != undefined) {
+			if (typeof(base[i]) == "object" && typeof(source[i]) == "object" && !isDecimal(base[i]) && !isDecimal(source[i]) && base[i] != game.achievement) {
+				merge(base[i], source[i]);
+			} else {
+				base[i] = source[i];
 			}
 		}
 	}
 }
 
+function isDecimal(x) {
+	if (x.mag == undefined) {
+		return false;
+	} else {
+		return true;
+	}
+}
+
 function newGame() {
 	let save = {
-		timePlayed: 0,
+		permaStat: {
+			version: 0.3,
+			endgame: Decimal.fromComponents(1, 5, 1),
+			timePlayed: 0,
+			highestNum: new Decimal(10),
+			totalReset: new Decimal(0),
+			totalPlexal: new Decimal(0),
+		},
+		auto: {
+			tabUnlocked: false,
+			on: [false, false],
+			unlocked: [false, false]
+		},
 		number: new Decimal(10),
 		mult: {
 			amount:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
@@ -166,29 +237,71 @@ function newGame() {
 			costScaling: new Decimal(1e1),
 			unlocked: false
 		},
-		superMult: {
-			amount:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
-			power:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
-			generation:[0, new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1)],
-			powerPerBuy:new Decimal(2),
-			upgradeAmount:[0, new Decimal(0), new Decimal(0), new Decimal(0), new Decimal(0)],
-			baseCost:[0, Decimal.fromComponents(1, 2, 9), Decimal.fromComponents(1, 2, 15), Decimal.fromComponents(1, 2, 25), Decimal.fromComponents(1, 2, 69)],
-			cost:[0, Decimal.fromComponents(1, 2, 9), Decimal.fromComponents(1, 2, 15), Decimal.fromComponents(1, 2, 25), Decimal.fromComponents(1, 2, 69)],
-			costIncrease:[0, new Decimal(1e2), new Decimal(1e3), new Decimal(1e4), new Decimal(1e5)],
-			unlocked:[0, false, false, false, false],
-			maxMult: 4
+		plexal: {
+			amount: new Decimal(0),
+			gain: new Decimal(0),
+			essence: new Decimal(0),
+			upgrade: {
+				cost: ["lol", new Decimal(1), new Decimal(2), new Decimal(1), new Decimal(3), new Decimal(8), new Decimal(15), Decimal.fromComponents(1, 2, 200), Decimal.fromComponents(1, 3, 3), Decimal.fromComponents(1, 3, 4)],
+				unlocked: [true, false, false, false, false, false, false, false, false, false],
+				boost: ["lol", new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(0), new Decimal(1)]
+			},
+			unlocked: false
+		},
+		iterator: {
+			iteration: new Decimal(0),
+			baseBoost: new Decimal(1.1),
+			boost: new Decimal(1.1),
+			totalBoost: new Decimal(1),
+			baseCost: new Decimal(10),
+			cost: new Decimal(10),
+			costIncrease: new Decimal(1e2),
+			upgrade: {
+				amount: new Decimal(0),
+				baseBoost: new Decimal(1.1),
+				boost: new Decimal(1.1),
+				totalBoost: new Decimal(1),
+				baseCost: new Decimal(10),
+				cost: new Decimal(100),
+				costIncrease: new Decimal(10)
+			},
+			unlocked: false
+		},
+		achievement: {
+			normalCompleted: [],
+			secretCompleted: [],
+			hideCompleted: false
 		},
 		autoSave: true,
 		autoSaveSpeed: 1000,
 		updateSpeed: 50,
-		gameSpeed: 1
+		theme: {
+			themeList:["light", "dark"],
+			currentTheme: 0,
+		},
+		speed: 1
 	}
 	return save;
 }
 
 function wipe() {
-	game = newGame();
-	save();
+	doUpdate = false;
+	setTimeout(function() {
+		game = newGame();
+		save(true);
+		for (achieve in achievement.normal) {
+			achievement.normal[achieve].hidden = true;
+		}
+		for (achieve in achievement.secret) {
+			achievement.secret[achieve].hidden = true;
+		}
+		achievement.normal.openAchieve.hidden = false;
+		achievement.normal.unlock1.hidden = false;
+		achievement.normal.unlock2.hidden = false;
+		achievement.normal.unlock3.hidden = false;
+		achievement.normal.unlock4.hidden = false;
+		doUpdate = true;
+	}, 50);
 }
 
 function wipeConfirm() {
@@ -199,6 +312,47 @@ function wipeConfirm() {
 
 function toggleAutoSave() {
 	game.autoSave = !game.autoSave;
+}
+
+/*********** 
+ * DISPLAY *
+ ***********/
+
+function toTab(tab) {
+	document.getElementById(tab).parentNode.querySelectorAll(":scope > .tab").forEach(function(element) {
+		element.classList.add('hidden');
+	});
+	document.getElementById(tab).classList.remove('hidden');
+	if (tab == 'achievement') {
+		achievement.normal.openAchieve.complete();
+	}
+}
+
+function updateTab() {
+	if (game.plexal.amount.greaterThanOrEqualTo(1)) {
+		document.getElementById("plexalStatTabButton").classList.remove('hidden');
+	} else {
+		document.getElementById("plexalStatTabButton").classList.add('hidden');
+		if (!document.getElementById("plexalStat").classList.contains('hidden')) {
+			toTab('normalStat');
+		}
+	}
+	if (game.auto.tabUnlocked) {
+		document.getElementById("autoTabButton").classList.remove('hidden');
+		achievement.normal.startAuto.complete();
+	} else {
+		document.getElementById("autoTabButton").classList.add('hidden');
+	}
+}
+
+function cycleTheme(){
+	document.querySelectorAll("*").forEach(function(element) {
+		element.classList.remove(game.theme.themeList[game.theme.currentTheme]);
+	});
+	game.theme.currentTheme++;
+	if (game.theme.currentTheme >= game.theme.themeList.length) {
+		game.theme.currentTheme = 0;
+	}
 }
 
 function findDisplay(n) {
@@ -214,29 +368,141 @@ function findDisplay(n) {
 	}
 }
 
+function findTimeDisplay(ms) {
+	let s = ms/1000;
+	let ds = mod(s, 60).toFixed(2);
+	let m = Math.floor(s/60);
+	let dm = mod(m, 60);
+	let h = Math.floor(m/60);
+	let dh = mod(h, 24);
+	let d = Math.floor(h/24);
+	let dd = mod(d, 30.43685);
+	let mo = Math.floor(d/30.43685);
+	let dmo = mod(mo, 12);
+	let dy = Math.floor(mo/365.2422);
+	let time = "";
+	let seg = 0;
+	if (s < 60) {
+		time = ds + " second" + pluralCheck(ds);
+		seg++;
+	} else {
+		time = "and " + ds + " second" + pluralCheck(ds);
+		seg++;
+	}
+	if (dm >= 1) {
+		time = dm + " minute" + pluralCheck(dm) + ", " + time;
+		seg++;
+	}
+	if (dh >= 1) {
+		time = dh + " hour" + pluralCheck(dh) + ", " + time;
+		seg++;
+	}
+	if (dd >= 1) {
+		time = dh + " day" + pluralCheck(dd) + ", " + time;
+		seg++;
+	}
+	if (dmo >= 1) {
+		time = dh + " month" + pluralCheck(dmo) + ", " + time;
+		seg++;
+	}
+	if (dy >= 1) {
+		time = dh + " year" + pluralCheck(dy) + ", " + time;
+		seg++;
+	}
+	if (seg == 2) {
+		time = time.replace(",", "");
+	}
+	return time;
+}
+
+function pluralCheck(x) {
+	if (isDecimal(x)) {
+		if (x.equals(1)) {
+			return "";
+		} else {
+			return "s";
+		}
+	} else {
+		if (x == 1) {
+			return "";
+		} else {
+			return "s";
+		}
+	}
+}
+
+function mod(x, y) {
+	let a = Math.floor(x / y);
+	let b = a * y;
+	return x - b;
+}
+
+function notify(message, subMessage, bgColor) {
+	let note = document.createElement("button");
+	let big = document.createElement("span");
+	let bigText = document.createTextNode(message);
+	document.body.appendChild(note);
+	note.appendChild(big);
+	big.appendChild(bigText);
+	if (subMessage != undefined) {
+		note.appendChild(document.createElement("br"));
+		let text = document.createTextNode(subMessage);
+		note.appendChild(text);
+	}
+	big.style.fontSize = "20px";
+	if (bgColor != undefined) {
+		note.style.backgroundColor = bgColor;
+	}
+	note.classList.add('notification');
+	setTimeout(function() {
+		note.remove();
+	}, 3800)
+}
+
+/********************
+ * UPDATE (display) *
+ ********************/
+
+function getPower(n) {
+	let power = game.mult.powerPerBuy.pow(game.mult.upgradeAmount[n]).mul(game.reset.totalBoost).mul(game.iterator.totalBoost)
+	if (game.plexal.upgrade.unlocked[1]) {
+		power = power.mul(game.plexal.upgrade.boost[1])
+	}
+	if (game.plexal.upgrade.unlocked[3]) {
+		power = power.mul(game.plexal.upgrade.boost[3]);
+	}
+	return power;
+}
+
 function updateMult() {
 	for (let i = 1; i <= game.mult.actualMaxMult; i++) {
-		game.mult.generation[i] = game.mult.amount[i].pow(game.mult.power[i]); 
-		game.mult.cost[i] = game.mult.baseCost[i].pow(game.mult.costIncrease[i].pow(game.mult.upgradeAmount[i]));
-		game.mult.power[i] = game.mult.powerPerBuy.pow(game.mult.upgradeAmount[i]).mul(game.reset.totalBoost);
-		game.mult.maxMult = (new Decimal(4)).add(game.reset.amount);
-		if ((new Decimal(game.mult.maxMult)).greaterThan(game.mult.actualMaxMult)) {
-			game.mult.maxMult = game.mult.actualMaxMult;
+		let m = game.mult;
+		m.powerPerBuy = (new Decimal(2))
+		if (game.plexal.upgrade.unlocked[2]) {
+			m.powerPerBuy = m.powerPerBuy.mul(game.plexal.upgrade.boost[2]);
 		}
-		document.getElementById("multAmount" + i).innerHTML = findDisplay(game.mult.amount[i]);
-		document.getElementById("multPower" + i).innerHTML = "^" + findDisplay(game.mult.power[i]);
-		if (game.mult.unlocked[i] == false) {
-			document.getElementById("multButton" + i).innerHTML = "Unlock Multiplier " + i + " Cost: " + findDisplay(game.mult.cost[i]);
-			if (i != game.mult.actualMaxMult) {
+		m.generation[i] = m.amount[i].pow(m.power[i]); 
+		m.cost[i] = m.baseCost[i].pow(m.costIncrease[i].pow(m.upgradeAmount[i]));
+		m.power[i] = getPower(i);
+		m.maxMult = (new Decimal(4)).add(game.reset.amount);
+		if ((new Decimal(game.mult.maxMult)).greaterThan(game.mult.actualMaxMult)) {
+			m.maxMult = m.actualMaxMult;
+		}
+		document.getElementById("multAmount" + i).innerHTML = findDisplay(m.amount[i]);
+		document.getElementById("multPower" + i).innerHTML = "^" + findDisplay(m.power[i]);
+		if (m.unlocked[i] == false) {
+			document.getElementById("multButton" + i).innerHTML = "Unlock Multiplier " + i + " Cost: " + findDisplay(m.cost[i]);
+			if (i != m.actualMaxMult) {
 				document.getElementById("mult"+(i+1)).classList.add('hidden');
 			}
 		} else {
-			document.getElementById("multButton" + i).innerHTML = "Square Multiplier " + i + " Cost: " + findDisplay(game.mult.cost[i]);
-			if (i != game.mult.maxMult) {
+			document.getElementById("multButton" + i).innerHTML = "Boost Multiplier " + i + " by ^" + findDisplay(m.powerPerBuy) + " Cost: " + findDisplay(m.cost[i]);
+			if (i != m.maxMult) {
 				document.getElementById("mult"+(i+1)).classList.remove('hidden');
 			}
+			achievement.normal["unlock" + i].complete();
 		}
-		if (game.number.greaterThanOrEqualTo(game.mult.cost[i])) {
+		if (game.number.greaterThanOrEqualTo(m.cost[i])) {
 			document.getElementById("multButton" + i).classList.remove('disabled');
 			document.getElementById("multButton" + i).classList.add('enabled');
 		} else {
@@ -246,52 +512,35 @@ function updateMult() {
 	}
 }
 
-function updateSuperMult() {
-	for (let i = 1; i <= game.superMult.maxMult; i++) {
-		game.superMult.generation[i] = game.superMult.amount[i].pow(game.superMult.power[i]);
-		game.superMult.power[i] = game.superMult.powerPerBuy.pow(game.superMult.upgradeAmount[i]);
-		document.getElementById("superMultAmount" + i).innerHTML = findDisplay(game.superMult.amount[i]);
-		document.getElementById("superMultPower" + i).innerHTML = "^" + findDisplay(game.superMult.power[i]);
-		if (game.superMult.unlocked[i] == false) {
-			document.getElementById("superMultButton" + i).innerHTML = "Unlock Super Multiplier " + i + " Cost: " + findDisplay(game.superMult.cost[i]);
-			if (i != 4) {
-				document.getElementById("superMult"+(i+1)).classList.add('hidden');
-			}
-		} else {
-			document.getElementById("superMultButton" + i).innerHTML = "Square Multiplier " + i + " Cost: " + findDisplay(game.superMult.cost[i]);
-			if (i != 4) {
-				document.getElementById("superMult"+(i+1)).classList.remove('hidden');
-			}
-		}
-		if (game.number.greaterThanOrEqualTo(game.superMult.cost[i])) {
-			document.getElementById("superMultButton" + i).classList.remove('disabled');
-			document.getElementById("superMultButton" + i).classList.add('enabled');
-		} else {
-			document.getElementById("superMultButton" + i).classList.remove('enabled');
-			document.getElementById("superMultButton" + i).classList.add('disabled');  
-		}
-	}
-}
-
 function updateReset() {
 	let r = game.reset;
+	r.boost = new Decimal(3);
+	if (game.plexal.upgrade.unlocked[4]) {
+		r.boost = r.boost.mul(game.plexal.upgrade.boost[4]);
+	}
 	r.totalBoost = r.boost.pow(r.amount);
-	r.costIncrease = r.baseCostIncrease.mul(r.costScaling.pow(Math.floor(r.amount / 2)));
+	r.costIncrease = r.baseCostIncrease.mul(r.costScaling.pow(r.amount));
 	r.cost = r.baseCost.pow(r.costIncrease.pow(r.amount))
-	if (game.number.greaterThan(Decimal.fromComponents(1, 2, 8))) {
+	if (game.reset.amount.greaterThan(new Decimal(0))
+	   || game.number.greaterThan(Decimal.fromComponents(1, 2, 8))) {
 		game.reset.unlocked = true;
+		achievement.normal.reset.hidden = false;
+		achievement.normal.unlock5.hidden = false;
+	}
+	for (let i = 0; i < 5; i++) {
+		if (game.reset.amount.greaterThan(new Decimal(i))) {
+			achievement.normal["unlock" + (i+6)].hidden = false;
+		}
 	}
 	if (game.reset.unlocked == true) {
 		document.getElementById("reset").classList.remove('hidden');
-	} else {
-		document.getElementById("reset").classList.add('hidden');
 	}
 	document.getElementById("resetPower").innerHTML = "^" + findDisplay(r.totalBoost);
 	document.getElementById("resetAmount").innerHTML = findDisplay(new Decimal(r.amount));
 	if (game.mult.maxMult < game.mult.actualMaxMult) {
-		document.getElementById("resetButton").innerHTML = "Reset the game for a new multiplier and a boost to all multipliers Requires: " + findDisplay(game.reset.cost);
+		document.getElementById("resetButton").innerHTML = "Reset the game for a new multiplier and a ^" + findDisplay(game.reset.boost) + " boost to all multipliers Requires: " + findDisplay(game.reset.cost);
 	} else {
-		document.getElementById("resetButton").innerHTML = "Reset the game for a boost to all multipliers Requires: " + findDisplay(game.reset.cost);
+		document.getElementById("resetButton").innerHTML = "Reset the game for a ^" + findDisplay(game.reset.boost) + " boost to all multipliers Requires: " + findDisplay(game.reset.cost);
 	}
 	if (game.number.greaterThanOrEqualTo(r.cost)) {
 		document.getElementById("resetButton").classList.remove('disabled');
@@ -300,99 +549,616 @@ function updateReset() {
 		document.getElementById("resetButton").classList.remove('enabled');
 		document.getElementById("resetButton").classList.add('disabled');  
 	}
+	if (game.plexal.upgrade.unlocked[9]) {
+		document.getElementById("maxResetButton").classList.remove('hidden');
+	} else {
+		document.getElementById("maxResetButton").classList.add('hidden');
+	}
+}
+
+function getPlexalGain() {
+	let gain = game.number.log(Decimal.fromComponents(1, 2, 100)).root(666);
+	if (game.plexal.upgrade.unlocked[6]) {
+		gain = gain.mul(game.plexal.upgrade.boost[6]);
+	}
+	return gain.floor();
+}
+
+function updatePlexal() {
+	game.plexal.gain = getPlexalGain();
+	if (game.number.greaterThan(Decimal.fromComponents(1, 2, 80))) {
+		game.plexal.unlocked = true;
+	}
+	if (game.plexal.amount.greaterThan(new Decimal(0))) {
+		document.getElementById("plexalTabButton").classList.remove('hidden');
+		achievement.normal.inflate.hidden = false;
+		achievement.normal.startAuto.hidden = false;
+		achievement.normal.googolduplex.hidden = false;
+	} else {
+		document.getElementById("plexalTabButton").classList.add('hidden');
+	}
+	if (game.plexal.unlocked == true) {
+		document.getElementById("plexButton").classList.remove('hidden');
+		achievement.normal.plexal.hidden = false;
+	} else {
+		document.getElementById("plexButton").classList.add('hidden');
+	}
+	if (game.number.greaterThanOrEqualTo(Decimal.fromComponents(1, 2, 100))) {
+		document.getElementById("plexButton").innerHTML = "Reset all of your progress so far to gain " + findDisplay(game.plexal.gain) + " Plexal Essence";
+		document.getElementById("plexButton").classList.remove('disabled');
+		document.getElementById("plexButton").classList.add('plexal');
+	} else {
+		document.getElementById("plexButton").innerHTML = "Requires: ee100";
+		document.getElementById("plexButton").classList.remove('plexal');
+		document.getElementById("plexButton").classList.add('disabled');  
+	}
+	document.getElementById("plexalEssenceAmount").innerHTML = findDisplay(game.plexal.essence);
+}
+
+function updateIterator() {
+	let it = game.iterator;
+	let upg = it.upgrade;
+	it.boost = it.baseBoost.mul(upg.totalBoost);
+	it.totalBoost = it.boost.pow(it.iteration);
+	it.cost = it.baseCost.pow(it.costIncrease.pow(it.iteration));
+	if (game.plexal.upgrade.unlocked[8]) {
+		upg.boost = upg.baseBoost.mul(game.reset.totalBoost);
+	}
+	upg.totalBoost = upg.boost.pow(upg.amount);
+	if (upg.amount.lessThan(1)) {
+		upg.cost = new Decimal(100);
+	} else {
+		upg.cost = upg.baseCost.pow(upg.costIncrease.pow(upg.amount));
+	}
+	document.getElementById("iteratorTotalBoost").innerHTML = "^" + findDisplay(it.totalBoost);
+	document.getElementById("iteration").innerHTML = findDisplay(it.iteration);
+	document.getElementById("iterationCost").innerHTML = findDisplay(it.cost);
+	document.getElementById("iteratorBoost").innerHTML = "^" + findDisplay(it.boost);
+	document.getElementById("iteratorUpgradeBoost").innerHTML = findDisplay(upg.boost);
+	document.getElementById("iteratorUpgradeCost").innerHTML = findDisplay(upg.cost);
+	if (it.unlocked == true) {
+		document.getElementById("iteratorUnlock").classList.add('hidden');
+		document.getElementById("iteratorUpgrade").classList.remove('hidden');
+		if (game.mult.amount[1].greaterThan(1)) {
+			document.getElementById("iterate").classList.remove('hidden');
+		} else {
+			document.getElementById("iterate").classList.add('hidden');
+		}
+	} else {
+		document.getElementById("iteratorUnlock").classList.remove('hidden');
+		document.getElementById("iteratorUpgrade").classList.add('hidden');
+		document.getElementById("iterate").classList.add('hidden');
+	}
+	if (game.number.greaterThanOrEqualTo(it.cost)) {
+		document.getElementById("iterateButton").classList.remove('disabled');
+		document.getElementById("iterateButton").classList.add('enabled');
+	} else {
+		document.getElementById("iterateButton").classList.remove('enabled');
+		document.getElementById("iterateButton").classList.add('disabled');  
+	}
+	if (game.plexal.essence.greaterThanOrEqualTo(1)) {
+		document.getElementById("iteratorUnlock").classList.remove('disabled');
+		document.getElementById("iteratorUnlock").classList.add('enabled');
+	} else {
+		document.getElementById("iteratorUnlock").classList.remove('enabled');
+		document.getElementById("iteratorUnlock").classList.add('disabled');  
+	}
+	if (game.plexal.essence.greaterThanOrEqualTo(upg.cost)) {
+		document.getElementById("iteratorUpgradeButton").classList.remove('disabled');
+		document.getElementById("iteratorUpgradeButton").classList.add('enabled');
+	} else {
+		document.getElementById("iteratorUpgradeButton").classList.remove('enabled');
+		document.getElementById("iteratorUpgradeButton").classList.add('disabled');  
+	}
+}
+
+function updateUpg() {
+	// Plexal
+	game.plexal.upgrade.boost[1] = game.plexal.amount.add(1);
+	game.plexal.upgrade.boost[2] = game.iterator.boost;
+	game.plexal.upgrade.boost[3] = game.plexal.essence.pow(1.1).add(1);
+	game.plexal.upgrade.boost[4] = game.reset.amount.root(8);
+	game.plexal.upgrade.boost[5] = game.permaStat.totalReset.root(3.5).floor();
+	game.plexal.upgrade.boost[6] = game.plexal.essence.root(2);
+	if (game.plexal.upgrade.boost[4].lessThan(1)) {
+		game.plexal.upgrade.boost[4] = new Decimal(1);
+	}
+	if (game.plexal.upgrade.boost[6].lessThan(1)) {
+		game.plexal.upgrade.boost[6] = new Decimal(1);
+	}
+	for (let i = 1; i < game.plexal.upgrade.boost.length; i++) {
+		document.getElementById("plexalUpg" + i + "Boost").innerHTML = findDisplay(game.plexal.upgrade.boost[i]);
+	}
+	for (let i = 1; i < game.plexal.upgrade.unlocked.length; i++) {
+		if (game.plexal.upgrade.unlocked[i] == false) {
+			document.getElementById("plexalUpg" + i).classList.remove('noHover');
+			if (game.plexal.essence.greaterThanOrEqualTo(game.plexal.upgrade.cost[i]) && game.plexal.upgrade.unlocked[i-1] == true) {
+				document.getElementById("plexalUpg" + i).classList.add('enabled');
+				document.getElementById("plexalUpg" + i).classList.remove('disabled');
+			} else {
+				document.getElementById("plexalUpg" + i).classList.add('disabled');
+				document.getElementById("plexalUpg" + i).classList.remove('enabled');
+			}
+		} else {
+			document.getElementById("plexalUpg" + i).classList.remove('disabled');
+			document.getElementById("plexalUpg" + i).classList.remove('enabled');
+			document.getElementById("plexalUpg" + i).classList.add('plexal');
+			document.getElementById("plexalUpg" + i).classList.add('noHover');
+		}
+	}
+}
+
+function updateStat() {
+	document.getElementById("timePlayed").innerHTML = findTimeDisplay(game.permaStat.timePlayed);
+	document.getElementById("highestNum").innerHTML = findDisplay(game.permaStat.highestNum);
+	document.getElementById("totalReset").innerHTML = "You have reseted a total of " + findDisplay(game.permaStat.totalReset) + " time" + pluralCheck(game.permaStat.totalReset);
+	document.getElementById("plexalAmount").innerHTML = findDisplay(game.plexal.amount) + " time" + pluralCheck(game.plexal.amount);
+	if (game.permaStat.totalReset.greaterThan(0)) {
+		document.getElementById("totalReset").classList.remove('hidden');
+	} else {
+		document.getElementById("totalReset").classList.add('hidden');
+	}
+}
+
+function updateAuto() {
+	if (game.plexal.upgrade.unlocked[7]) {
+		game.auto.tabUnlocked = true;
+		game.auto.unlocked[0] = true;
+		game.auto.unlocked[1] = true;
+	} else {
+		game.auto.tabUnlocked = false;
+		game.auto.unlocked[0] = false;
+		game.auto.unlocked[1] = false;
+	}
+	if (game.auto.on[0]) {
+		document.getElementById("autoMultButton").innerHTML ="Auto Multiplier: ON"
+	} else {
+		document.getElementById("autoMultButton").innerHTML ="Auto Multiplier: OFF"
+	}
+	if (game.auto.on[1]) {
+		document.getElementById("autoIterateButton").innerHTML ="Auto Iterate: ON"
+	} else {
+		document.getElementById("autoIterateButton").innerHTML ="Auto Iterate: OFF"
+	}
+}
+
+function updateAchievement() {
+	for (achieve in achievement.normal) {
+		let a = achievement.normal[achieve];
+		if (game.achievement.normalCompleted.includes(a.alias)) {
+			a.hidden = false;
+			document.getElementById(a.alias + "AchieveBox").classList.remove('disabled');
+			document.getElementById(a.alias + "AchieveBox").classList.add('enabled');
+		} else {
+			document.getElementById(a.alias + "AchieveBox").classList.remove('enabled');
+			document.getElementById(a.alias + "AchieveBox").classList.add('disabled');
+		}
+		if (a.hidden || (game.achievement.normalCompleted.includes(a.alias) && game.achievement.hideCompleted)) {
+			document.getElementById(a.alias + "Achieve").classList.add('hidden');
+		} else {
+			document.getElementById(a.alias + "Achieve").classList.remove('hidden');
+		}
+	}
+	for (achieve in achievement.secret) {
+		let a = achievement.secret[achieve];
+		if (game.achievement.secretCompleted.includes(a.alias)) {
+			a.hidden = false;
+			document.getElementById(a.alias + "AchieveBox").classList.remove('disabled');
+			document.getElementById(a.alias + "AchieveBox").classList.add('enabled');
+		} else {
+			document.getElementById(a.alias + "AchieveBox").classList.remove('enabled');
+			document.getElementById(a.alias + "AchieveBox").classList.add('disabled');
+		}
+		if (a.hidden || (game.achievement.secretCompleted.includes(a.alias) && game.achievement.hideCompleted)) {
+			document.getElementById(a.alias + "Achieve").classList.add('hidden');
+		} else {
+			document.getElementById(a.alias + "Achieve").classList.remove('hidden');
+		}
+	}
+	if (game.achievement.hideCompleted) {
+		document.getElementById("hideCompletedButton").innerHTML = "Show Completed Achievements";
+	} else {
+		document.getElementById("hideCompletedButton").innerHTML = "Hide Completed Achievements";
+	}
+	document.getElementById("normalAchieveCount").innerHTML = game.achievement.normalCompleted.length + "/" + Object.keys(achievement.normal).length;
+	document.getElementById("secretAchieveCount").innerHTML = game.achievement.secretCompleted.length + "/" + Object.keys(achievement.secret).length;
 }
 
 function updateAll() {
+	if (game.number.lessThanOrEqualTo(1)) {
+		game.number = new Decimal(10);
+	}
+	if (game.number.greaterThan(game.permaStat.highestNum)){
+		game.permaStat.highestNum = game.number;
+	}
+	if (game.number.greaterThan(game.permaStat.endgame)) {
+		achievement.normal.endgame.complete();
+	}
+	if (game.number.greaterThan(Decimal.fromComponents(1, 3, 20))) {
+		achievement.normal.inflate.complete();
+	}
+	if (game.number.greaterThan(Decimal.fromComponents(1, 3, 100))) {
+		achievement.normal.googolduplex.complete();
+	}
 	document.getElementById("multPerSecond").innerHTML = findDisplay(game.mult.generation[1]);
 	document.getElementById("number").innerHTML = findDisplay(game.number);
+	updateTab();
 	updateMult();
-	updateSuperMult();
 	updateReset();
+	updatePlexal();
+	updateIterator();
+	updateUpg();
+	updateStat();
+	updateAuto();
+	updateAchievement();
+	document.getElementById("title").innerHTML = "Exponential Madness v" + game.permaStat.version;
 	if (game.autoSave) {
 		document.getElementById("autoSaveButton").innerHTML = "Auto Save: ON";
 	} else {
 		document.getElementById("autoSaveButton").innerHTML = "Auto Save: OFF";
 	}
+	document.querySelectorAll("*").forEach(function(element) {
+		element.classList.add(game.theme.themeList[game.theme.currentTheme]);
+	});
+	document.getElementById("themeButton").innerHTML = game.theme.themeList[game.theme.currentTheme].charAt(0).toUpperCase() + game.theme.themeList[game.theme.currentTheme].slice(1) + " Theme";
+	if (game.reset.unlocked) {
+		document.getElementById("hotkeyReset").classList.remove('hidden');
+	} else {
+		document.getElementById("hotkeyReset").classList.add('hidden');
+	}
+	if (game.plexal.amount.greaterThan(0)) {
+		document.getElementById("hotkeyPlexal").classList.remove('hidden');
+	} else {
+		document.getElementById("hotkeyPlexal").classList.add('hidden');
+	}
 }
 
-function buyMult(n, type) {
-	switch (type) {
-		case "normal":
-			if (game.number.greaterThanOrEqualTo(game.mult.cost[n])) {
+/*****************
+ * PLAYER ACTION *
+ *****************/
+
+function buyMult(n) {
+	if (!document.getElementById("mult" + n).classList.contains('hidden')) {
+		if (game.number.greaterThanOrEqualTo(game.mult.cost[n])) {
+			game.number = game.number.div(game.mult.cost[n]);
+			if (game.mult.unlocked[n] == false) {
+				game.mult.amount[n] = new Decimal(1.25);
+				game.mult.unlocked[n] = true;
+			} else {
+				game.mult.upgradeAmount[n] = game.mult.upgradeAmount[n].add(1);
+			}
+		}
+	}
+}
+
+function maxMult(n) {
+	if (!document.getElementById("mult" + n).classList.contains('hidden')) {
+		let num = game.number.log10().log10();
+		num.mag = num.mag*0.999;
+		let startCost = game.mult.cost[n].log10().log10();
+		if (num.greaterThanOrEqualTo(startCost)) {
+			let increase = game.mult.costIncrease[n].log10();
+			let buyAmount = num.sub(startCost).div(increase).ceil();
+			let endCost = startCost.add(increase.mul(buyAmount));
+			let totalCost = endCost.sub(increase);
+			if (game.mult.unlocked[n] == false) {
+				game.mult.amount[n] = new Decimal(1.25);
+				game.mult.unlocked[n] = true;
 				game.number = game.number.div(game.mult.cost[n]);
-				if (game.mult.unlocked[n] == false) {
-					game.mult.amount[n] = new Decimal(1.25);
-					game.mult.unlocked[n] = true;
-				} else {
-					game.mult.upgradeAmount[n] = game.mult.upgradeAmount[n].add(1);
-				}
-				updateAll();
+				maxMult(n, "normal");
+			} else {
+				game.number = game.number.div((new Decimal(10)).pow((new Decimal(10)).pow(totalCost)));
+				game.mult.upgradeAmount[n] = game.mult.upgradeAmount[n].add(buyAmount);
 			}
-		break;
-		case "super":
-			if (game.number.greaterThanOrEqualTo(game.superMult.cost[n])) {
-				game.number = game.number.div(game.superMult.cost[n]);
-				if (game.superMult.unlocked[n] == false) {
-					game.superMult.amount[n] = new Decimal(1.25);
-					game.superMult.unlocked[n] = true;
-				} else {
-					game.superMult.upgradeAmount[n] = game.superMult.upgradeAmount[n].add(1);
-					game.superMult.cost[n] = game.superMult.cost[n].pow(game.superMult.costIncrease[n].tetrate(game.superMult.costIncrease[n].log10()));
-				}
-				updateAll();
-			}
-		break;
+		}
 	}
 }
 
-function maxAll(type) {
+function maxAllMult() {
+	maxMult(1);
+	maxMult(2);
+	maxMult(3);
+	maxMult(4);
+	maxMult(5);
+	maxMult(6);
+	maxMult(7);
+	maxMult(8);
+	maxMult(9);
+	maxMult(10);
+}
+
+function maxAll() {
+	maxAllMult();
+	maxIterate();
+}
+
+function reset() {
+	if (game.number.greaterThanOrEqualTo(game.reset.cost)) {
+		game.number = newGame().number;
+		game.mult = newGame().mult;
+		game.reset.amount = game.reset.amount.add(1);
+		game.permaStat.totalReset = game.permaStat.totalReset.add(1);
+		achievement.normal.reset.complete();
+	}
+}
+
+function maxReset() {
+	if (game.reset.unlocked == true) {
+		let num = game.number.log10().log10();
+		num.mag = num.mag*0.99999;
+		let startCost = game.reset.cost.log10().log10();
+		if (num.greaterThanOrEqualTo(startCost)) {
+			let baseCost = game.reset.baseCost.log10().log10();
+			let costChange = num.sub(startCost);
+			let scaling = game.reset.costScaling.log10().mul(2);
+			let startIncrease = game.reset.costIncrease.log10();
+			let endIncrease = startIncrease.pow(2).add(scaling.mul(costChange).mul(2)).sqrt();
+			let increaseChange = endIncrease.sub(startIncrease);
+			let buyAmount = increaseChange.div(scaling).add(1).floor();
+			game.number = newGame().number;
+			game.mult = newGame().mult;
+			game.reset.amount = game.reset.amount.add(buyAmount);
+			game.permaStat.totalReset = game.permaStat.totalReset.add(buyAmount);
+			achievement.normal.reset.complete();
+		}
+	}
+}
+
+function plexal() {
+	if (game.number.greaterThanOrEqualTo(Decimal.fromComponents(1, 2, 100))) {
+		game.number = newGame().number;
+		game.mult = newGame().mult;
+		game.reset = newGame().reset;
+		if (game.plexal.upgrade.unlocked[5]) {
+			game.reset.amount = game.plexal.upgrade.boost[5];
+		}
+		game.iterator.iteration = newGame().iterator.iteration;
+		game.plexal.amount = game.plexal.amount.add(1);
+		game.permaStat.totalPlexal = game.permaStat.totalPlexal.add(1);
+		game.plexal.essence = game.plexal.essence.add(game.plexal.gain);
+		achievement.normal.plexal.complete();
+	}
+}
+
+function unlockIterator() {
+	if (game.plexal.essence.greaterThanOrEqualTo(1)) {
+		game.plexal.essence = game.plexal.essence.sub(1);
+		game.iterator.unlocked = true;
+	}
+}
+
+function iterate() {
+	if (game.number.greaterThanOrEqualTo(game.iterator.cost)) {
+		game.number = game.number.div(game.iterator.cost);
+		game.iterator.iteration = game.iterator.iteration.add(1);
+	}
+}
+
+function maxIterate() {
+	if (game.iterator.unlocked == true) {
+		let num = game.number.log10().log10();
+		num.mag = num.mag*0.99999;
+		let startCost = game.iterator.cost.log10().log10();
+		if (num.greaterThanOrEqualTo(startCost)) {
+			let increase = game.iterator.costIncrease.log10();
+			let buyAmount = num.sub(startCost).div(increase).ceil();
+			let endCost = startCost.add(increase.mul(buyAmount));
+			let totalCost = endCost.sub(increase);
+			game.number = game.number.div((new Decimal(10)).pow((new Decimal(10)).pow(totalCost)));
+			game.iterator.iteration = game.iterator.iteration.add(buyAmount);
+		}
+	}
+}
+
+function upgradeIterator() {
+	if (game.plexal.essence.greaterThanOrEqualTo(game.iterator.upgrade.cost)) {
+		game.plexal.essence = game.plexal.essence.sub(game.iterator.upgrade.cost)
+		game.iterator.upgrade.amount = game.iterator.upgrade.amount.add(1);
+	}
+}
+
+function maxUpgradeIterator() {
+	let PE = game.plexal.essence.log10().log10();
+	PE.mag = PE.mag*0.99999;
+	let startCost = game.iterator.upgrade.cost.log10().log10();
+	if (PE.greaterThanOrEqualTo(startCost)) {
+		let increase = game.iterator.upgrade.costIncrease.log10();
+		let buyAmount = PE.sub(startCost).div(increase).ceil();
+		let endCost = startCost.add(increase.mul(buyAmount));
+		let totalCost = endCost.sub(increase);
+		game.plexal.essence = game.plexal.essence.sub((new Decimal(10)).pow(totalCost));
+		game.iterator.upgrade.amount = game.iterator.upgrade.amount.add(buyAmount);
+	}
+}
+
+function buyUpgrade(n, type) {
 	switch (type) {
-		case "normal":
-			for(let i = 1; i <= game.mult.maxMult; i++) {
-				let num = game.number.log10().log10().mul(0.99999);
-				let increase = game.mult.costIncrease[i].log10();
-				let startCost = game.mult.cost[i].log10().log10();
-				let buyAmount = num.sub(startCost).div(increase).ceil();
-				let endCost = startCost.add(increase.mul(buyAmount));
-				let totalCost = endCost.sub(increase);
-				if (num.greaterThanOrEqualTo(startCost)) {
-					if (game.mult.unlocked[i] == false) {
-						game.mult.amount[i] = new Decimal(1.25);
-						game.mult.unlocked[i] = true;
-						game.number = game.number.div(game.mult.cost[i]);
-						maxAll("normal");
-					} else {
-						game.number = game.number.div((new Decimal(10)).pow((new Decimal(10)).pow(totalCost)));
-						game.mult.upgradeAmount[i] = game.mult.upgradeAmount[i].add(buyAmount);
-					}
-				}
-				updateAll();
-			}
-		break;
-		case "super":
-			for(let i = 1; i < game.superMult.amount.length; i++) {
-				while (game.superMult.cost[i].lessThan(game.number) 
-				       && !(document.getElementById("superMult" + i).classList.contains('hidden'))) {
-					buyMult(i, "super");
-				}
+		case "plexal":
+			if (game.plexal.essence.greaterThanOrEqualTo(game.plexal.upgrade.cost[n]) &&
+			   game.plexal.upgrade.unlocked[n-1] == true) {
+				game.plexal.essence = game.plexal.essence.sub(game.plexal.upgrade.cost[n]);
+				game.plexal.upgrade.unlocked[n] = true;
 			}
 		break;
 	}
 }
 
-//:O New mechanic
-function reset(level) {
-	switch (level) {
-		case 0:
-			if (game.number.greaterThanOrEqualTo(game.reset.cost)) {
-				game.number = newGame().number;
-				game.mult = newGame().mult;
-				game.reset.amount++;
-				updateAll();
+function toggleAuto(n) {
+	game.auto.on[n] = !game.auto.on[n];
+}
+
+/*********** 
+ * HOTKEYS *
+ ***********/
+
+document.addEventListener("keydown", function(input){
+	let key = input.key;
+	switch(key) {
+		case "1":
+		case "2":
+		case "3":
+		case "4":
+		case "5":
+		case "6":
+		case "7":
+		case "8":
+		case "9":
+			buyMult(Number(key));
+		break;
+		case "0":
+			buyMult(10);
+		break;
+		case "!":
+			maxMult(1);
+		break;
+		case "@":
+			maxMult(2);
+		break;
+		case "#":
+			maxMult(3);
+		break;
+		case "$":
+			maxMult(4);
+		break;
+		case "%":
+			maxMult(5);
+		break;
+		case "^":
+			maxMult(6);
+		break;
+		case "&":
+			maxMult(7);
+		break;
+		case "*":
+			maxMult(8);
+		break;
+		case "(":
+			maxMult(9);
+		break;
+		case ")":
+			maxMult(10);
+		break;
+		case "i":
+			iterate();
+		break;
+		case "I":
+			maxIterate();
+		break;
+		case "m":
+			maxAll();
+		break;
+		case "r":
+			reset();
+		break;
+		case "R":
+			if (game.plexal.upgrade.unlocked[9]) {
+				maxReset();
 			}
 		break;
-		case 1:
-			//nothin'
+		case "p":
+			plexal();
 		break;
 	}
+});
+
+/****************
+ * ACHIEVEMENTS *
+ ****************/
+
+const achievement = {
+	normal:{},
+	secret:{}
+};
+
+function Achievement(name, desc, alias, hidden, secret) {
+	this.name = name;
+	this.desc = desc;
+	this.alias = alias;
+	this.secret = false;
+	this.hidden = true;
+	if (secret == true) {
+		this.secret = true;
+	}
+	if (hidden == false) {
+		this.hidden = false;
+	}
+	if (this.secret) {
+		achievement.secret[alias] = this;
+		this.complete = function() {
+			if (!game.achievement.secretCompleted.includes(this.alias)) {
+				game.achievement.secretCompleted.push(this.alias);
+				notify("Achievement Completed:", this.name);
+			}
+		}
+	} else {
+		achievement.normal[alias] = this;
+		this.complete = function() {
+			if (!game.achievement.normalCompleted.includes(this.alias)) {
+				game.achievement.normalCompleted.push(this.alias);
+				notify("Achievement Completed:", this.name);
+			}
+		}
+	}
+	
+	let ach = document.createElement("span");
+	ach.id = this.alias + "Achieve";
+	ach.classList.add('achieve');
+	if (this.secret) {
+		document.getElementById("secretAchieve").appendChild(ach);
+	} else {
+		document.getElementById("normalAchieve").appendChild(ach);
+	}
+	
+	ach.appendChild(document.createElement("br"));
+	let achBox = document.createElement("button");
+	achBox.id = this.alias + "AchieveBox";
+	achBox.classList.add('noHover');
+	achBox.classList.add('achievement');
+	ach.appendChild(achBox);
+	
+	let nameText = document.createTextNode(this.name);
+	let big = document.createElement("span");
+	achBox.appendChild(big);
+	big.appendChild(nameText);
+	big.id = this.alias + "AchieveName";
+	
+	achBox.appendChild(document.createElement("br"));
+	let descText = document.createTextNode(this.desc); 
+	let small = document.createElement("span");
+	achBox.appendChild(small);
+	small.appendChild(descText);
+	small.id = this.alias + "AchieveDesc";
+	small.style.fontSize = "10px";
 }
+
+function hideCompleted() {
+	game.achievement.hideCompleted = !game.achievement.hideCompleted;
+}
+
+function createAchievements() {
+	// (name, desc, alias, [hidden?](default: true), [secret?](default: false))
+	new Achievement("Open the Achievements Tab", "Hi, this exist.", "openAchieve", false);
+	new Achievement("Unlock Multiplier 1", "It begins.", "unlock1", false);
+	new Achievement("Unlock Multiplier 2", "This is getting out of hand already.", "unlock2", false);
+	new Achievement("Unlock Multiplier 3", "Many people don't know how to count to three, so good thing you do know.", "unlock3", false);
+	new Achievement("Unlock Multiplier 4", "Wait where's the fifth one?", "unlock4", false);
+	new Achievement("Unlock Multiplier 5", "So this is where it was!", "unlock5");
+	new Achievement("Unlock Multiplier 6", "Six is sexy. I think nine agrees", "unlock6");
+	new Achievement("Unlock Multiplier 7", "Seven is a number cannibal. That's why everyone's scared of him/her.", "unlock7");
+	new Achievement("Unlock Multiplier 8", "Ninty degrees to infini- wait we're already there.", "unlock8");
+	new Achievement("Unlock Multiplier 9", "Good thing these aren't dimensions.", "unlock9");
+	new Achievement("Unlock Multiplier 10", "You have hit the ceiling. That must have hurt.", "unlock10");
+	new Achievement("Reset", "Don't worry, this isn't a hard reset.", "reset");
+	new Achievement("Plexal", "You've reached a googolplex. It perplexes many, but not you of course.", "plexal");
+	new Achievement("Inflate", "It's fine! It's fine! Stay calm! I said stay calm god dammit!", "inflate");
+	new Achievement("Start Automation", "I've finally added automation. You better thank me now.", "startAuto");
+	new Achievement('Import "export text"', "You... did what I said... I guess?", "followInstruction", true, true);
+	new Achievement("Thank Me", "I didn't expect that. Thank you.", "thanks", true, true);
+	new Achievement("Reach a Googolduplex", "Super-duper-duplex.", "googolduplex");
+	// new Achievement("Reach a Googoltriplex", "Thri", "googoltriplex");
+	new Achievement("Reach the current endgame", "You will lose this achievement if the endgame gets changed, but anyway, this is the endgame now.", "endgame", false);
+}
+
+createAchievements();
+load(true);
+window.requestAnimationFrame(nextFrame);
