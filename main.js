@@ -574,7 +574,6 @@ function updatePlexal() {
 		achievement.normal.inflate.hidden = false;
 		achievement.normal.startAuto.hidden = false;
 		achievement.normal.googolduplex.hidden = false;
-		achievement.normal.googoltriplex.hidden = false;
 	} else {
 		document.getElementById("plexalTabButton").classList.add('hidden');
 	}
@@ -1157,7 +1156,7 @@ function createAchievements() {
 	new Achievement("Thanks", "I didn't expect that. Thank you for thanking me!", "thanks", true, true);
 	new Achievement("Reach a Googolduplex", "Super-duper-duplex", "googolduplex");
 	// new Achievement("Reach a Googoltriplex", "Thri", "googoltriplex");
-	new Achievement("Reach the current endgame", "You will lose this achievement if the endgame gets changed, but anyway, this is the endgame now", "endgame");
+	new Achievement("Reach the current endgame", "You will lose this achievement if the endgame gets changed, but anyway, this is the endgame now", "endgame", false);
 }
 
 createAchievements();
