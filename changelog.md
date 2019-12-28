@@ -1,5 +1,5 @@
 # Change Log
-## v0.3: i didnt name this one - TBD
+## v0.3: Biggest Update Thus Far - December 28th, 2019
 * Increased version number by an order of magnitute and then some because this update is just that big
 * Additions
   * Added new prestige layer: "Plexal"
@@ -8,15 +8,15 @@
     * Added plexal upgrades
   * Added a tab system
   * Added hotkeys
-  * Added dark theme
-  * Added a notification system
+  * Added a dark theme
+  * Added notifications
   * Added achievements
-  * Added some automation
-  * Added stats tab
+  * Added automation
+  * Added stats
   * Added the version number to the page title
 * Bug fixes
-  * Fixed max all
-  * Fixed a save-destroying bug
+  * Fixed max all, again
+  * Fixed a save-destroying bug, again
 ## v0.02: Dial It Up To... 10? - November 28th, 2019
 * Added multiplier 5-10
 * Added reset mechanic
