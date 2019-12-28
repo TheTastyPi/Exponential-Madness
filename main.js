@@ -185,7 +185,7 @@ function merge(base, source) {
 			} else {
 				if (isDecimal(base[i]) && !isDecimal(source[i])) {
 					base[i] = new Decimal(source[i]);
-				} else if (!is Decimal(base[i]) && isDecimal(source[i])) {
+				} else if (!isDecimal(base[i]) && isDecimal(source[i])) {
 					base[i] = source[i].toNumber();
 				} else {
 					base[i] = source[i];
