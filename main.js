@@ -325,7 +325,7 @@ function toggleAutoSave() {
  ***********/
 
 function toTab(tab) {
-	document.getElementById(tab).parentNode.querySelectorAll(":scope > .tab").forEach(function(element) {
+	document.getElementById(tab).parentNode.querySelectorAll("#" + document.getElementById(tab).parentNode.id + " > .tab").forEach(function(element) {
 		element.classList.add('hidden');
 	});
 	document.getElementById(tab).classList.remove('hidden');
