@@ -706,9 +706,9 @@ function updateAuto() {
 		game.auto.unlocked[1] = false;
 	}
 	if (game.auto.on[0]) {
-		document.getElementById("autoMultButton").innerHTML ="Auto Multiplier Upgrade ON"
+		document.getElementById("autoMultButton").innerHTML ="Auto Multiplier ON"
 	} else {
-		document.getElementById("autoMultButton").innerHTML ="Auto Multiplier Upgrade OFF"
+		document.getElementById("autoMultButton").innerHTML ="Auto Multiplier OFF"
 	}
 	if (game.auto.on[1]) {
 		document.getElementById("autoIterateButton").innerHTML ="Auto Iterate ON"
