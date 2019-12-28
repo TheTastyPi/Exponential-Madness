@@ -948,7 +948,8 @@ function upgradeIterator() {
 }
 
 function maxUpgradeIterator() {
-	let PE = game.plexal.essence.log10().log10().mul(0.99999);
+	let PE = game.number.log10().log10();
+	PE.mag = PE.mag*0.999;
 	let startCost = game.iterator.upgrade.cost.log10().log10();
 	if (PE.greaterThanOrEqualTo(startCost)) {
 		let increase = game.iterator.upgrade.costIncrease.log10();
