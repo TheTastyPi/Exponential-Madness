@@ -183,7 +183,13 @@ function merge(base, source) {
 			if (typeof(base[i]) == "object" && typeof(source[i]) == "object" && !isDecimal(base[i]) && !isDecimal(source[i]) && base[i] != game.achievement) {
 				merge(base[i], source[i]);
 			} else {
-				base[i] = source[i];
+				if (isDecimal(base[i]) && !isDecimal(source[i])) {
+					base[i] = new Decimal(source[i]);
+				} else if (!is Decimal(base[i]) && isDecimal(source[i])) {
+					base[i] = source[i].toNumber();
+				} else {
+					base[i] = source[i];
+				}
 			}
 		}
 	}
