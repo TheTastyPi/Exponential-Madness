@@ -20,7 +20,7 @@
 ## v0.02: Dial It Up To... 10? - November 28th, 2019
 * Added multiplier 5-10
 * Added reset mechanic
-## v0.012: Superduper code refactoring kinda lol part 2 - November 24th, 2019?
+## v0.012: Superduper code refactoring kinda lol part 2 - November 23th, 2019
 * Created change log
 * Code refactoring
 * More code refactoring
