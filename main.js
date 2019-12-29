@@ -148,7 +148,7 @@ function importSave() {
 				break;
 			}
 		}
-		catch {
+		catch(why) {
 			err = true;
 			document.getElementById("importButton").innerHTML = "Invalid Save";
 			
@@ -183,7 +183,13 @@ function merge(base, source) {
 			if (typeof(base[i]) == "object" && typeof(source[i]) == "object" && !isDecimal(base[i]) && !isDecimal(source[i]) && base[i] != game.achievement) {
 				merge(base[i], source[i]);
 			} else {
-				base[i] = source[i];
+				if (isDecimal(base[i]) && !isDecimal(source[i])) {
+					base[i] = new Decimal(source[i]);
+				} else if (!isDecimal(base[i]) && isDecimal(source[i])) {
+					base[i] = source[i].toNumber();
+				} else {
+					base[i] = source[i];
+				}
 			}
 		}
 	}
@@ -200,7 +206,7 @@ function isDecimal(x) {
 function newGame() {
 	let save = {
 		permaStat: {
-			version: 0.3,
+			version: 0.301,
 			endgame: Decimal.fromComponents(1, 5, 1),
 			timePlayed: 0,
 			highestNum: new Decimal(10),
@@ -319,7 +325,7 @@ function toggleAutoSave() {
  ***********/
 
 function toTab(tab) {
-	document.getElementById(tab).parentNode.querySelectorAll(":scope > .tab").forEach(function(element) {
+	document.getElementById(tab).parentNode.querySelectorAll("#" + document.getElementById(tab).parentNode.id + " > .tab").forEach(function(element) {
 		element.classList.add('hidden');
 	});
 	document.getElementById(tab).classList.remove('hidden');

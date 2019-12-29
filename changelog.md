@@ -1,4 +1,8 @@
 # Change Log
+## v0.301: Mini-Bug Fix - December 28th, 2019
+* Fixed two bugs related to Edge
+  * One related to catch()
+  * One related to :scope
 ## v0.3: Biggest Update Thus Far - December 28th, 2019
 * Increased version number by an order of magnitute and then some because this update is just that big
 * Additions
@@ -20,7 +24,7 @@
 ## v0.02: Dial It Up To... 10? - November 28th, 2019
 * Added multiplier 5-10
 * Added reset mechanic
-## v0.012: Superduper code refactoring kinda lol part 2 - November 24th, 2019?
+## v0.012: Superduper code refactoring kinda lol part 2 - November 23th, 2019
 * Created change log
 * Code refactoring
 * More code refactoring
