@@ -363,7 +363,7 @@ function cycleTheme(){
 
 function findDisplay(n, point) {
 	if (n.lessThan(1000)) {
-		if (point) {
+		if (point || point == undefined) {
 			return n.toFixed(2);
 		} else {
 			return n.toFixed(0);
