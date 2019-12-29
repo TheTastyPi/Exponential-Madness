@@ -361,20 +361,20 @@ function cycleTheme(){
 	}
 }
 
-function findDisplay(n, point) {
+function findDisplay(n, noPoint) {
 	if (n.lessThan(1000)) {
-		if (point || point == undefined) {
-			return n.toFixed(2);
-		} else {
+		if (noPoint) {
 			return n.toFixed(0);
+		} else {
+			return n.toFixed(2);
 		}
 	} else if (n.lessThan(1e100)) {
-		return n.m.toFixed(2) + "e" + findDisplay(new Decimal(n.e, false));
+		return n.m.toFixed(2) + "e" + findDisplay(new Decimal(n.e, true));
 	} else if (n.lessThan(Decimal.fromComponents(1, 5, 1))) {
-		return "e" + findDisplay(n.log10(), false);
+		return "e" + findDisplay(n.log10(), true);
 	} else {
 		let x = new Decimal(n.mag).slog(10);
-		return "E" + (new Decimal(n.mag)).iteratedlog(10,x.floor()).toFixed(2) + "#" + (new Decimal(n.layer)).add(x.floor(), false);
+		return "E" + (new Decimal(n.mag)).iteratedlog(10,x.floor()).toFixed(2) + "#" + (new Decimal(n.layer)).add(x.floor(), true);
 	}
 }
 
