@@ -363,10 +363,10 @@ function cycleTheme(){
 
 function findDisplay(n, point) {
 	if (n.lessThan(1000)) {
-		if (!point) {
-			return n.toFixed(0);
-		} else {
+		if (point) {
 			return n.toFixed(2);
+		} else {
+			return n.toFixed(0);
 		}
 	} else if (n.lessThan(1e100)) {
 		return n.m.toFixed(2) + "e" + findDisplay(new Decimal(n.e, false));
