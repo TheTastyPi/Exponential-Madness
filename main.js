@@ -985,7 +985,7 @@ function buyUpgrade(n, type) {
 	switch (type) {
 		case "plexal":
 			if (game.plexal.essence.greaterThanOrEqualTo(game.plexal.upgrade.cost[n]) &&
-			   game.plexal.upgrade.unlocked[n-1] == true) {
+			   game.plexal.upgrade.unlocked[n-1] == true && game.plexal.upgrade.unlocked[n] == false) {
 				game.plexal.essence = game.plexal.essence.sub(game.plexal.upgrade.cost[n]);
 				game.plexal.upgrade.unlocked[n] = true;
 			}
