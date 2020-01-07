@@ -1,9 +1,11 @@
 # Change Log
-## v0.31: Non-Optimal Optimizations & Some Neat Stuff - TBA
+## v0.31: Stuff - TBD
 * Displays now no longer update when they're not shown
-* The favicon now changes with your current theme
+* Changed the favicon
+* The favicon now changes with your current theme (why not)
 * More achievements
 * Other notations
+  * TBD
 ## v0.301: Mini-Bug Fix - December 28th, 2019
 * Fixed two bugs related to Edge
   * One related to catch()
