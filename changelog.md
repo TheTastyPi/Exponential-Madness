@@ -4,6 +4,7 @@
   * One related to catch()
   * One related to :scope
 * Fixed a bug related to version transferring
+* Fixed a bug where you can keep spending PE on upgrades even when they're already bought
 * Made changes to how numbers are displayed
 ## v0.3: Biggest Update Thus Far - December 28th, 2019
 * Increased version number by an order of magnitute and then some because this update is just that big
