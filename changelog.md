@@ -4,8 +4,7 @@
 * Changed the favicon
 * The favicon now changes with your current theme (why not)
 * More achievements
-* Other notations
-  * TBD
+* Notation customization
 ## v0.301: Mini-Bug Fix - December 28th, 2019
 * Fixed two bugs related to Edge
   * One related to catch()
