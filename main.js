@@ -822,7 +822,6 @@ function calcAll() {
 	if (game.number.greaterThan(Decimal.fromComponents(1, 3, 100))) {
 		achievement.normal.googolduplex.complete();
 	}
-	calcTab();
 	calcMult();
 	calcReset();
 	calcPlexal();
