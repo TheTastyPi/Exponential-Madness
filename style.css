@@ -1,5 +1,9 @@
 * {
   font-family: "Lucida Console", Monaco, monospace;
+  scrollbar-color: black white;
+}
+.dark {
+  scrollbar-color: white black;
 }
 body {
   transition-duration: 0.2s;
