@@ -207,7 +207,7 @@ function isDecimal(x) {
 function newGame() {
 	let save = {
 		permaStat: {
-			version: 0.301,
+			version: 0.31,
 			endgame: Decimal.fromComponents(1, 5, 1),
 			timePlayed: 0,
 			highestNum: new Decimal(10),
@@ -325,43 +325,6 @@ function toggleAutoSave() {
  * DISPLAY *
  ***********/
 
-function toTab(tab) {
-	document.getElementById(tab).parentNode.querySelectorAll("#" + document.getElementById(tab).parentNode.id + " > .tab").forEach(function(element) {
-		element.classList.add('hidden');
-	});
-	document.getElementById(tab).classList.remove('hidden');
-	if (tab == 'achievement') {
-		achievement.normal.openAchieve.complete();
-	}
-}
-
-function updateTab() {
-	if (game.plexal.amount.greaterThanOrEqualTo(1)) {
-		document.getElementById("plexalStatTabButton").classList.remove('hidden');
-	} else {
-		document.getElementById("plexalStatTabButton").classList.add('hidden');
-		if (!document.getElementById("plexalStat").classList.contains('hidden')) {
-			toTab('normalStat');
-		}
-	}
-	if (game.auto.tabUnlocked) {
-		document.getElementById("autoTabButton").classList.remove('hidden');
-		achievement.normal.startAuto.complete();
-	} else {
-		document.getElementById("autoTabButton").classList.add('hidden');
-	}
-}
-
-function cycleTheme(){
-	document.querySelectorAll("*").forEach(function(element) {
-		element.classList.remove(game.theme.themeList[game.theme.currentTheme]);
-	});
-	game.theme.currentTheme++;
-	if (game.theme.currentTheme >= game.theme.themeList.length) {
-		game.theme.currentTheme = 0;
-	}
-}
-
 function findDisplay(n, noPoint) {
 	if (n.lessThan(1000)) {
 		if (noPoint) {
@@ -470,9 +433,26 @@ function notify(message, subMessage, bgColor) {
 	}, 3800)
 }
 
-/********************
- * UPDATE (display) *
- ********************/
+/*********
+ * UPDATE*
+ *********/
+
+function updateTab() {
+	if (game.plexal.amount.greaterThanOrEqualTo(1)) {
+		document.getElementById("plexalStatTabButton").classList.remove('hidden');
+	} else {
+		document.getElementById("plexalStatTabButton").classList.add('hidden');
+		if (!document.getElementById("plexalStat").classList.contains('hidden')) {
+			toTab('normalStat');
+		}
+	}
+	if (game.auto.tabUnlocked) {
+		document.getElementById("autoTabButton").classList.remove('hidden');
+		achievement.normal.startAuto.complete();
+	} else {
+		document.getElementById("autoTabButton").classList.add('hidden');
+	}
+}
 
 function getPower(n) {
 	let power = game.mult.powerPerBuy.pow(game.mult.upgradeAmount[n]).mul(game.reset.totalBoost).mul(game.iterator.totalBoost)
@@ -627,10 +607,34 @@ function updatePlexal() {
 
 function calcIterator() {
 	let it = game.iterator;
-	let upg = it.upgrade;
 	it.boost = it.baseBoost.mul(upg.totalBoost);
 	it.totalBoost = it.boost.pow(it.iteration);
 	it.cost = it.baseCost.pow(it.costIncrease.pow(it.iteration));
+}
+
+function updateIterator() {
+	let it = game.iterator;
+	document.getElementById("iteratorTotalBoost").innerHTML = "^" + findDisplay(it.totalBoost);
+	document.getElementById("iteration").innerHTML = findDisplay(it.iteration);
+	document.getElementById("iterationCost").innerHTML = findDisplay(it.cost);
+	document.getElementById("iteratorBoost").innerHTML = "^" + findDisplay(it.boost);
+	if (it.unlocked == true && game.mult.amount[1].greaterThan(1)) {
+		document.getElementById("iterate").classList.remove('hidden');
+	} else {
+		document.getElementById("iterate").classList.add('hidden');
+	}
+	if (game.number.greaterThanOrEqualTo(it.cost)) {
+		document.getElementById("iterateButton").classList.remove('disabled');
+		document.getElementById("iterateButton").classList.add('enabled');
+	} else {
+		document.getElementById("iterateButton").classList.remove('enabled');
+		document.getElementById("iterateButton").classList.add('disabled');  
+	}
+}
+
+function calcIteratorUpg() {
+	let it = game.iterator;
+	let upg = it.upgrade;
 	if (game.plexal.upgrade.unlocked[8]) {
 		upg.boost = upg.baseBoost.mul(game.reset.totalBoost);
 	}
@@ -642,34 +646,17 @@ function calcIterator() {
 	}
 }
 
-function updateIterator() {
+function updateIteratorUpg() {
 	let it = game.iterator;
 	let upg = it.upgrade;
-	document.getElementById("iteratorTotalBoost").innerHTML = "^" + findDisplay(it.totalBoost);
-	document.getElementById("iteration").innerHTML = findDisplay(it.iteration);
-	document.getElementById("iterationCost").innerHTML = findDisplay(it.cost);
-	document.getElementById("iteratorBoost").innerHTML = "^" + findDisplay(it.boost);
 	document.getElementById("iteratorUpgradeBoost").innerHTML = findDisplay(upg.boost);
 	document.getElementById("iteratorUpgradeCost").innerHTML = findDisplay(upg.cost);
 	if (it.unlocked == true) {
 		document.getElementById("iteratorUnlock").classList.add('hidden');
 		document.getElementById("iteratorUpgrade").classList.remove('hidden');
-		if (game.mult.amount[1].greaterThan(1)) {
-			document.getElementById("iterate").classList.remove('hidden');
-		} else {
-			document.getElementById("iterate").classList.add('hidden');
-		}
 	} else {
 		document.getElementById("iteratorUnlock").classList.remove('hidden');
 		document.getElementById("iteratorUpgrade").classList.add('hidden');
-		document.getElementById("iterate").classList.add('hidden');
-	}
-	if (game.number.greaterThanOrEqualTo(it.cost)) {
-		document.getElementById("iterateButton").classList.remove('disabled');
-		document.getElementById("iterateButton").classList.add('enabled');
-	} else {
-		document.getElementById("iterateButton").classList.remove('enabled');
-		document.getElementById("iterateButton").classList.add('disabled');  
 	}
 	if (game.plexal.essence.greaterThanOrEqualTo(1)) {
 		document.getElementById("iteratorUnlock").classList.remove('disabled');
@@ -687,8 +674,7 @@ function updateIterator() {
 	}
 }
 
-function calcUpg() {
-	// Plexal
+function calcPlexalUpg() {
 	game.plexal.upgrade.boost[1] = game.plexal.amount.add(1);
 	game.plexal.upgrade.boost[2] = game.iterator.boost;
 	game.plexal.upgrade.boost[3] = game.plexal.essence.pow(1.1).add(1);
@@ -703,8 +689,7 @@ function calcUpg() {
 	}
 }
 
-function updateUpg() {
-	// Plexal
+function updatePlexalUpg() {
 	for (let i = 1; i < game.plexal.upgrade.boost.length; i++) {
 		document.getElementById("plexalUpg" + i + "Boost").innerHTML = findDisplay(game.plexal.upgrade.boost[i]);
 	}
@@ -806,6 +791,31 @@ function updateAchievement() {
 	document.getElementById("secretAchieveCount").innerHTML = game.achievement.secretCompleted.length + "/" + Object.keys(achievement.secret).length;
 }
 
+function updateOption() {
+	if (game.autoSave) {
+		document.getElementById("autoSaveButton").innerHTML = "Auto Save: ON";
+	} else {
+		document.getElementById("autoSaveButton").innerHTML = "Auto Save: OFF";
+	}
+	document.querySelectorAll("*").forEach(function(element) {
+		element.classList.add(game.theme.themeList[game.theme.currentTheme]);
+	});
+	document.getElementById("themeButton").innerHTML = game.theme.themeList[game.theme.currentTheme].charAt(0).toUpperCase() + game.theme.themeList[game.theme.currentTheme].slice(1) + " Theme";
+}
+
+function updateHotkey() {
+	if (game.reset.unlocked) {
+		document.getElementById("hotkeyReset").classList.remove('hidden');
+	} else {
+		document.getElementById("hotkeyReset").classList.add('hidden');
+	}
+	if (game.plexal.amount.greaterThan(0)) {
+		document.getElementById("hotkeyPlexal").classList.remove('hidden');
+	} else {
+		document.getElementById("hotkeyPlexal").classList.add('hidden');
+	}
+}
+
 function calcAll() {
 	if (game.number.lessThan(1)) {
 		game.number = new Decimal(10);
@@ -826,47 +836,66 @@ function calcAll() {
 	calcReset();
 	calcPlexal();
 	calcIterator();
-	calcUpg();
+	calcIteratorUpg();
+	calcPlexalUpg();
 	calcAuto();
 }
 
 function updateAll() {
+	document.getElementById("title").innerHTML = "Exponential Madness v" + game.permaStat.version;
 	document.getElementById("multPerSecond").innerHTML = findDisplay(game.mult.generation[1]);
 	document.getElementById("number").innerHTML = findDisplay(game.number);
 	updateTab();
-	updateMult();
-	updateReset();
 	updatePlexal();
-	updateIterator();
-	updateUpg();
-	updateStat();
-	updateAuto();
-	updateAchievement();
-	document.getElementById("title").innerHTML = "Exponential Madness v" + game.permaStat.version;
-	if (game.autoSave) {
-		document.getElementById("autoSaveButton").innerHTML = "Auto Save: ON";
-	} else {
-		document.getElementById("autoSaveButton").innerHTML = "Auto Save: OFF";
+	if (!document.getElementById("mult").classList.contains("hidden")) {
+		updateMult();
+		updateReset();
+		updateIterator();
 	}
-	document.querySelectorAll("*").forEach(function(element) {
-		element.classList.add(game.theme.themeList[game.theme.currentTheme]);
-	});
-	document.getElementById("themeButton").innerHTML = game.theme.themeList[game.theme.currentTheme].charAt(0).toUpperCase() + game.theme.themeList[game.theme.currentTheme].slice(1) + " Theme";
-	if (game.reset.unlocked) {
-		document.getElementById("hotkeyReset").classList.remove('hidden');
-	} else {
-		document.getElementById("hotkeyReset").classList.add('hidden');
+	if (!document.getElementById("iterator").classList.contains("hidden")) {
+		updateIteratorUpg();
 	}
-	if (game.plexal.amount.greaterThan(0)) {
-		document.getElementById("hotkeyPlexal").classList.remove('hidden');
-	} else {
-		document.getElementById("hotkeyPlexal").classList.add('hidden');
+	if (!document.getElementById("plexalUpgrade").classList.contains("hidden")) {
+		updatePlexalUpg();
+	}
+	if (!document.getElementById("stat").classList.contains("hidden")) {
+		updateStat();
+	}
+	if (!document.getElementById("auto").classList.contains("hidden")) {
+		updateAuto();
+	}
+	if (!document.getElementById("achievement").classList.contains("hidden")) {
+		updateAchievement();
+	}
+	if (!document.getElementById("option").classList.contains("hidden")) {
+		updateOption();
+		updateHotkey();
 	}
 }
 
 /*****************
  * PLAYER ACTION *
  *****************/
+
+function toTab(tab) {
+	document.getElementById(tab).parentNode.querySelectorAll("#" + document.getElementById(tab).parentNode.id + " > .tab").forEach(function(element) {
+		element.classList.add('hidden');
+	});
+	document.getElementById(tab).classList.remove('hidden');
+	if (tab == 'achievement') {
+		achievement.normal.openAchieve.complete();
+	}
+}
+
+function cycleTheme(){
+	document.querySelectorAll("*").forEach(function(element) {
+		element.classList.remove(game.theme.themeList[game.theme.currentTheme]);
+	});
+	game.theme.currentTheme++;
+	if (game.theme.currentTheme >= game.theme.themeList.length) {
+		game.theme.currentTheme = 0;
+	}
+}
 
 function buyMult(n) {
 	if (!document.getElementById("mult" + n).classList.contains('hidden')) {
