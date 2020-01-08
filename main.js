@@ -607,6 +607,7 @@ function updatePlexal() {
 
 function calcIterator() {
 	let it = game.iterator;
+	let upg = it.upgrade;
 	it.boost = it.baseBoost.mul(upg.totalBoost);
 	it.totalBoost = it.boost.pow(it.iteration);
 	it.cost = it.baseCost.pow(it.costIncrease.pow(it.iteration));
