@@ -1089,7 +1089,7 @@ function openNotation() {
 	document.getElementById("notationMenu").classList.remove('hidden')
 }
 
-function closeAllModel() {
+function closeAllModal() {
 	document.querySelectorAll(".model").forEach(function(element) {
 		element.classList.add('hidden');
 	});
