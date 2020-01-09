@@ -347,7 +347,7 @@ function formatNum(n, notation, noPoint) {
 			}
 		break;
 		case "Scientific":
-			return n.m.toFixed(2) + "e" + findDisplay(new Decimal(n.e), true);
+			return n.m.toFixed(2) + "e" + findDisplay(n.log10().floor(), true);
 		break;
 		case "Logarithmic":
 			return "e" + findDisplay(n.log10(), true);
@@ -360,27 +360,15 @@ function formatNum(n, notation, noPoint) {
 }
 
 function findDisplay(n, noPoint) {
-	let err = false;
-	let returnVal;
-	try {
-		if (!noPoint) noPoint = false;
-		if (n.lessThan(game.notation.split[1])) {
-			returnVal = formatNum(n, game.notation.split[0], noPoint);
-		} else if (n.lessThan(game.notation.split[3])) {
-			returnVal = formatNum(n, game.notation.split[2], noPoint);
-		} else if (n.lessThan(game.notation.split[5])) {
-			returnVal = formatNum(n, game.notation.split[4], noPoint);
-		} else {
-			returnVal = formatNum(n, game.notation.split[6], noPoint);
-		}
-	}
-	catch(yeet) {
-		err = true;
-	}
-	if (err) {
-		return "N/A";
+	if (!noPoint) noPoint = false;
+	if (n.lessThan(game.notation.split[1])) {
+		return formatNum(n, game.notation.split[0], noPoint);
+	} else if (n.lessThan(game.notation.split[3])) {
+		return formatNum(n, game.notation.split[2], noPoint);
+	} else if (n.lessThan(game.notation.split[5])) {
+		return formatNum(n, game.notation.split[4], noPoint);
 	} else {
-		return returnVal;
+		return formatNum(n, game.notation.split[6], noPoint);
 	}
 }
 
