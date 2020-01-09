@@ -330,32 +330,44 @@ function toggleAutoSave() {
  ***********/
 
 function formatNum(n, notation, noPoint) {
-	switch(notation) {
-		case "Layer-Mag":
-			if (noPoint) {
-				if (n.layer == 0) {
-					return n.mag.toFixed(0);
+	let err = false;
+	let returnVal;
+	try {
+		switch(notation) {
+			case "Layer-Mag":
+				if (noPoint) {
+					if (n.layer == 0) {
+						returnVal = n.mag.toFixed(0);
+					} else {
+						returnVal = findDisplay(new Decimal(n.layer), true) + "-" + n.mag.toFixed(0);
+					}
 				} else {
-					return findDisplay(new Decimal(n.layer), true) + "-" + n.mag.toFixed(0);
+					if (n.layer == 0) {
+						returnVal = n.mag.toFixed(2);
+					} else {
+						returnVal = findDisplay(new Decimal(n.layer), true) + "-" + n.mag.toFixed(2);
+					}
 				}
-			} else {
-				if (n.layer == 0) {
-					return n.mag.toFixed(2);
-				} else {
-					return findDisplay(new Decimal(n.layer), true) + "-" + n.mag.toFixed(2);
-				}
-			}
-		break;
-		case "Scientific":
-			return n.m.toFixed(2) + "e" + findDisplay(new Decimal(n.e), true);
-		break;
-		case "Logarithmic":
-			return "e" + findDisplay(n.log10(), true);
-		break;
-		case "Hyper E":
-			let x = new Decimal(n.mag).slog(10);
-			return "E" + (new Decimal(n.mag)).iteratedlog(10,x.floor()).toFixed(2) + "#" + (new Decimal(n.layer)).add(x.floor());
-		break;
+			break;
+			case "Scientific":
+				returnVal = n.m.toFixed(2) + "e" + findDisplay(new Decimal(n.e), true);
+			break;
+			case "Logarithmic":
+				returnVal = "e" + findDisplay(n.log10(), true);
+			break;
+			case "Hyper E":
+				let x = new Decimal(n.mag).slog(10);
+				returnVal = "E" + (new Decimal(n.mag)).iteratedlog(10,x.floor()).toFixed(2) + "#" + (new Decimal(n.layer)).add(x.floor());
+			break;
+		}
+	}
+	catch(yeet) {
+		err = true;
+	}
+	if (err) {
+		return "N/A";
+	} else {
+		return returnVal;
 	}
 }
 
