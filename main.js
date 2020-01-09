@@ -352,14 +352,14 @@ function formatNum(n, notation, noPoint) {
 }
 
 function findDisplay(n, noPoint) {
-	if (n.lessThan(game.notation.split[2])) {
-		return formatNum(n, game.notation.split[1], noPoint);
-	} else if (n.lessThan(game.notation.split[4])) {
-		return formatNum(n, game.notation.split[3], noPoint);
-	} else if (n.lessThan(game.notation.split[6])) {
-		return formatNum(n, game.notation.split[5], noPoint);
+	if (n.lessThan(game.notation.split[1])) {
+		return formatNum(n, game.notation.split[0], noPoint);
+	} else if (n.lessThan(game.notation.split[3])) {
+		return formatNum(n, game.notation.split[2], noPoint);
+	} else if (n.lessThan(game.notation.split[5])) {
+		return formatNum(n, game.notation.split[4], noPoint);
 	} else {
-		return formatNum(n, game.notation.split[7], noPoint);
+		return formatNum(n, game.notation.split[6], noPoint);
 	}
 }
 
