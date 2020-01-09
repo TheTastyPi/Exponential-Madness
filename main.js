@@ -287,7 +287,7 @@ function newGame() {
 			currentTheme: 0,
 		},
 		notation: {
-			split: ["None", new Decimal(1000), "Scientific", new Decimal(1e100), "Logarithmic", Decimal.fromComponents(1, 5, 1), "Hyper E"],
+			split: ["Layer-Mag", new Decimal(1000), "Scientific", new Decimal(1e100), "Logarithmic", Decimal.fromComponents(1, 5, 1), "Hyper E"],
 			selected: 0
 		},
 		speed: 1
@@ -331,11 +331,11 @@ function toggleAutoSave() {
 
 function formatNum(n, notation, noPoint) {
 	switch(notation) {
-		case "None":
+		case "Layer-Mag":
 			if (noPoint) {
-				return n.toFixed(0);
+				return n.layer + "-" + n.m.toFixed(0);
 			} else {
-				return n.toFixed(2);
+				return n.layer + "-" + n.m.toFixed(2);
 			}
 		break;
 		case "Scientific":
