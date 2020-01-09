@@ -288,7 +288,8 @@ function newGame() {
 		},
 		notation: {
 			split: ["Layer-Mag", new Decimal(1000), "Scientific", new Decimal(1e100), "Logarithmic", Decimal.fromComponents(1, 5, 1), "Hyper E"],
-			selected: 0
+			selected: 0,
+			tetrationBase: new Decimal(2);
 		},
 		speed: 1
 	}
@@ -355,6 +356,9 @@ function formatNum(n, notation, noPoint) {
 		case "Hyper E":
 			let x = new Decimal(n.mag).slog(10);
 			return "E" + (new Decimal(n.mag)).iteratedlog(10,x.floor()).toFixed(2) + "#" + findDisplay((new Decimal(n.layer)).add(x.floor()), true);
+		break;
+		case "Tetration":
+			return game.notation.tetrationBase + "^^" + findDisplay(n.slog(game.notation.tetrationBase).toFixed(2));
 		break;
 	}
 }
