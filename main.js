@@ -333,9 +333,17 @@ function formatNum(n, notation, noPoint) {
 	switch(notation) {
 		case "Layer-Mag":
 			if (noPoint) {
-				return n.layer + "-" + n.mag.toFixed(0);
+				if (n.layer == 0) {
+					return n.mag.toFixed(0);
+				} else {
+					return n.layer + "-" + n.mag.toFixed(0);
+				}
 			} else {
-				return n.layer + "-" + n.mag.toFixed(2);
+				if (n.layer == 0) {
+					return n.mag.toFixed(2);
+				} else {
+					return n.layer + "-" + n.mag.toFixed(2);
+				}
 			}
 		break;
 		case "Scientific":
