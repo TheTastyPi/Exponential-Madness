@@ -334,27 +334,27 @@ function formatNum(n, notation, noPoint) {
 		case "Layer-Mag":
 			if (noPoint) {
 				if (n.layer == 0) {
-					return = n.mag.toFixed(0);
+					return n.mag.toFixed(0);
 				} else {
-					return = findDisplay(new Decimal(n.layer), true) + "-" + n.mag.toFixed(0);
+					return findDisplay(new Decimal(n.layer), true) + "-" + n.mag.toFixed(0);
 				}
 			} else {
 				if (n.layer == 0) {
-					return = n.mag.toFixed(2);
+					return n.mag.toFixed(2);
 				} else {
-					return = findDisplay(new Decimal(n.layer), true) + "-" + n.mag.toFixed(2);
+					return findDisplay(new Decimal(n.layer), true) + "-" + n.mag.toFixed(2);
 				}
 			}
 		break;
 		case "Scientific":
-			return = n.m.toFixed(2) + "e" + findDisplay(new Decimal(n.e), true);
+			return n.m.toFixed(2) + "e" + findDisplay(new Decimal(n.e), true);
 		break;
 		case "Logarithmic":
-			return = "e" + findDisplay(n.log10(), true);
+			return "e" + findDisplay(n.log10(), true);
 		break;
 		case "Hyper E":
 			let x = new Decimal(n.mag).slog(10);
-			return = "E" + (new Decimal(n.mag)).iteratedlog(10,x.floor()).toFixed(2) + "#" + (new Decimal(n.layer)).add(x.floor());
+			return "E" + (new Decimal(n.mag)).iteratedlog(10,x.floor()).toFixed(2) + "#" + (new Decimal(n.layer)).add(x.floor());
 		break;
 	}
 }
