@@ -352,6 +352,7 @@ function formatNum(n, notation, noPoint) {
 }
 
 function findDisplay(n, noPoint) {
+	if (!noPoint) noPoint = false;
 	if (n.lessThan(game.notation.split[1])) {
 		return formatNum(n, game.notation.split[0], noPoint);
 	} else if (n.lessThan(game.notation.split[3])) {
