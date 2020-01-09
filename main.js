@@ -329,9 +329,8 @@ function toggleAutoSave() {
  * DISPLAY *
  ***********/
 
-function formatNum(split, n, noPoint) {
-	let x = game.notation.split[split];
-	switch(x) {
+function formatNum(n, notation, noPoint) {
+	switch(notation) {
 		case "None":
 			if (noPoint) {
 				return n.toFixed(0);
@@ -354,13 +353,13 @@ function formatNum(split, n, noPoint) {
 
 function findDisplay(n, noPoint) {
 	if (n.lessThan(game.notation.split[2])) {
-		return formatNum(1, n, noPoint);
+		return formatNum(n, game.notation.split[1], noPoint);
 	} else if (n.lessThan(game.notation.split[4])) {
-		return formatNum(3, n, noPoint);
+		return formatNum(n, game.notation.split[3], noPoint);
 	} else if (n.lessThan(game.notation.split[6])) {
-		return formatNum(5, n, noPoint);
+		return formatNum(n, game.notation.split[5], noPoint);
 	} else {
-		return formatNum(7, n, noPoint);
+		return formatNum(n, game.notation.split[7], noPoint);
 	}
 }
 
