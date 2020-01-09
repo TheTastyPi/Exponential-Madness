@@ -340,9 +340,13 @@
     <div class="hidden" id="grayout"></div>
     <div class="modal hidden" id="notationMenu">
       <div>
-        <button type="button" style="margin-left: auto; margin-right: 0;" class="warning" onclick="closeAllModal()">x</button>
+        <button type="button" style="float:right;" class="warning" onclick="closeAllModal()">x</button>
       </div>
-      <button type="button">normal</button>
+      <div style="float:left; margin:auto;">
+        <button type="button">Scientific</button>
+        &it; 1e10 &le;
+        <button type="button">Scientific</button>
+      </div>
     </div>
     <textarea style="opacity: .01; height:0; position:absolute; z-index: -1;" id="exportArea">export text</textarea>
   </body>
