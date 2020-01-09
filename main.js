@@ -336,13 +336,13 @@ function formatNum(n, notation, noPoint) {
 				if (n.layer == 0) {
 					return n.mag.toFixed(0);
 				} else {
-					return findDisplay(n.layer, true) + "-" + n.mag.toFixed(0);
+					return findDisplay(new Decimal(n.layer), true) + "-" + n.mag.toFixed(0);
 				}
 			} else {
 				if (n.layer == 0) {
 					return n.mag.toFixed(2);
 				} else {
-					return findDisplay(n.layer, true) + "-" + n.mag.toFixed(2);
+					return findDisplay(new Decimal(n.layer), true) + "-" + n.mag.toFixed(2);
 				}
 			}
 		break;
