@@ -284,7 +284,7 @@ function newGame() {
 		updateSpeed: 50,
 		theme: {
 			themeList:["light", "dark"],
-			currentTheme: 0,
+			currentTheme: 0
 		},
 		notation: {
 			split: ["Layer-Mag", new Decimal(1000), "Scientific", new Decimal(1e100), "Logarithmic", Decimal.fromComponents(1, 5, 1), "Hyper E"],
@@ -336,13 +336,13 @@ function formatNum(n, notation, noPoint) {
 				if (n.layer == 0) {
 					return n.mag.toFixed(0);
 				} else {
-					return n.layer + "-" + n.mag.toFixed(0);
+					return findDisplay(n.layer, true) + "-" + n.mag.toFixed(0);
 				}
 			} else {
 				if (n.layer == 0) {
 					return n.mag.toFixed(2);
 				} else {
-					return n.layer + "-" + n.mag.toFixed(2);
+					return findDisplay(n.layer, true) + "-" + n.mag.toFixed(2);
 				}
 			}
 		break;
