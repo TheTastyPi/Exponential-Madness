@@ -286,6 +286,10 @@ function newGame() {
 			themeList:["light", "dark"],
 			currentTheme: 0,
 		},
+		notation: {
+			split: ["None", new Decimal(1000), "Scientific", new Decimal(1e100), "Logarithmic", Decimal.fromComponents(1, 5, 1), "Hyper E"],
+			selected: 0
+		},
 		speed: 1
 	}
 	return save;
@@ -325,20 +329,38 @@ function toggleAutoSave() {
  * DISPLAY *
  ***********/
 
+function formatNum(split, n, noPoint) {
+	let x = game.notation.split[split];
+	switch(x) {
+		case "None":
+			if (noPoint) {
+				return n.toFixed(0);
+			} else {
+				return n.toFixed(2);
+			}
+		break;
+		case "Scientific":
+			return n.m.toFixed(2) + "e" + findDisplay(new Decimal(n.e), true);
+		break;
+		case "Logarithmic":
+			return "e" + findDisplay(n.log10(), true);
+		break;
+		case "Hyper E":
+			let x = new Decimal(n.mag).slog(10);
+			return "E" + (new Decimal(n.mag)).iteratedlog(10,x.floor()).toFixed(2) + "#" + (new Decimal(n.layer)).add(x.floor());
+		break;
+	}
+}
+
 function findDisplay(n, noPoint) {
-	if (n.lessThan(1000)) {
-		if (noPoint) {
-			return n.toFixed(0);
-		} else {
-			return n.toFixed(2);
-		}
-	} else if (n.lessThan(1e100)) {
-		return n.m.toFixed(2) + "e" + findDisplay(new Decimal(n.e), true);
-	} else if (n.lessThan(Decimal.fromComponents(1, 5, 1))) {
-		return "e" + findDisplay(n.log10(), true);
+	if (n.lessThan(game.notation.split[2])) {
+		formatNum(1, n, noPoint);
+	} else if (n.lessThan(game.notation.split[4])) {
+		formatNum(3, n, noPoint);
+	} else if (n.lessThan(game.notation.split[6])) {
+		formatNum(5, n, noPoint);
 	} else {
-		let x = new Decimal(n.mag).slog(10);
-		return "E" + (new Decimal(n.mag)).iteratedlog(10,x.floor()).toFixed(2) + "#" + (new Decimal(n.layer)).add(x.floor());
+		formatNum(7, n, noPoint);
 	}
 }
 
@@ -1083,16 +1105,24 @@ window.onclick = function(event) {
 	}
 }
 
-function openNotation() {
-	toggleGrayout();
-	document.getElementById("notationMenu").classList.remove('hidden')
-}
-
 function closeAllModal() {
 	toggleGrayout();
 	document.querySelectorAll(".modal").forEach(function(element) {
 		element.classList.add('hidden');
 	});
+}
+
+function openNotation() {
+	toggleGrayout();
+	document.getElementById("notationMenu").classList.remove('hidden')
+}
+
+function selectSplit(n) {
+	game.notation.selected = n;
+}
+
+function changeSplit(x) {
+	game.notation.split[game.notation.selected] = x;
 }
 
 /*********** 
