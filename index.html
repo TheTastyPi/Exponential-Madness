@@ -200,6 +200,9 @@
       <button type="button" style="font-size: 13px" class="big" onclick="changeAutoSaveSpeed()" id="autoSaveSpeedButton">
         Auto-Save Speed: 1s
       </button>
+      <button type="button" class="big" onclick="openNotation()" id="notationButton">
+        Notations
+      </button>
       <br>
       <button type="button" class="big" onclick="exportSave()" id="exportButton">
         Export
@@ -334,6 +337,10 @@
         </button>
       </span>
     </span>
+    <div class="hidden" id="grayout"></div>
+    <div class="modal" id="notationMenu">
+      <button type="button" style="float: right" class="warning" onclick="closeAllModal()">x</button>
+    </div>
     <textarea style="opacity: .01; height:0; position:absolute; z-index: -1;" id="exportArea">export text</textarea>
   </body>
   <script type="text/javascript" src="break_eternity.js"></script>
