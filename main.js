@@ -354,7 +354,7 @@ function formatNum(n, notation, noPoint) {
 		break;
 		case "Hyper E":
 			let x = new Decimal(n.mag).slog(10);
-			return "E" + (new Decimal(n.mag)).iteratedlog(10,x.floor()).toFixed(2) + "#" + (new Decimal(n.layer)).add(x.floor());
+			return "E" + (new Decimal(n.mag)).iteratedlog(10,x.floor()).toFixed(2) + "#" + findDisplay((new Decimal(n.layer)).add(x.floor()), true);
 		break;
 	}
 }
