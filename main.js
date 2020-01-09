@@ -289,7 +289,7 @@ function newGame() {
 		notation: {
 			split: ["Layer-Mag", new Decimal(1000), "Scientific", new Decimal(1e100), "Logarithmic", Decimal.fromComponents(1, 5, 1), "Hyper E"],
 			selected: 0,
-			tetrationBase: new Decimal(2);
+			tetrationBase: new Decimal(2)
 		},
 		speed: 1
 	}
