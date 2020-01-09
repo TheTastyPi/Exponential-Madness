@@ -1068,6 +1068,33 @@ function toggleAuto(n) {
 	game.auto.on[n] = !game.auto.on[n];
 }
 
+function toggleGrayout() {
+	let grayout = document.getElementById("grayout");
+	if (grayout.classList.contains("hidden")) {
+		grayout.classList.remove('hidden');
+	} else {
+		grayout.classList.add('hidden');
+	}
+}
+
+window.onclick = function(event) {
+	if (event.target == document.getElementById("grayout")) {
+		toggleGrayout();
+		closeAllModel();
+	}
+}
+
+function openNotation() {
+	toggleGrayout();
+	document.getElementById("notationMenu").classList.remove('hidden')
+}
+
+function closeAllModel() {
+	document.querySelectorAll(".model").forEach(function(element) {
+		element.classList.add('hidden');
+	});
+}
+
 /*********** 
  * HOTKEYS *
  ***********/
