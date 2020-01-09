@@ -1079,7 +1079,6 @@ function toggleGrayout() {
 
 window.onclick = function(event) {
 	if (event.target == document.getElementById("grayout")) {
-		toggleGrayout();
 		closeAllModal();
 	}
 }
@@ -1090,7 +1089,8 @@ function openNotation() {
 }
 
 function closeAllModal() {
-	document.querySelectorAll(".model").forEach(function(element) {
+	toggleGrayout();
+	document.querySelectorAll(".modal").forEach(function(element) {
 		element.classList.add('hidden');
 	});
 }
