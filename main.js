@@ -354,13 +354,13 @@ function formatNum(split, n, noPoint) {
 
 function findDisplay(n, noPoint) {
 	if (n.lessThan(game.notation.split[2])) {
-		formatNum(1, n, noPoint);
+		return formatNum(1, n, noPoint);
 	} else if (n.lessThan(game.notation.split[4])) {
-		formatNum(3, n, noPoint);
+		return formatNum(3, n, noPoint);
 	} else if (n.lessThan(game.notation.split[6])) {
-		formatNum(5, n, noPoint);
+		return formatNum(5, n, noPoint);
 	} else {
-		formatNum(7, n, noPoint);
+		return formatNum(7, n, noPoint);
 	}
 }
 
