@@ -143,8 +143,6 @@ button.dark.notification:not(.noHover):hover {
   transform: translate(-50%, -50%);
   background-color: white;
   border: 2px solid black;
-  display: flex;
-  max-width: 100%;
 }
 .modal.dark {
   background-color: black;
