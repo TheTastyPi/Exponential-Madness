@@ -144,6 +144,7 @@ button.dark.notification:not(.noHover):hover {
   background-color: white;
   border: 2px solid black;
   display: inline-block;
+  max-height: 75%;
 }
 .modal.dark {
   background-color: black;
