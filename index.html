@@ -344,16 +344,29 @@
       </div>
       <br>
       <div style="float:left; margin:10px; text-align:center">
-        <button type="button" class="big">Scientific</button>
+        <button type="button" class="big" onclick="selectSplit(0)">Layer-Mag</button>
         <br>
-        &lt; 1e10 &le;
+        &lt; <input type="text" id="split1"> &le;
         <br>
-        <button type="button" class="big">Scientific</button>
+        <button type="button" class="big" onclick="selectSplit(2)">Scientific</button>
+        <br>
+        &lt; <input type="text" id="split3"> &le;
+        <br>
+        <button type="button" class="big" onclick="selectSplit(4)">Logarithmic</button>
+        &lt; <input type="text" id="split4"> &le;
+        <br>
+        <button type="button" class="big" onclick="selectSplit(6)">Hyper E</button>
       </div>
       <div style="float:right; margin:10px;">
-        <button type="button" class="big">Scientific</button>
+        <button type="button" class="big" onclick="changeSplit('Layer-Mag')">Layer-Mag</button>
         <br>
-        <button type="button" class="big">Scientific</button>
+        <button type="button" class="big" onclick="changeSplit('Scientific')">Scientific</button>
+        <br>
+        <button type="button" class="big" onclick="changeSplit('Logarithmic')">Logarithmic</button>
+        <br>
+        <button type="button" class="big" onclick="changeSplit('Hyper-E')">Hyper-E</button>
+        <br>
+        <button type="button" class="big" onclick="changeSplit('Tetration')">Tetration</button>
       </div>
     </div>
     <textarea style="opacity: .01; height:0; position:absolute; z-index: -1;" id="exportArea">export text</textarea>
