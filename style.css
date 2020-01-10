@@ -15,7 +15,7 @@ button {
   border-radius: 15px;
   vertical-align: middle;
   transition-duration: 0.2s;
-  margin: 5px;
+  margin: 2px;
 }
 button.dark {
   background-color: black;
