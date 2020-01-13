@@ -381,10 +381,10 @@ function unformatNum(str) {
 		return new Decimal(str);
 	} else if (str.includes("-") && str.charAt(0) != "-") {
 		let split = str.split("-");
-		return Decimal.fromComponents(1, split[0], split[1]);
+		return Decimal.fromComponents(1, Number(split[0]), Number(split[1]));
 	} else if (str.includes("#") && str.charAt(0) == "E") {
 		let split = str.split("#");
-		return Decimal.fromComponents(1, split[1], split[0].replace("E", ""));
+		return Decimal.fromComponents(1, Number(split[1]), Number(split[0].replace("E", "")));
 	} else {
 		return "INVALID VALUE";
 	}
