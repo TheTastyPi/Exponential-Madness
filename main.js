@@ -937,6 +937,9 @@ function updateAll() {
 		updateOption();
 		updateHotkey();
 	}
+	if (!document.getElementById("notationMenu").classList.contains("hidden")) {
+		updateNotation();
+	}
 	document.querySelectorAll("*").forEach(function(element) {
 		element.classList.add(game.theme.themeList[game.theme.currentTheme]);
 	});
