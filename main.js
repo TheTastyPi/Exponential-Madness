@@ -377,16 +377,22 @@ function findDisplay(n, noPoint) {
 }
 
 function unformatNum(str) {
+	let num;
 	if (new Decimal(str).toString() == str) {
-		return new Decimal(str);
+		num = new Decimal(str);
 	} else if (str.includes("-") && str.charAt(0) != "-") {
 		let split = str.split("-");
-		return Decimal.fromComponents(1, Number(split[0]), Number(split[1]));
+		num = Decimal.fromComponents(1, Number(split[0]), Number(split[1]));
 	} else if (str.includes("#") && str.charAt(0) == "E") {
 		let split = str.split("#");
-		return Decimal.fromComponents(1, Number(split[1]), Number(split[0].replace("E", "")));
+		num = Decimal.fromComponents(1, Number(split[1]), Number(split[0].replace("E", "")));
 	} else {
 		return "INVALID VALUE";
+	}
+	if (num.layer == Infinity || num.mag == Infinity) {
+		return "INVALID VALUE";
+	} else {
+		return num;
 	}
 }
 
