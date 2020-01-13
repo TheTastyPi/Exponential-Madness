@@ -868,17 +868,13 @@ function updateHotkey() {
 	}
 }
 
-function calcNotation() {
-	
-}
-
 function updateNotation() {
 	for (let i = 0; i < 7; i += 2) {
 		document.getElementById("split" + i).innerHTML = game.notation.split[i];
 	}
 	for (let i = 1; i < 6; i += 2) {
 		game.notation.split[i] = unformatNum(document.getElementById("split" + i).value);
-		document.getElementById("split" + i).value = game.notation.split[i];
+		document.getElementById("split" + i).value = findDisplay(game.notation.split[i]);
 	}
 }
 
