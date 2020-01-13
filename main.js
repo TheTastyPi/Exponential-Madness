@@ -389,7 +389,7 @@ function unformatNum(str) {
 	} else {
 		return "INVALID VALUE";
 	}
-	if (num.layer == Infinity || num.mag == Infinity) {
+	if (num.layer == Infinity || num.mag == Infinity || isNaN(num.layer) || isNaN(num.mag)) {
 		return "INVALID VALUE";
 	} else {
 		return num;
