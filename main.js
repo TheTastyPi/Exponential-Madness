@@ -443,8 +443,8 @@ function findTimeDisplay(ms) {
 	return time;
 }
 
-function pluralCheck(x) {
-	if ((x)) {
+function pluralCheck(x, decimal) {
+	if (decimal) {
 		if (x.equals(1)) {
 			return "";
 		} else {
@@ -770,8 +770,8 @@ function updatePlexalUpg() {
 function updateStat() {
 	document.getElementById("timePlayed").innerHTML = findTimeDisplay(game.permaStat.timePlayed);
 	document.getElementById("highestNum").innerHTML = findDisplay(game.permaStat.highestNum);
-	document.getElementById("totalReset").innerHTML = "You have reseted a total of " + findDisplay(game.permaStat.totalReset) + " time" + pluralCheck(game.permaStat.totalReset);
-	document.getElementById("plexalAmount").innerHTML = findDisplay(game.plexal.amount) + " time" + pluralCheck(game.plexal.amount);
+	document.getElementById("totalReset").innerHTML = "You have reseted a total of " + findDisplay(game.permaStat.totalReset) + " time" + pluralCheck(game.permaStat.totalReset, true);
+	document.getElementById("plexalAmount").innerHTML = findDisplay(game.plexal.amount) + " time" + pluralCheck(game.plexal.amount, true);
 	if (game.permaStat.totalReset.greaterThan(0)) {
 		document.getElementById("totalReset").classList.remove('hidden');
 	} else {
