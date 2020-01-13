@@ -869,13 +869,15 @@ function updateHotkey() {
 	}
 }
 
+function calcNotation() {
+	for (let i = 1; i < 6; i += 2) {
+		game.notation.split[i] = unformatNum(document.getElementById("split" + i).value);
+	}
+}
+
 function updateNotation() {
 	for (let i = 0; i < 7; i += 2) {
 		document.getElementById("split" + i).innerHTML = game.notation.split[i];
-	}
-	for (let i = 1; i < 6; i += 2) {
-		game.notation.split[i] = unformatNum(document.getElementById("split" + i).value);
-		document.getElementById("split" + i).value = findDisplay(game.notation.split[i]);
 	}
 }
 
@@ -1343,6 +1345,11 @@ function createAchievements() {
 	new Achievement("Reach the current endgame", "You will lose this achievement if the endgame gets changed, but anyway, this is the endgame now.", "endgame", false);
 }
 
+{for (let i = 1; i < 6; i += 2) {
+	document.getElementById("split" + i).value = findDisplay(game.notation.split[i]);
+}}
+
 createAchievements();
+
 load(true);
 window.requestAnimationFrame(nextFrame);
