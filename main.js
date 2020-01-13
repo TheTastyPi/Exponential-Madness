@@ -877,7 +877,7 @@ function updateNotation() {
 		document.getElementById("split" + i).innerHTML = game.notation.split[i];
 	}
 	for (let i = 1; i < 6; i += 2) {
-		unformatNum(document.getElementById("split" + i).value);
+		game.notation.split[i] = unformatNum(document.getElementById("split" + i).value);
 		document.getElementById("split" + i).value = game.notation.split[i];
 	}
 }
