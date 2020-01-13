@@ -169,7 +169,7 @@ function importSave() {
 // totally didn't copy this from somewhere else
 function objectToDecimal(object) { 
 	for (let i in object) {
-		if (typeof(object[i]) == "string" && !isNaN(new Decimal(object[i]).mag) && !(new Decimal(object[i]).sign == 0 && object[i] != "0")) {
+		if (typeof(object[i]) == "string" && new Decimal(object[i]).toString() == object[i]) {
 			object[i] = new Decimal(object[i]);
 		}
 		if (typeof(object[i]) == "object") {
@@ -377,7 +377,7 @@ function findDisplay(n, noPoint) {
 }
 
 function unformatNum(str) {
-	if (!isNaN(new Decimal(str).mag) && !(new Decimal(str).sign == 0 && str != "0")) {
+	if (new Decimal(str).toString() == str) {
 		return new Decimal(str);
 	} else if (str.includes("-") && str.charAt(0) != "-") {
 		let split = str.split("-");
