@@ -377,8 +377,7 @@ function findDisplay(n, noPoint) {
 }
 
 function unformatNum(str) {
-	let num;
-	if (!isNaN(new Decimal(object[i]).mag) && !(new Decimal(object[i]).sign == 0 && object[i] != "0")) {
+	if (!isNaN(new Decimal(str).mag) && !(new Decimal(str).sign == 0 && str != "0")) {
 		return new Decimal(str);
 	} else if (str.includes("-") && str.charAt(0) != "-") {
 		let split = str.split("-");
