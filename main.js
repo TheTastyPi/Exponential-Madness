@@ -376,6 +376,21 @@ function findDisplay(n, noPoint) {
 	}
 }
 
+function unformatNum(str) {
+	let num;
+	if (!isNaN(new Decimal(object[i]).mag) && !(new Decimal(object[i]).sign == 0 && object[i] != "0")) {
+		return new Decimal(str);
+	} else if (str.includes("-") && str.charAt(0) != "-") {
+		let split = str.split("-");
+		return Decimal.fromComponents(1, split[0], split[1]);
+	} else if (str.includes("#") && str.charAt(0) == "E") {
+		let split = str.split("#");
+		return Decimal.fromComponents(1, split[1], split[0].replace("E", ""));
+	} else {
+		return "INVALID VALUE";
+	}
+}
+
 function findTimeDisplay(ms) {
 	let s = ms/1000;
 	let ds = mod(s, 60).toFixed(2);
@@ -424,7 +439,7 @@ function findTimeDisplay(ms) {
 }
 
 function pluralCheck(x) {
-	if (isDecimal(x)) {
+	if ((x)) {
 		if (x.equals(1)) {
 			return "";
 		} else {
@@ -845,6 +860,20 @@ function updateHotkey() {
 		document.getElementById("hotkeyPlexal").classList.remove('hidden');
 	} else {
 		document.getElementById("hotkeyPlexal").classList.add('hidden');
+	}
+}
+
+function calcNotation() {
+	
+}
+
+function updateNotation() {
+	for (let i = 0; i < 7; i += 2) {
+		document.getElementById("split" + i).innerHTML = game.notation.split[i];
+	}
+	for (let i = 1; i < 6; i += 2) {
+		unformatNum(document.getElementById("split" + i).value);
+		document.getElementById("split" + i).value = game.notation.split[i];
 	}
 }
 
