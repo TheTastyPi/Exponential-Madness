@@ -364,7 +364,7 @@ function formatNum(n, notation, noPoint) {
 }
 
 function findDisplay(n, noPoint) {
-	if (n = "INVALID VALUE") return n;
+	if (n == "INVALID VALUE") return n;
 	if (!noPoint) noPoint = false;
 	if (n.lessThan(game.notation.split[1])) {
 		return formatNum(n, game.notation.split[0], noPoint);
