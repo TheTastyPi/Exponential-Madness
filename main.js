@@ -380,10 +380,10 @@ function unformatNum(str) {
 	let num;
 	if (new Decimal(str).toString() == str) {
 		num = new Decimal(str);
-	} else if (str.includes("-") && str.charAt(0) != "-") {
+	} else if (str.includes("-") && str.charAt(0) != "-" && (str.match(/-/gi)||[].length) == 1) {
 		let split = str.split("-");
 		num = Decimal.fromComponents(1, Number(split[0]), Number(split[1]));
-	} else if (str.includes("#") && str.charAt(0) == "E") {
+	} else if (str.includes("#") && str.charAt(0) == "E" && (str.match(/#/gi)||[].length) == 1 && (str.match(/E/gi)||[].length) == 1) {
 		let split = str.split("#");
 		num = Decimal.fromComponents(1, Number(split[1]), Number(split[0].replace("E", "")));
 	} else {
