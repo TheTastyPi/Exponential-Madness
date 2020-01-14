@@ -1171,6 +1171,10 @@ function selectSplit(n) {
 
 function changeSplit(x) {
 	game.notation.split[game.notation.selected] = x;
+	if (x == "Tetration") {
+		let base = prompt("Please input tetration base.");
+		if (base != null) game.notation.tetrationBase = base;
+	}
 }
 
 /*********** 
