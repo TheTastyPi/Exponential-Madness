@@ -288,7 +288,7 @@ function newGame() {
 		},
 		notation: {
 			split: ["Layer-Mag", new Decimal(1000), "Scientific", new Decimal(1e100), "Logarithmic", Decimal.fromComponents(1, 5, 1), "Hyper E"],
-			selected: 0,
+			selected: 2,
 			tetrationBase: new Decimal(2)
 		},
 		speed: 1
@@ -876,8 +876,13 @@ function calcNotation() {
 }
 
 function updateNotation() {
-	for (let i = 0; i < 7; i += 2) {
+	for (let i = 2; i < 7; i += 2) {
 		document.getElementById("split" + i).innerHTML = game.notation.split[i];
+		if (game.notation.selected == i) {
+			document.getElementById("split" + i).classList.add('enabled');
+		} else {
+			document.getElementById("split" + i).classList.remove('enabled');
+		}
 	}
 }
 
