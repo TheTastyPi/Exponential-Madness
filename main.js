@@ -348,17 +348,33 @@ function formatNum(n, notation, noPoint) {
 			}
 		break;
 		case "Scientific":
-			return n.m.toFixed(2) + "e" + findDisplay(n.log10().floor(), true);
+			if (n.log10().lessThan(10)) {
+				return n.m.toFixed(2) + "e" + n.log10().floor();
+			} else {
+				return n.m.toFixed(2) + "e" + findDisplay(n.log10().floor(), true);
+			}
 		break;
 		case "Logarithmic":
-			return "e" + findDisplay(n.log10(), true);
+			if (n.log10().lessThan(10)) {
+				return "e" + n.log10();
+			} else {
+				return "e" + findDisplay(n.log10(), true);
+			}
 		break;
 		case "Hyper E":
 			let x = new Decimal(n.mag).slog(10);
-			return "E" + (new Decimal(n.mag)).iteratedlog(10,x.floor()).toFixed(2) + "#" + findDisplay((new Decimal(n.layer)).add(x.floor()), true);
+			if ((new Decimal(n.layer)).add(x.floor()).lessThan(10)) {
+				return "E" + (new Decimal(n.mag)).iteratedlog(10,x.floor()).toFixed(2) + "#" + (new Decimal(n.layer)).add(x.floor());
+			} else {
+				return "E" + (new Decimal(n.mag)).iteratedlog(10,x.floor()).toFixed(2) + "#" + findDisplay((new Decimal(n.layer)).add(x.floor()), true);
+			}
 		break;
 		case "Tetration":
-			return game.notation.tetrationBase + "^^" + findDisplay(n.slog(game.notation.tetrationBase));
+			if (n.slog(game.notation.tetrationBase).lessThan(game.notation.tetrationBase)) {
+				return game.notation.tetrationBase + "^^" + n.slog(game.notation.tetrationBase);
+			} else {
+				return game.notation.tetrationBase + "^^" + findDisplay(n.slog(game.notation.tetrationBase));
+			}
 		break;
 	}
 }
