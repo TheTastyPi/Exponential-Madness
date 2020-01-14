@@ -872,13 +872,15 @@ function updateHotkey() {
 function calcNotation() {
 	for (let i = 1; i < 6; i += 2) {
 		let num = unformatNum(document.getElementById("split" + i).value);
-		if (i != 1) {
+		if (i != 1 && num != "INVALID VALUE") {
 			if (num.lessThanOrEqualTo(game.notation.split[i-2])) {
 				num = "INVALID VALUE";
 			}
 		}
-		if (num.lessThan(1)) {
-			num = "INVALID VALUE";
+		if (num != "INVALID VALUE") {
+			if (num.lessThan(1)) {
+				num = "INVALID VALUE";
+			}
 		}
 		if (num == "INVALID VALUE") {
 			document.getElementById("split" + i).value = findDisplay(game.notation.split[i]);
