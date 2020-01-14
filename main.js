@@ -379,14 +379,14 @@ function findDisplay(n, noPoint) {
 
 function unformatNum(str) {
 	let num;
-	if (!isNaN(new Decimal(str).mag) && !isNaN(new Decimal(str).layer) && !(new Decimal(str).mag == 0 && str != "0")) {
-		num = new Decimal(str);
-	} else if (str.includes("-") && str.charAt(0) != "-" && (str.match(/-/g)||[]).length == 1) {
+	if (&& str.charAt(0) != "-" && (str.match(/-/g)||[]).length == 1) {
 		let split = str.split("-");
 		num = Decimal.fromComponents(1, Number(split[0]), Number(split[1]));
-	} else if (str.includes("#") && str.charAt(0) == "E" && (str.match(/#/g)||[]).length == 1 && (str.match(/E/g)||[]).length == 1) {
+	} else if ((str.match(/#/g)||[]).length == 1 && (str.match(/E/g)||[]).length == 1) {
 		let split = str.split("#");
 		num = Decimal.fromComponents(1, Number(split[1]), Number(split[0].replace("E", "")));
+	} else if (!isNaN(new Decimal(str).mag) && !isNaN(new Decimal(str).layer) && !(new Decimal(str).mag == 0 && str != "0")) {
+		num = new Decimal(str);
 	} else {
 		return "INVALID VALUE";
 	}
