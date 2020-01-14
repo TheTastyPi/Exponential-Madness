@@ -1369,9 +1369,9 @@ function createAchievements() {
 	new Achievement("Reach the current endgame", "You will lose this achievement if the endgame gets changed, but anyway, this is the endgame now.", "endgame", false);
 }
 
-{for (let i = 1; i < 6; i += 2) {
+setTimeout(function(){for (let i = 1; i < 6; i += 2) {
 	document.getElementById("split" + i).value = findDisplay(game.notation.split[i]);
-}}
+}}, 200);
 
 createAchievements();
 
