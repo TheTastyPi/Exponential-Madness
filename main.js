@@ -379,7 +379,7 @@ function findDisplay(n, noPoint) {
 
 function unformatNum(str) {
 	let num;
-	if (&& str.charAt(0) != "-" && (str.match(/-/g)||[]).length == 1) {
+	if (str.charAt(0) != "-" && (str.match(/-/g)||[]).length == 1) {
 		let split = str.split("-");
 		num = Decimal.fromComponents(1, Number(split[0]), Number(split[1]));
 	} else if ((str.match(/#/g)||[]).length == 1 && (str.match(/E/g)||[]).length == 1) {
