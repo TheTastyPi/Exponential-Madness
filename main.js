@@ -288,6 +288,7 @@ function newGame() {
 		},
 		notation: {
 			split: ["Layer-Mag", new Decimal(1000), "Scientific", new Decimal(1e100), "Logarithmic", Decimal.fromComponents(1, 5, 1), "Hyper E"],
+			input: ["lol", "1000", "eksdee", "e100", "yeet", "E1#5", "2"],
 			selected: 2,
 			tetrationBase: new Decimal(2)
 		},
@@ -871,7 +872,8 @@ function updateHotkey() {
 
 function calcNotation() {
 	for (let i = 1; i < 6; i += 2) {
-		let num = unformatNum(document.getElementById("split" + i).value);
+		game.notation.input[i] = document.getElementById("split" + i).value;
+		let num = unformatNum(game.notation.input[i]);
 		if (num != "INVALID VALUE") {
 			if ((i != 1 && num.lessThanOrEqualTo(game.notation.split[i-2])) || num.lessThan(1)) {
 				num = "INVALID VALUE";
@@ -883,7 +885,8 @@ function calcNotation() {
 			game.notation.split[i] = num;
 		}
 	}
-	game.notation.tetrationBase = unformatNum(document.getElementById('tetrationBase').value);
+	game.notation.input[7] = document.getElementById("tetrationBase").value;
+	game.notation.tetrationBase = unformatNum(game.notation.input[7]);
 }
 
 function updateNotation() {
@@ -1361,9 +1364,12 @@ function createAchievements() {
 	new Achievement("Reach the current endgame", "You will lose this achievement if the endgame gets changed, but anyway, this is the endgame now.", "endgame", false);
 }
 
-setTimeout(function(){for (let i = 1; i < 6; i += 2) {
-	document.getElementById("split" + i).value = findDisplay(game.notation.split[i]);
-}}, 200);
+setTimeout(function(){
+	for (let i = 1; i < 6; i += 2) {
+		document.getElementById("split" + i).value = game.notation.input[i];
+	}
+	document.getElementById("tetrationBase").value = game.notation.input[7]
+}, 200);
 
 createAchievements();
 
