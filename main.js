@@ -358,7 +358,7 @@ function formatNum(n, notation, noPoint) {
 			return "E" + (new Decimal(n.mag)).iteratedlog(10,x.floor()).toFixed(2) + "#" + findDisplay((new Decimal(n.layer)).add(x.floor()), true);
 		break;
 		case "Tetration":
-			return game.notation.tetrationBase + "^^" + findDisplay(n.slog(game.notation.tetrationBase));
+			return findDisplay(game.notation.tetrationBase) + "^^" + findDisplay(n.slog(game.notation.tetrationBase));
 		break;
 	}
 }
@@ -872,13 +872,8 @@ function updateHotkey() {
 function calcNotation() {
 	for (let i = 1; i < 6; i += 2) {
 		let num = unformatNum(document.getElementById("split" + i).value);
-		if (i != 1 && num != "INVALID VALUE") {
-			if (num.lessThanOrEqualTo(game.notation.split[i-2])) {
-				num = "INVALID VALUE";
-			}
-		}
 		if (num != "INVALID VALUE") {
-			if (num.lessThan(1)) {
+			if ((i != 1 && num.lessThanOrEqualTo(game.notation.split[i-2])) || num.lessThan(1)) {
 				num = "INVALID VALUE";
 			}
 		}
@@ -888,6 +883,7 @@ function calcNotation() {
 			game.notation.split[i] = num;
 		}
 	}
+	game.notation.tetrationBase = unformatNum(document.getElementById('tetrationBase').value);
 }
 
 function updateNotation() {
@@ -1191,10 +1187,6 @@ function selectSplit(n) {
 
 function changeSplit(x) {
 	game.notation.split[game.notation.selected] = x;
-	if (x == "Tetration") {
-		let base = prompt("Please input tetration base.");
-		if (base != null) game.notation.tetrationBase = base;
-	}
 }
 
 /*********** 
