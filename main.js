@@ -885,8 +885,8 @@ function calcNotation() {
 			game.notation.split[i] = num;
 		}
 	}
-	game.notation.input[7] = document.getElementById("tetrationBase").value;
-	game.notation.tetrationBase = unformatNum(game.notation.input[7]);
+	game.notation.input[6] = document.getElementById("tetrationBase").value;
+	game.notation.tetrationBase = unformatNum(game.notation.input[6]);
 }
 
 function updateNotation() {
@@ -1368,7 +1368,7 @@ setTimeout(function(){
 	for (let i = 1; i < 6; i += 2) {
 		document.getElementById("split" + i).value = game.notation.input[i];
 	}
-	document.getElementById("tetrationBase").value = game.notation.input[7];
+	document.getElementById("tetrationBase").value = game.notation.input[6];
 }, 200);
 
 createAchievements();
