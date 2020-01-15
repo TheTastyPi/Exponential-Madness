@@ -872,7 +872,7 @@ function updateHotkey() {
 
 function calcNotation() {
 	for (let i = 1; i < 6; i += 2) {
-		game.notation.input[i] = document.getElementById("split" + i).value;
+		game.notation.input[i] = document.getElementById("split" + i).value.toString();
 		let num = unformatNum(game.notation.input[i]);
 		if (num != "INVALID VALUE") {
 			if ((i != 1 && num.lessThanOrEqualTo(game.notation.split[i-2])) || num.lessThan(1)) {
@@ -1368,7 +1368,7 @@ setTimeout(function(){
 	for (let i = 1; i < 6; i += 2) {
 		document.getElementById("split" + i).value = game.notation.input[i];
 	}
-	document.getElementById("tetrationBase").value = game.notation.input[7]
+	document.getElementById("tetrationBase").value = game.notation.input[7];
 }, 200);
 
 createAchievements();
