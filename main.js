@@ -958,11 +958,11 @@ function updateAll() {
 	if (!document.getElementById("notationMenu").classList.contains("hidden")) {
 		updateNotation();
 	}
-	for (let i in game.theme.themeList) {
+	game.theme.themeList.forEach(function(i){
 		document.querySelectorAll("*").forEach(function(element) {
 			element.classList.remove(i);
 		});
-	}
+	})
 	document.querySelectorAll("*").forEach(function(element) {
 		element.classList.add(game.theme.themeList[game.theme.currentTheme]);
 	});
