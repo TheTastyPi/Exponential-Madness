@@ -302,6 +302,9 @@ function wipe() {
 	setTimeout(function() {
 		game = newGame();
 		save(true);
+		document.querySelectorAll("*").forEach(function(element) {
+			element.classList.remove(game.theme.themeList[game.theme.currentTheme]);
+		});
 		for (achieve in achievement.normal) {
 			achievement.normal[achieve].hidden = true;
 		}
@@ -958,7 +961,7 @@ function updateAll() {
 	if (!document.getElementById("notationMenu").classList.contains("hidden")) {
 		updateNotation();
 	}
-	document.querySelectorAll("*").forEach(function(element) {
+	document.queryAll("*").forEach(function(element) {
 		element.classList.add(game.theme.themeList[game.theme.currentTheme]);
 	});
 }
