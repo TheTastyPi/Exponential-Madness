@@ -961,7 +961,7 @@ function updateAll() {
 	if (!document.getElementById("notationMenu").classList.contains("hidden")) {
 		updateNotation();
 	}
-	document.queryAll("*").forEach(function(element) {
+	document.querySelectorAll("*").forEach(function(element) {
 		element.classList.add(game.theme.themeList[game.theme.currentTheme]);
 	});
 }
