@@ -302,9 +302,6 @@ function wipe() {
 	setTimeout(function() {
 		game = newGame();
 		save(true);
-		document.querySelectorAll("*").forEach(function(element) {
-			element.classList.remove(game.theme.themeList[game.theme.currentTheme]);
-		});
 		for (achieve in achievement.normal) {
 			achievement.normal[achieve].hidden = true;
 		}
@@ -961,6 +958,11 @@ function updateAll() {
 	if (!document.getElementById("notationMenu").classList.contains("hidden")) {
 		updateNotation();
 	}
+	for (let i in game.theme.themeList) {
+		document.querySelectorAll("*").forEach(function(element) {
+			element.classList.remove(i);
+		});
+	}
 	document.querySelectorAll("*").forEach(function(element) {
 		element.classList.add(game.theme.themeList[game.theme.currentTheme]);
 	});
@@ -981,9 +983,6 @@ function toTab(tab) {
 }
 
 function cycleTheme(){
-	document.querySelectorAll("*").forEach(function(element) {
-		element.classList.remove(game.theme.themeList[game.theme.currentTheme]);
-	});
 	game.theme.currentTheme++;
 	if (game.theme.currentTheme >= game.theme.themeList.length) {
 		game.theme.currentTheme = 0;
