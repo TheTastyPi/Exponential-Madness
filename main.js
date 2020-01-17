@@ -366,6 +366,24 @@ function formatNum(n, notation, noPoint) {
 			let y = new Decimal(n.mag).slog(10);
 			return (new Decimal(n.mag)).iteratedlog(10,y.floor()).toFixed(2) + "F" + findDisplay((new Decimal(n.layer)).add(y.floor()), true);
 		break;
+		case "Psi":
+			let letter;
+			if (n.slog(10).greaterThanOrEqualTo(10)) {
+				return "G2-" + formatNum(n.slog(10), "Psi", true);
+			} else if (n.log(10).greaterThanOrEqualTo(10)) {
+				if (noPoint) {
+					return n.slog(10).floor() + "-" + formatNum(n.iteratedlog(10, n.slog(10-1).floor()), "Psi", true);
+				} else {
+					return "F" + n.slog(10).floor() + "-" + formatNum(n.iteratedlog(10, n.slog(10-1).floor()), "Psi", true);
+				}
+			} else {
+				if (noPoint) {
+					return n.log10().floor() + "-" + x.toString().slice(0, 3).replace(/0/g, " ").trimEnd().replace(/ /g, "0");
+				} else {
+					return "E" + n.log10().floor() + "-" + x.toString().slice(0, 3).replace(/0/g, " ").trimEnd().replace(/ /g, "0");
+				}
+			}
+		break;
 	}
 }
 
