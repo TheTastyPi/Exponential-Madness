@@ -1,10 +1,14 @@
 # Change Log
 ## v0.31: Stuff - TBD
-* Displays now no longer update when they're not shown
-* Changed the favicon
-* The favicon now changes with your current theme (why not)
+* Some opitmizations
+* Favicon modifications
 * More achievements
 * Notation customization
+  * New notations
+    * Base-n tetration
+    * Hyperscientific
+    * Psi's letter notation
+* Bug fixes, lots of 'em
 ## v0.301: Mini-Bug Fix - December 28th, 2019
 * Fixed two bugs related to Edge
   * One related to catch()
