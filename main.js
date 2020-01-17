@@ -872,17 +872,18 @@ function updateHotkey() {
 
 function calcNotation() {
 	for (let i = 1; i < 6; i += 2) {
-		game.notation.input[i] = document.getElementById("split" + i).value.toString();
-		let num = unformatNum(game.notation.input[i]);
+		let str = document.getElementById("split" + i).value.toString();
+		let num = unformatNum(str);
 		if (num != "INVALID VALUE") {
 			if ((i != 1 && num.lessThanOrEqualTo(game.notation.split[i-2])) || num.lessThan(1)) {
 				num = "INVALID VALUE";
 			}
 		}
 		if (num == "INVALID VALUE") {
-			document.getElementById("split" + i).value = findDisplay(game.notation.split[i]);
+			document.getElementById("split" + i).value = game.notation.input[i];
 		} else {
 			game.notation.split[i] = num;
+			game.notation.input[i] = str;
 		}
 	}
 	game.notation.input[6] = document.getElementById("tetrationBase").value;
