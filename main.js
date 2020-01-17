@@ -362,8 +362,8 @@ function formatNum(n, notation, noPoint) {
 			return findDisplay(game.notation.tetrationBase) + "^^" + findDisplay(n.slog(game.notation.tetrationBase));
 		break;
 		case "HypSci":
-			let x = new Decimal(n.mag).slog(10);
-			return (new Decimal(n.mag)).iteratedlog(10,x.floor()).toFixed(2) + "F" + findDisplay((new Decimal(n.layer)).add(x.floor()), true);
+			let y = new Decimal(n.mag).slog(10);
+			return (new Decimal(n.mag)).iteratedlog(10,y.floor()).toFixed(2) + "F" + findDisplay((new Decimal(n.layer)).add(y.floor()), true);
 		break;
 	}
 }
