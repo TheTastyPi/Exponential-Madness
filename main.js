@@ -1383,6 +1383,8 @@ setTimeout(function(){
 	document.getElementById("tetrationBase").value = game.notation.input[6];
 }, 200);
 
+updateTheme();
+
 createAchievements();
 
 load(true);
