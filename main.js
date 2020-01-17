@@ -371,7 +371,7 @@ function formatNum(n, notation, noPoint) {
 				return "G2-" + formatNum(n.slog(10), "Psi", true);
 			} else if (n.log(10).greaterThanOrEqualTo(10)) {
 				if (noPoint) {
-					return n.slog(10).floor() + "-" + formatNum(n.iteratedlog(10, n.slog(10-1).floor()), "Psi", true);
+					return n.slog(10).floor() + "-" + formatNum(n.iteratedlog(10, n.slog(10).floor().sub(1)), "Psi", true);
 				} else {
 					return "F" + n.slog(10).floor() + "-" + formatNum(n.iteratedlog(10, n.slog(10).floor().sub(1)), "Psi", true);
 				}
