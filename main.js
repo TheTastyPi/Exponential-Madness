@@ -313,6 +313,7 @@ function wipe() {
 		achievement.normal.unlock2.hidden = false;
 		achievement.normal.unlock3.hidden = false;
 		achievement.normal.unlock4.hidden = false;
+		updateTheme();
 		doUpdate = true;
 	}, 50);
 }
@@ -905,6 +906,17 @@ function updateNotation() {
 	}
 }
 
+function updateTheme() {
+	game.theme.themeList.forEach(function(i){
+		document.querySelectorAll("*").forEach(function(element) {
+			element.classList.remove(i);
+		});
+	})
+	document.querySelectorAll("*").forEach(function(element) {
+		element.classList.add(game.theme.themeList[game.theme.currentTheme]);
+	});
+}
+
 function calcAll() {
 	if (game.number.lessThan(1)) {
 		game.number = new Decimal(10);
@@ -963,14 +975,6 @@ function updateAll() {
 	if (!document.getElementById("notationMenu").classList.contains("hidden")) {
 		updateNotation();
 	}
-	game.theme.themeList.forEach(function(i){
-		document.querySelectorAll("*").forEach(function(element) {
-			element.classList.remove(i);
-		});
-	})
-	document.querySelectorAll("*").forEach(function(element) {
-		element.classList.add(game.theme.themeList[game.theme.currentTheme]);
-	});
 }
 
 /*****************
@@ -992,6 +996,7 @@ function cycleTheme(){
 	if (game.theme.currentTheme >= game.theme.themeList.length) {
 		game.theme.currentTheme = 0;
 	}
+	updateTheme();
 }
 
 function buyMult(n) {
