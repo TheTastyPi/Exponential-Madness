@@ -1376,6 +1376,10 @@ function createAchievements() {
 	new Achievement("Reach the current endgame", "You will lose this achievement if the endgame gets changed, but anyway, this is the endgame now.", "endgame", false);
 }
 
+createAchievements();
+
+load(true);
+
 setTimeout(function(){
 	for (let i = 1; i < 6; i += 2) {
 		document.getElementById("split" + i).value = game.notation.input[i];
@@ -1385,7 +1389,4 @@ setTimeout(function(){
 
 updateTheme();
 
-createAchievements();
-
-load(true);
 window.requestAnimationFrame(nextFrame);
