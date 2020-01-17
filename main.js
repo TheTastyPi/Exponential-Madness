@@ -479,16 +479,17 @@ function notify(message, subMessage, bgColor) {
 	document.body.appendChild(note);
 	note.appendChild(big);
 	big.appendChild(bigText);
-	if (subMessage != undefined) {
+	if (subMessage) {
 		note.appendChild(document.createElement("br"));
 		let text = document.createTextNode(subMessage);
 		note.appendChild(text);
 	}
 	big.style.fontSize = "20px";
-	if (bgColor != undefined) {
+	if (bgColor) {
 		note.style.backgroundColor = bgColor;
 	}
 	note.classList.add('notification');
+	note.classList.add(game.theme.themeList[game.theme.currentTheme])
 	setTimeout(function() {
 		note.remove();
 	}, 3800)
