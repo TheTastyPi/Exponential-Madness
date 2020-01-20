@@ -367,13 +367,14 @@ function formatNum(n, notation, noPoint) {
 			return (new Decimal(n.mag)).iteratedlog(10,y.floor()).toFixed(2) + "F" + findDisplay((new Decimal(n.layer)).add(y.floor()), true);
 		break;
 		case "Psi":
+			let z = (new Decimal(n.mag)).slog(10).add(new Decimal(n.layer));
 			if (n.slog(10).greaterThanOrEqualTo(10)) {
-				return "G2-" + formatNum(n.slog(10), "Psi", true);
+				return "G2-" + formatNum(z, "Psi", true);
 			} else if (n.log(10).greaterThanOrEqualTo(10)) {
 				if (noPoint) {
-					return n.slog(10).floor() + "-" + formatNum(n.iteratedlog(10, n.slog(10).floor().sub(1)), "Psi", true);
+					return z.floor + "-" + formatNum(n.iteratedlog(10, z.floor().sub(1)), "Psi", true);
 				} else {
-					return "F" + n.slog(10).floor() + "-" + formatNum(n.iteratedlog(10, n.slog(10).floor().sub(1)), "Psi", true);
+					return "F" + z.floor() + "-" + formatNum(n.iteratedlog(10, z.floor().sub(1)), "Psi", true);
 				}
 			} else {
 				if (noPoint) {
