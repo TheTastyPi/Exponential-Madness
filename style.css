@@ -1,9 +1,17 @@
 * {
   font-family: "Lucida Console", Monaco, monospace;
-  scrollbar-color: black white;
 }
-*.dark {
-  scrollbar-color: white black;
+::-webkit-scrollbar-track {
+  background: white;
+}
+::-webkit-scrollbar-thumb {
+  background: black;
+}
+.dark::-webkit-scrollbar-track {
+  background: black;
+}
+.dark::-webkit-scrollbar-thumb {
+  background: white;
 }
 body {
   transition-duration: 0.2s;
