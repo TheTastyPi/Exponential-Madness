@@ -384,9 +384,9 @@ function formatNum(n, notation, noPoint) {
 				}
 			}
 		break;
-		case "SGH":
+		case "SGH": // Credit to Reinhardt
 			let output = '';
-			output = `g<sub>${getOrdinal(d)}</sub>(10)`;
+			output = `g<sub>${getOrdinal(x)}</sub>(10)`;
 			return output;
 		break;
 	}
