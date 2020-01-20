@@ -378,9 +378,9 @@ function formatNum(n, notation, noPoint) {
 				}
 			} else {
 				if (noPoint) {
-					return n.log10().floor() + "-" + n.toString().replace(/./g, "").slice(0, 3).replace(/0/g, " ").trimEnd().replace(/ /g, "0");
+					return n.log10().floor() + "-" + n.toString().replace(".", "").slice(0, 3).replace(/0/g, " ").trimEnd().replace(/ /g, "0");
 				} else {
-					return "E" + n.log10().floor() + "-" + n.toString().replace(/./g, "").slice(0, 3).replace(/0/g, " ").trimEnd().replace(/ /g, "0");
+					return "E" + n.log10().floor() + "-" + n.toString().replace(".", "").slice(0, 3).replace(/0/g, " ").trimEnd().replace(/ /g, "0");
 				}
 			}
 		break;
