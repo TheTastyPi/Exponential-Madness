@@ -8,6 +8,7 @@
     * Base-n tetration
     * Hyperscientific
     * PsiCubed's letter notation
+    * Slow growing hierarchy
   * New functions n stuff
     * 3 "splits" to set the range of a notation
     * Idk how to explain just go look at the menu
