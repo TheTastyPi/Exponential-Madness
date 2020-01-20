@@ -372,7 +372,7 @@ function formatNum(n, notation, noPoint) {
 				return "G2-" + formatNum(z, "Psi", true);
 			} else if (n.log(10).greaterThanOrEqualTo(10)) {
 				if (noPoint) {
-					return z.floor + "-" + formatNum(Decimal.fromComponents(1, 0, Math.log10(n.mag) >= 10 ? Math.log10(n.mag) : n.mag), "Psi", true);
+					return z.floor() + "-" + formatNum(Decimal.fromComponents(1, 0, Math.log10(n.mag) >= 10 ? Math.log10(n.mag) : n.mag), "Psi", true);
 				} else {
 					return "F" + z.floor() + "-" + formatNum(Decimal.fromComponents(1, 0, Math.log10(n.mag) >= 10 ? Math.log10(n.mag) : n.mag), "Psi", true);
 				}
