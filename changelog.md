@@ -1,14 +1,17 @@
 # Change Log
 ## v0.31: Stuff - TBD
-* Some opitmizations
-* Favicon modifications
-* More achievements
-* Notation customization
-  * New notations
+* Opitmizations stuff
+* Favicon stuff
+* More achievements stuff
+* Notation customization stuff
+  * New notations n stuff
     * Base-n tetration
     * Hyperscientific
-    * Psi's letter notation
-* Bug fixes, lots of 'em
+    * PsiCubed's letter notation
+  * New functions n stuff
+    * 3 "splits" to set the range of a notation
+    * Idk how to explain just go look at the menu
+* Bug fix stuff
 ## v0.301: Mini-Bug Fix - December 28th, 2019
 * Fixed two bugs related to Edge
   * One related to catch()
