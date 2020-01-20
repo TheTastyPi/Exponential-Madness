@@ -384,7 +384,49 @@ function formatNum(n, notation, noPoint) {
 				}
 			}
 		break;
+		case "SGH":
+			let output = '';
+			output = `g<sub>${getOrdinal(d)}</sub>(10)`;
+			return output;
+		break;
 	}
+}
+
+function getOrdinal(d) {
+	d = new Decimal(d);
+	let str = '';
+	if (d.lt(1.79e308)) {
+		d = d.toNumber();
+		for (let i = Math.floor(Math.log10(d)); i >= 0; i--) {
+			let val = i;
+			let exp = 10 ** i;
+			let part = Math.floor(d / exp);
+			
+			if (part > 0) {
+				if (val > 0) {
+					if (val == 1) str += '&omega;';
+					else str += `&omega;<sup>${val < 10 ? val : getOrdinal(val)}</sup>`;
+				}
+				if (part > 1 || i == 0) str += part;
+				str += '+';
+			}
+			
+			let exp_part = part * exp;
+			d -= exp_part;
+		}
+		str = str.substring(0, str.length - 1);
+	} else if (d.lt('10^^10')) {
+		let val = d.log10().floor();
+		let exp = Decimal.pow(10, val);
+		exp.mag = Math.floor(exp.mag);
+		let part = d.div(exp).floor().toNumber();
+		
+		if (part > 0) {
+			str += `&omega;<sup>${getOrdinal(val)}</sup>`;
+			if (part > 1) str += part;
+		}
+	}
+	return str;
 }
 
 function findDisplay(n, noPoint) {
