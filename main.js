@@ -368,13 +368,13 @@ function formatNum(n, notation, noPoint) {
 		break;
 		case "Psi":
 			let z = (new Decimal(n.mag)).slog(10).add(new Decimal(n.layer));
-			if (n.slog(10).greaterThanOrEqualTo(10)) {
+			if (z.greaterThanOrEqualTo(10)) {
 				return "G2-" + formatNum(z, "Psi", true);
 			} else if (n.log(10).greaterThanOrEqualTo(10)) {
 				if (noPoint) {
-					return z.floor + "-" + formatNum(n.iteratedlog(10, z.floor().sub(1)), "Psi", true);
+					return z.floor + "-" + formatNum(Decimal.fromComponents(1, 0, n.mag), "Psi", true);
 				} else {
-					return "F" + z.floor() + "-" + formatNum(n.iteratedlog(10, z.floor().sub(1)), "Psi", true);
+					return "F" + z.floor() + "-" + formatNum(Decimal.fromComponents(1, 0, n.mag), "Psi", true);
 				}
 			} else {
 				if (noPoint) {
