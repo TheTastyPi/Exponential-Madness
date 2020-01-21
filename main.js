@@ -698,6 +698,7 @@ function calcPlexal() {
 		achievement.normal.inflate.hidden = false;
 		achievement.normal.startAuto.hidden = false;
 		achievement.normal.googolduplex.hidden = false;
+		achievement.normal.googoltriplex.hidden = false;
 	}
 	if (game.plexal.unlocked) {
 		achievement.normal.plexal.hidden = false;
