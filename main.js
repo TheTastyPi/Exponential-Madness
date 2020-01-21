@@ -994,6 +994,9 @@ function calcAll() {
 	if (game.number.greaterThan(Decimal.fromComponents(1, 3, 100))) {
 		achievement.normal.googolduplex.complete();
 	}
+	if (game.number.greaterThan(Decimal.fromComponents(1, 4, 100))) {
+		achievement.normal.googoltriplex.complete();
+	}
 	calcMult();
 	calcReset();
 	calcPlexal();
@@ -1433,7 +1436,7 @@ function createAchievements() {
 	new Achievement('Import "export text"', "You... did what I said... I guess?", "followInstruction", true, true);
 	new Achievement("Thank Me", "I didn't expect that. Thank you.", "thanks", true, true);
 	new Achievement("Reach a Googolduplex", "Super-duper-duplex.", "googolduplex");
-	// new Achievement("Reach a Googoltriplex", "Thri", "googoltriplex");
+	new Achievement("Reach a Googoltriplex", "Thri", "googoltriplex");
 	new Achievement("Reach the current endgame", "You will lose this achievement if the endgame gets changed, but anyway, this is the endgame now.", "endgame", false);
 }
 
