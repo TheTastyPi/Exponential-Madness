@@ -33,6 +33,7 @@ function nextFrame(timeStamp) {
 		calcAll();
 		lastFrame = timeStamp;
 		game.permaStat.timePlayed += sinceLastFrame;
+		game.plexal.time += sinceLastFrame;
 	}
 	if (sinceLastSave >= game.autoSaveSpeed) {
 		if (game.autoSave) {
@@ -133,7 +134,7 @@ function importSave() {
 						achievement.secret.followInstruction.complete();
 					}, 500)
 				break;
-				case "Thank you!":
+				case "thanks":
 					if (game.achievement.normalCompleted.includes("startAuto")) {
 						setTimeout(function() {
 							achievement.secret.thanks.complete();
@@ -253,7 +254,8 @@ function newGame() {
 				unlocked: [true, false, false, false, false, false, false, false, false, false],
 				boost: ["lol", new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(0), new Decimal(1)]
 			},
-			unlocked: false
+			unlocked: false,
+			time: 0
 		},
 		iterator: {
 			iteration: new Decimal(0),
@@ -699,6 +701,7 @@ function calcPlexal() {
 		achievement.normal.startAuto.hidden = false;
 		achievement.normal.googolduplex.hidden = false;
 		achievement.normal.googoltriplex.hidden = false;
+		achievement.normal.plexalFast.hidden = false;
 	}
 	if (game.plexal.unlocked) {
 		achievement.normal.plexal.hidden = false;
@@ -896,9 +899,13 @@ function updateAchievement() {
 			a.hidden = false;
 			document.getElementById(a.alias + "AchieveBox").classList.remove('disabled');
 			document.getElementById(a.alias + "AchieveBox").classList.add('enabled');
+			document.getElementById(a.alias + "AchieveName").innerHTML = a.name;
+			document.getElementById(a.alias + "AchieveDesc").innerHTML = a.desc;
 		} else {
 			document.getElementById(a.alias + "AchieveBox").classList.remove('enabled');
 			document.getElementById(a.alias + "AchieveBox").classList.add('disabled');
+			document.getElementById(a.alias + "AchieveName").innerHTML = a.hint;
+			document.getElementById(a.alias + "AchieveDesc").innerHTML = "???";
 		}
 		if (a.hidden || (game.achievement.secretCompleted.includes(a.alias) && game.achievement.hideCompleted)) {
 			document.getElementById(a.alias + "Achieve").classList.add('hidden');
@@ -1163,6 +1170,10 @@ function plexal() {
 		game.plexal.amount = game.plexal.amount.add(1);
 		game.permaStat.totalPlexal = game.permaStat.totalPlexal.add(1);
 		game.plexal.essence = game.plexal.essence.add(game.plexal.gain);
+		if (game.plexal.time < 1000) {
+			achievement.normal.plexalFast.complete();
+		}
+		game.plexal.time = newGame().plexal.time;
 		achievement.normal.plexal.complete();
 	}
 }
@@ -1352,17 +1363,20 @@ const achievement = {
 	secret:{}
 };
 
-function Achievement(name, desc, alias, hidden, secret) {
+function Achievement(name, desc, alias, hidden, secret, hint) {
 	this.name = name;
 	this.desc = desc;
 	this.alias = alias;
 	this.secret = false;
 	this.hidden = true;
-	if (secret == true) {
+	if (secret) {
 		this.secret = true;
 	}
 	if (hidden == false) {
 		this.hidden = false;
+	}
+	if (hint) {
+		this.hint = hint
 	}
 	if (this.secret) {
 		achievement.secret[alias] = this;
@@ -1418,7 +1432,7 @@ function hideCompleted() {
 }
 
 function createAchievements() {
-	// (name, desc, alias, [hidden?](default: true), [secret?](default: false))
+	// (name, desc, alias, [hidden?](default: true), [secret?](default: false), [hint])
 	new Achievement("Open the Achievements Tab", "Hi, this exist.", "openAchieve", false);
 	new Achievement("Unlock Multiplier 1", "It begins.", "unlock1", false);
 	new Achievement("Unlock Multiplier 2", "This is getting out of hand already.", "unlock2", false);
@@ -1432,13 +1446,14 @@ function createAchievements() {
 	new Achievement("Unlock Multiplier 10", "You have hit the ceiling. That must have hurt.", "unlock10");
 	new Achievement("Reset", "Don't worry, this isn't a hard reset.", "reset");
 	new Achievement("Plexal", "You've reached a googolplex. It perplexes many, but not you of course.", "plexal");
-	new Achievement("Inflate", "It's fine! It's fine! Stay calm! I said stay calm god dammit!", "inflate");
+	new Achievement("Inflate", "Aarex now officially hate this game", "inflate");
 	new Achievement("Start Automation", "I've finally added automation. You better thank me now.", "startAuto");
-	new Achievement('Import "export text"', "You... did what I said... I guess?", "followInstruction", true, true);
-	new Achievement("Thank Me", "I didn't expect that. Thank you.", "thanks", true, true);
+	new Achievement('Import "export text"', "You... did what I said... I guess?", "followInstruction", false, true, "Follow instruction");
+	new Achievement("Thank Me", "I didn't expect that. Thank you.", "thanks", false, true, "See a certain other achievement (you better do it)");
 	new Achievement("Reach a Googolduplex", "Super-duper-duplex.", "googolduplex");
 	new Achievement("Reach a Googoltriplex", "Thri", "googoltriplex");
 	new Achievement("Reach the current endgame", "You will lose this achievement if the endgame gets changed, but anyway, this is the endgame now.", "endgame", false);
+	new Achievement("Plexal in less than a second", "I am speed", "plexalFast");
 }
 
 createAchievements();
