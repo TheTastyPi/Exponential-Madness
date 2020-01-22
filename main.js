@@ -247,7 +247,6 @@ function newGame() {
 		},
 		plexal: {
 			amount: new Decimal(0),
-			gain: new Decimal(0),
 			essence: new Decimal(0),
 			upgrade: {
 				cost: ["lol", new Decimal(1), new Decimal(2), new Decimal(1), new Decimal(3), new Decimal(8), new Decimal(15), Decimal.fromComponents(1, 2, 200), Decimal.fromComponents(1, 3, 3), Decimal.fromComponents(1, 3, 4)],
@@ -599,13 +598,7 @@ function calcMult() {
 		m.generation[i] = m.amount[i].pow(m.power[i]); 
 		m.cost[i] = m.baseCost[i].pow(m.costIncrease[i].pow(m.upgradeAmount[i]));
 		m.power[i] = getPower(i);
-		m.maxMult = (new Decimal(4)).add(game.reset.amount);
-		if ((new Decimal(game.mult.maxMult)).greaterThan(game.mult.actualMaxMult)) {
-			m.maxMult = m.actualMaxMult;
-		}
-		if (m.unlocked[i] != false) {
-			achievement.normal["unlock" + i].complete();
-		}
+		m.maxMult = (new Decimal(4)).add(game.reset.amount).min(10);
 	}
 }
 
@@ -651,8 +644,8 @@ function calcReset() {
 		achievement.normal.unlock5.hidden = false;
 	}
 	for (let i = 0; i < 5; i++) {
-		if (r.amount.greaterThan(new Decimal(i))) {
-			achievement.normal["unlock" + (i+6)].hidden = false;
+		if (r.amount.greaterThan(i)) {
+			achievement.normal["unlock" + (i + 6)].hidden = false;
 		}
 	}
 }
@@ -681,6 +674,7 @@ function updateReset() {
 	} else {
 		document.getElementById("maxResetButton").classList.add('hidden');
 	}
+	calcIterator()
 }
 
 function getPlexalGain() {
@@ -692,10 +686,6 @@ function getPlexalGain() {
 }
 
 function calcPlexal() {
-	game.plexal.gain = getPlexalGain();
-	if (game.number.greaterThan(Decimal.fromComponents(1, 2, 80))) {
-		game.plexal.unlocked = true;
-	}
 	if (game.plexal.amount.greaterThan(new Decimal(0))) {
 		achievement.normal.inflate.hidden = false;
 		achievement.normal.startAuto.hidden = false;
@@ -706,6 +696,7 @@ function calcPlexal() {
 	if (game.plexal.unlocked) {
 		achievement.normal.plexal.hidden = false;
 	}
+	calcReset();
 }
 
 function updatePlexal() {
@@ -801,13 +792,33 @@ function updateIteratorUpg() {
 	}
 }
 
+function getPlexalUpgBoost(n) {
+	switch (n) {
+		case 1:
+			return game.plexal.amount.add(1);
+		break;
+		case 2:
+			return game.iterator.boost;
+		break;
+		case 3:
+			return game.plexal.essence.pow(1.1).add(1);
+		break;
+		case 4:
+			return game.reset.amount.root(8);
+		break;
+		case 5:
+			return game.permaStat.totalReset.root(3.5).floor();
+		break;
+		case 6:
+			return game.plexal.essence.root(2);
+		break;
+	}
+}
+
 function calcPlexalUpg() {
-	game.plexal.upgrade.boost[1] = game.plexal.amount.add(1);
-	game.plexal.upgrade.boost[2] = game.iterator.boost;
-	game.plexal.upgrade.boost[3] = game.plexal.essence.pow(1.1).add(1);
-	game.plexal.upgrade.boost[4] = game.reset.amount.root(8);
-	game.plexal.upgrade.boost[5] = game.permaStat.totalReset.root(3.5).floor();
-	game.plexal.upgrade.boost[6] = game.plexal.essence.root(2);
+	for (let i = 1; i < 7; i++) {
+		game.plexal.upgrade.boost[i] = getPlexalUpgBoost(i);
+	}
 	if (game.plexal.upgrade.boost[4].lessThan(1)) {
 		game.plexal.upgrade.boost[4] = new Decimal(1);
 	}
@@ -993,6 +1004,9 @@ function calcAll() {
 	if (game.number.greaterThan(game.permaStat.highestNum)){
 		game.permaStat.highestNum = game.number;
 	}
+	if (game.number.greaterThan(Decimal.fromComponents(1, 2, 80))) {
+		game.plexal.unlocked = true;
+	}
 	if (game.number.greaterThan(game.permaStat.endgame)) {
 		achievement.normal.endgame.complete();
 	}
@@ -1006,10 +1020,6 @@ function calcAll() {
 		achievement.normal.googoltriplex.complete();
 	}
 	calcMult();
-	calcReset();
-	calcPlexal();
-	calcIterator();
-	calcIteratorUpg();
 	calcPlexalUpg();
 	calcAuto();
 }
@@ -1078,6 +1088,7 @@ function buyMult(n) {
 			if (game.mult.unlocked[n] == false) {
 				game.mult.amount[n] = new Decimal(1.25);
 				game.mult.unlocked[n] = true;
+				achievement.normal["unlock" + n].complete();
 			} else {
 				game.mult.upgradeAmount[n] = game.mult.upgradeAmount[n].add(1);
 			}
@@ -1133,6 +1144,7 @@ function reset() {
 		game.reset.amount = game.reset.amount.add(1);
 		game.permaStat.totalReset = game.permaStat.totalReset.add(1);
 		achievement.normal.reset.complete();
+		calcReset();
 	}
 }
 
@@ -1154,6 +1166,7 @@ function maxReset() {
 			game.reset.amount = game.reset.amount.add(buyAmount);
 			game.permaStat.totalReset = game.permaStat.totalReset.add(buyAmount);
 			achievement.normal.reset.complete();
+			calcReset();
 		}
 	}
 }
@@ -1169,12 +1182,13 @@ function plexal() {
 		game.iterator.iteration = newGame().iterator.iteration;
 		game.plexal.amount = game.plexal.amount.add(1);
 		game.permaStat.totalPlexal = game.permaStat.totalPlexal.add(1);
-		game.plexal.essence = game.plexal.essence.add(game.plexal.gain);
+		game.plexal.essence = game.plexal.essence.add(getPlexalGain());
 		if (game.plexal.time < 1000) {
 			achievement.normal.plexalFast.complete();
 		}
 		game.plexal.time = newGame().plexal.time;
 		achievement.normal.plexal.complete();
+		calcPlexal();
 	}
 }
 
@@ -1189,6 +1203,7 @@ function iterate() {
 	if (game.number.greaterThanOrEqualTo(game.iterator.cost)) {
 		game.number = game.number.div(game.iterator.cost);
 		game.iterator.iteration = game.iterator.iteration.add(1);
+		calcIterator();
 	}
 }
 
@@ -1204,6 +1219,7 @@ function maxIterate() {
 			let totalCost = endCost.sub(increase);
 			game.number = game.number.div((new Decimal(10)).pow((new Decimal(10)).pow(totalCost)));
 			game.iterator.iteration = game.iterator.iteration.add(buyAmount);
+			calcIterator();
 		}
 	}
 }
@@ -1212,6 +1228,7 @@ function upgradeIterator() {
 	if (game.plexal.essence.greaterThanOrEqualTo(game.iterator.upgrade.cost)) {
 		game.plexal.essence = game.plexal.essence.sub(game.iterator.upgrade.cost)
 		game.iterator.upgrade.amount = game.iterator.upgrade.amount.add(1);
+		calcIteratorUpg();
 	}
 }
 
@@ -1226,6 +1243,7 @@ function maxUpgradeIterator() {
 		let totalCost = endCost.sub(increase);
 		game.plexal.essence = game.plexal.essence.sub((new Decimal(10)).pow(totalCost));
 		game.iterator.upgrade.amount = game.iterator.upgrade.amount.add(buyAmount);
+		calcIteratorUpg();
 	}
 }
 
