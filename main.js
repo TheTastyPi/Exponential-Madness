@@ -861,6 +861,7 @@ function updateStat() {
 	} else {
 		document.getElementById("totalReset").classList.add('hidden');
 	}
+	document.getElementById("plexalTime").innerHTML = findTimeDisplay(game.plexal.time);
 }
 
 function calcAuto() {
