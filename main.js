@@ -397,7 +397,7 @@ function formatNum(n, notation, noPoint) {
 function getOrdinal(d) {
 	d = new Decimal(d);
 	let str = '';
-	if (true) {
+	if (d.lt(1e3)) {
 		d = d.toNumber();
 		for (let i = Math.floor(Math.log10(d)); i >= 0; i--) {
 			let val = i;
