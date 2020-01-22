@@ -306,9 +306,6 @@ function wipe() {
 		for (achieve in achievement.normal) {
 			achievement.normal[achieve].hidden = true;
 		}
-		for (achieve in achievement.secret) {
-			achievement.secret[achieve].hidden = true;
-		}
 		achievement.normal.openAchieve.hidden = false;
 		achievement.normal.unlock1.hidden = false;
 		achievement.normal.unlock2.hidden = false;
