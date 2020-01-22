@@ -312,6 +312,10 @@ function wipe() {
 		achievement.normal.unlock3.hidden = false;
 		achievement.normal.unlock4.hidden = false;
 		updateTheme();
+		for (let i = 1; i < 6; i += 2) {
+			document.getElementById("split" + i).value = newGame().notation.input[i];
+		}
+		calcNotation();
 		doUpdate = true;
 	}, 50);
 }
