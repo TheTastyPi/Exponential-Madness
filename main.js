@@ -711,7 +711,7 @@ function updatePlexal() {
 		document.getElementById("plexButton").classList.add('hidden');
 	}
 	if (game.number.greaterThanOrEqualTo(Decimal.fromComponents(1, 2, 100))) {
-		document.getElementById("plexButton").innerHTML = "Reset all of your progress so far to gain " + findDisplay(game.plexal.gain) + " Plexal Essence";
+		document.getElementById("plexButton").innerHTML = "Reset all of your progress so far to gain " + findDisplay(getPlexalGain()) + " Plexal Essence";
 		document.getElementById("plexButton").classList.remove('disabled');
 		document.getElementById("plexButton").classList.add('plexal');
 	} else {
