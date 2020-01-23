@@ -1,19 +1,19 @@
 # Change Log
 ## v0.31: Stuff - TBD
-* Opitmizations stuff
+* Opitmization stuff
 * Favicon stuff
-* More achievements stuff
+* More achievements n stuff
 * Notation customization stuff
   * New notations n stuff
     * Base-n tetration
     * Hyperscientific
-    * PsiCubed's letter notation
-    * Slow growing hierarchy
+    * PsiCubed's letter notation (catisfluffy, dis 4 u)
+    * Slow growing hierarchy (thx 2 reinhart)
   * New functions n stuff
     * 3 "splits" to set the range of a notation
     * Idk how to explain just go look at the menu
 * Bug fix stuff
-## v0.301: Mini-Bug Fix - December 28th, 2019
+## v0.301: Hotfixes - December 28th, 2019
 * Fixed two bugs related to Edge
   * One related to catch()
   * One related to :scope
