@@ -981,7 +981,7 @@ function calcNotation() {
 		}
 	}
 	if (tnum == "INVALID VALUE") {
-		document.getElementById("split" + i).value = game.notation.input[6];
+		document.getElementById("tetrationBase").value = game.notation.input[6];
 	} else {
 		game.notation.tetrationBase = tnum;
 		game.notation.input[6] = tstr;
