@@ -973,8 +973,19 @@ function calcNotation() {
 			game.notation.input[i] = str;
 		}
 	}
-	game.notation.input[6] = document.getElementById("tetrationBase").value;
-	game.notation.tetrationBase = unformatNum(game.notation.input[6]);
+	let tstr = document.getElementById("tetrationBase").value.toString();
+	let tnum = unformatNum(tstr);
+	if (tnum != "INVALID VALUE") {
+		if (tnum.lessThan(1.45)) {
+			tnum = "INVALID VALUE";
+		}
+	}
+	if (tnum == "INVALID VALUE") {
+		document.getElementById("split" + i).value = game.notation.input[6];
+	} else {
+		game.notation.tetrationBase = tnum;
+		game.notation.input[6] = tstr;
+	}
 }
 
 function updateNotation() {
@@ -1466,14 +1477,15 @@ function createAchievements() {
 	new Achievement("Unlock Multiplier 10", "You have hit the ceiling. That must have hurt.", "unlock10");
 	new Achievement("Reset", "Don't worry, this isn't a hard reset.", "reset");
 	new Achievement("Plexal", "You've reached a googolplex. It perplexes many, but not you of course.", "plexal");
-	new Achievement("Inflate", "Aarex now officially hate this game", "inflate");
+	new Achievement("Inflate", "Aarex now officially hate this game.", "inflate");
+	new Achievement("Plexal in less than a second", "I am speed.", "plexalFast");
 	new Achievement("Start Automation", "I've finally added automation. You better thank me now.", "startAuto");
-	new Achievement('Import "export text"', "You... did what I said... I guess?", "followInstruction", false, true, "Follow instruction");
-	new Achievement("Thank Me", "I didn't expect that. Thank you.", "thanks", false, true, "See a certain other achievement (you better do it)");
 	new Achievement("Reach a Googolduplex", "Super-duper-duplex.", "googolduplex");
-	new Achievement("Reach a Googoltriplex", "Thri", "googoltriplex");
+	new Achievement("Reach a Googoltriplex", "Thri.", "googoltriplex");
 	new Achievement("Reach the current endgame", "You will lose this achievement if the endgame gets changed, but anyway, this is the endgame now.", "endgame", false);
-	new Achievement("Plexal in less than a second", "I am speed", "plexalFast");
+	// secret achieves
+	new Achievement('Import "export text"', "You... did what I said... I guess?", "followInstruction", false, true, "Follow instruction");
+	new Achievement("Thank Me", "Oh wow, you actually thanked me.", "thanks", false, true, "See a certain other achievement and follow its request");
 }
 
 createAchievements();
