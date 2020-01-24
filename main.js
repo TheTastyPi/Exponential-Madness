@@ -1400,7 +1400,7 @@ function Achievement(name, desc, alias, hidden, secret, hint) {
 	if (hint) {
 		this.hint = hint
 	}
-	achievement.[alias] = this;
+	achievement[alias] = this;
 	if (this.secret) {
 		secretAchieveCount++;
 		this.complete = function() {
