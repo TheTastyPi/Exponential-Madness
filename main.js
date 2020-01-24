@@ -133,24 +133,22 @@ function importSave() {
 					setTimeout(function() {
 						achievement.followInstruction.complete();
 					}, 500)
-				break;
+					break;
 				case "thanks":
 					if (game.achievement.normalCompleted.includes("startAuto")) {
 						setTimeout(function() {
 							achievement.thanks.complete();
 						}, 500)
-					} else {
-						secret = false;
+						break;
 					}
-				break;
 				default:
 					localStorage.setItem('emsave', atob(save));
 					load(true);
 					secret = false;
-				break;
+					break;
 			}
 		}
-		catch(why) {
+		catch(yeet) {
 			err = true;
 			document.getElementById("importButton").innerHTML = "Invalid Save";
 			
@@ -350,24 +348,24 @@ function formatNum(n, notation, noPoint) {
 					return findDisplay(new Decimal(n.layer), true) + "-" + n.mag.toFixed(2);
 				}
 			}
-		break;
+			break;
 		case "Scientific":
 			return n.m.toFixed(2) + "e" + findDisplay(n.log10().floor(), true);
-		break;
+			break;
 		case "Logarithmic":
 			return "e" + findDisplay(n.log10(), true);
-		break;
+			break;
 		case "Hyper-E":
 			let x = new Decimal(n.mag).slog(10);
 			return "E" + (new Decimal(n.mag)).iteratedlog(10,x.floor()).toFixed(2) + "#" + findDisplay((new Decimal(n.layer)).add(x.floor()), true);
-		break;
+			break;
 		case "Tetration":
 			return findDisplay(game.notation.tetrationBase) + "^^" + findDisplay(n.slog(game.notation.tetrationBase));
-		break;
+			break;
 		case "HyperSci":
 			let y = new Decimal(n.mag).slog(10);
 			return (new Decimal(n.mag)).iteratedlog(10,y.floor()).toFixed(2) + "F" + findDisplay((new Decimal(n.layer)).add(y.floor()), true);
-		break;
+			break;
 		case "Psi":
 			let z = (new Decimal(n.mag)).slog(10).add(new Decimal(n.layer));
 			if (z.greaterThanOrEqualTo(10)) {
@@ -385,12 +383,12 @@ function formatNum(n, notation, noPoint) {
 					return "E" + n.log10().floor() + "-" + n.toString().replace(".", "").slice(0, 3).replace(/0/g, " ").trimEnd().replace(/ /g, "0");
 				}
 			}
-		break;
+			break;
 		case "SGH": // Credit to Reinhardt
 			let output = '';
 			output = `g<sub>${getOrdinal(n)}</sub>(10)`;
 			return output;
-		break;
+			break;
 	}
 }
 
@@ -797,22 +795,22 @@ function getPlexalUpgBoost(n) {
 	switch (n) {
 		case 1:
 			return game.plexal.amount.add(1);
-		break;
+			break;
 		case 2:
 			return game.iterator.boost;
-		break;
+			break;
 		case 3:
 			return game.plexal.essence.pow(1.1).add(1);
-		break;
+			break;
 		case 4:
 			return game.reset.amount.root(8);
-		break;
+			break;
 		case 5:
 			return game.permaStat.totalReset.root(3.5).floor();
-		break;
+			break;
 		case 6:
 			return game.plexal.essence.root(2);
-		break;
+			break;
 	}
 }
 
@@ -1261,7 +1259,7 @@ function buyUpgrade(n, type) {
 				game.plexal.essence = game.plexal.essence.sub(game.plexal.upgrade.cost[n]);
 				game.plexal.upgrade.unlocked[n] = true;
 			}
-		break;
+			break;
 	}
 }
 
@@ -1321,60 +1319,60 @@ document.addEventListener("keydown", function(input){
 		case "8":
 		case "9":
 			buyMult(Number(key));
-		break;
+			break;
 		case "0":
 			buyMult(10);
-		break;
+			break;
 		case "!":
 			maxMult(1);
-		break;
+			break;
 		case "@":
 			maxMult(2);
-		break;
+			break;
 		case "#":
 			maxMult(3);
-		break;
+			break;
 		case "$":
 			maxMult(4);
-		break;
+			break;
 		case "%":
 			maxMult(5);
-		break;
+			break;
 		case "^":
 			maxMult(6);
-		break;
+			break;
 		case "&":
 			maxMult(7);
-		break;
+			break;
 		case "*":
 			maxMult(8);
-		break;
+			break;
 		case "(":
 			maxMult(9);
-		break;
+			break;
 		case ")":
 			maxMult(10);
-		break;
+			break;
 		case "i":
 			iterate();
-		break;
+			break;
 		case "I":
 			maxIterate();
-		break;
+			break;
 		case "m":
 			maxAll();
-		break;
+			break;
 		case "r":
 			reset();
-		break;
+			break;
 		case "R":
 			if (game.plexal.upgrade.unlocked[9]) {
 				maxReset();
 			}
-		break;
+			break;
 		case "p":
 			plexal();
-		break;
+			break;
 	}
 });
 
