@@ -1008,6 +1008,7 @@ function updateTheme() {
 	document.querySelectorAll("*").forEach(function(element) {
 		element.classList.add(game.theme.themeList[game.theme.currentTheme]);
 	});
+	document.getElementById("favicon").href = game.theme.themeList[game.theme.currentTheme] + ".png";
 }
 
 function calcAll() {
