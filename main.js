@@ -1116,6 +1116,7 @@ function maxMult(n) {
 				game.mult.amount[n] = new Decimal(1.25);
 				game.mult.unlocked[n] = true;
 				game.number = game.number.div(game.mult.cost[n]);
+				achievement["unlock" + n].complete();
 				maxMult(n, "normal");
 			} else {
 				game.number = game.number.div((new Decimal(10)).pow((new Decimal(10)).pow(totalCost)));
