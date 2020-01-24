@@ -354,7 +354,7 @@ function formatNum(n, notation, noPoint) {
 			return n.m.toFixed(2) + "e" + findDisplay(n.log10().floor(), true);
 			break;
 		case "Logarithmic":
-			return "e" + findDisplay(n.log10(), true);
+			return "e" + findDisplay(n.log10());
 			break;
 		case "Hyper-E":
 			let x = new Decimal(n.mag).slog(10);
