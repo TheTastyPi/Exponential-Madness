@@ -1010,7 +1010,7 @@ function calcAll() {
 	if (game.number.greaterThan(game.permaStat.highestNum)){
 		game.permaStat.highestNum = game.number;
 	}
-	if (game.number.greaterThan(Decimal.fromComponents(1, 2, 80))) {
+	if (game.number.greaterThan(Decimal.fromComponents(1, 2, 60))) {
 		game.plexal.unlocked = true;
 	}
 	if (game.number.greaterThan(game.permaStat.endgame)) {
