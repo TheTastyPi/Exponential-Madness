@@ -1477,8 +1477,8 @@ function createAchievements() {
 	new Achievement("Reset", "Don't worry, this isn't a hard reset.", "reset");
 	new Achievement("Plexal", ":rippi:", "plexal");
 	new Achievement("Plexal Without Resetting", "No one likes backtracking.", "plexalNoReset");
-	new Achievement("Inflate", "Aarex now officially hate this game.", "inflate");
 	new Achievement("Plexal in less than a second", "I am speed.", "plexalFast");
+	new Achievement("Inflate", "Aarex now officially hate this game.", "inflate");
 	new Achievement("Start Automation", "I've finally added automation. You better thank me now.", "startAuto");
 	new Achievement("Reach a Googolduplex", "Super-duper-duplex.", "googolduplex");
 	new Achievement("Reach a Googoltriplex", "Thri.", "googoltriplex");
