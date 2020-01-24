@@ -1,7 +1,6 @@
 # Change Log
-## v0.31: Stuff - TBD
+## v0.31: Stuff - January 24th, 2020
 * Opitmization stuff
-* Favicon stuff
 * More achievements n stuff
 * Notation customization stuff
   * New notations n stuff
@@ -13,6 +12,7 @@
     * 3 "splits" to set the range of a notation
     * Idk how to explain just go look at the menu
 * Bug fix stuff
+* Super-secret feature no one will ever find out
 ## v0.301: Hotfixes - December 28th, 2019
 * Fixed two bugs related to Edge
   * One related to catch()
