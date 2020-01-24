@@ -607,14 +607,14 @@ function updateMult() {
 	for (let i = 1; i <= game.mult.actualMaxMult; i++) {
 		document.getElementById("multAmount" + i).innerHTML = findDisplay(m.amount[i]);
 		document.getElementById("multPower" + i).innerHTML = "^" + findDisplay(m.power[i]);
-		if (m.unlocked[i] == false) {
+		if (!m.unlocked[i]) {
 			document.getElementById("multButton" + i).innerHTML = "Unlock Multiplier " + i + " Cost: " + findDisplay(m.cost[i]);
 			if (i != m.actualMaxMult) {
 				document.getElementById("mult"+(i+1)).classList.add('hidden');
 			}
 		} else {
 			document.getElementById("multButton" + i).innerHTML = "Boost Multiplier " + i + " by ^" + findDisplay(m.powerPerBuy) + " Cost: " + findDisplay(m.cost[i]);
-			if (i != m.actualMaxMult) {
+			if (i != m.maxMult) {
 				document.getElementById("mult"+(i+1)).classList.remove('hidden');
 			}
 		}
