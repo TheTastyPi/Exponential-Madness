@@ -730,7 +730,6 @@ function updateIterator() {
 	document.getElementById("iteratorTotalBoost").innerHTML = "^" + findDisplay(it.totalBoost);
 	document.getElementById("iteration").innerHTML = findDisplay(it.iteration);
 	document.getElementById("iterationCost").innerHTML = findDisplay(it.cost);
-	document.getElementById("iteratorBoost").innerHTML = "^" + findDisplay(it.boost);
 	if (it.unlocked == true && game.mult.amount[1].greaterThan(1)) {
 		document.getElementById("iterate").classList.remove('hidden');
 	} else {
@@ -764,6 +763,7 @@ function updateIteratorUpg() {
 	let upg = it.upgrade;
 	document.getElementById("iteratorUpgradeBoost").innerHTML = findDisplay(upg.boost);
 	document.getElementById("iteratorUpgradeCost").innerHTML = findDisplay(upg.cost);
+	document.getElementById("iteratorBoost").innerHTML = "^" + findDisplay(it.boost);
 	if (it.unlocked == true) {
 		document.getElementById("iteratorUnlock").classList.add('hidden');
 		document.getElementById("iteratorUpgrade").classList.remove('hidden');
