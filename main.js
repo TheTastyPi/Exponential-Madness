@@ -642,6 +642,7 @@ function calcReset() {
 			achievement["unlock" + (i + 6)].hidden = false;
 		}
 	}
+	calcIteratorUpg()
 }
 
 function updateReset() {
@@ -668,7 +669,6 @@ function updateReset() {
 	} else {
 		document.getElementById("maxResetButton").classList.add('hidden');
 	}
-	calcIterator()
 }
 
 function getPlexalGain() {
@@ -756,6 +756,7 @@ function calcIteratorUpg() {
 	} else {
 		upg.cost = upg.baseCost.pow(upg.costIncrease.pow(upg.amount));
 	}
+	calcIterator();
 }
 
 function updateIteratorUpg() {
