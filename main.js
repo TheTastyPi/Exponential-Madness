@@ -614,7 +614,7 @@ function updateMult() {
 			}
 		} else {
 			document.getElementById("multButton" + i).innerHTML = "Boost Multiplier " + i + " by ^" + findDisplay(m.powerPerBuy) + " Cost: " + findDisplay(m.cost[i]);
-			if (i != m.maxMult) {
+			if (i != m.actualMaxMult) {
 				document.getElementById("mult"+(i+1)).classList.remove('hidden');
 			}
 		}
