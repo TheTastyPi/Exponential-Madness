@@ -287,7 +287,7 @@ function newGame() {
 			currentTheme: 0
 		},
 		notation: {
-			split: ["Layer-Mag", new Decimal(1000), "Scientific", new Decimal(1e100), "Logarithmic", Decimal.fromComponents(1, 5, 1), "Hyper E"],
+			split: ["Layer-Mag", new Decimal(1000), "Scientific", new Decimal(1e100), "Logarithmic", Decimal.fromComponents(1, 5, 1), "Hyper-E"],
 			input: ["lol", "1000", "eksdee", "e100", "yeet", "E1#5", "2"],
 			selected: 2,
 			tetrationBase: new Decimal(2)
