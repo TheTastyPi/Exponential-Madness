@@ -1181,6 +1181,7 @@ function maxReset() {
 
 function plexal() {
 	if (game.number.greaterThanOrEqualTo(Decimal.fromComponents(1, 2, 100))) {
+		game.plexal.essence = game.plexal.essence.add(getPlexalGain());
 		game.number = newGame().number;
 		game.mult = newGame().mult;
 		game.reset = newGame().reset;
@@ -1190,7 +1191,6 @@ function plexal() {
 		game.iterator.iteration = newGame().iterator.iteration;
 		game.plexal.amount = game.plexal.amount.add(1);
 		game.permaStat.totalPlexal = game.permaStat.totalPlexal.add(1);
-		game.plexal.essence = game.plexal.essence.add(getPlexalGain());
 		if (game.plexal.time < 1000) {
 			achievement.plexalFast.complete();
 		}
