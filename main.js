@@ -252,7 +252,8 @@ function newGame() {
 				boost: ["lol", new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(1), new Decimal(0), new Decimal(1)]
 			},
 			unlocked: false,
-			time: 0
+			time: 0,
+			resetted: false
 		},
 		iterator: {
 			iteration: new Decimal(0),
@@ -691,6 +692,7 @@ function calcPlexal() {
 		achievement.googolduplex.hidden = false;
 		achievement.googoltriplex.hidden = false;
 		achievement.plexalFast.hidden = false;
+		achievement.plexalNoReset.hidden = false;
 	}
 	if (game.plexal.unlocked) {
 		achievement.plexal.hidden = false;
@@ -1149,6 +1151,7 @@ function reset() {
 		game.permaStat.totalReset = game.permaStat.totalReset.add(1);
 		achievement.reset.complete();
 		calcReset();
+		game.plexal.resetted = true;
 	}
 }
 
@@ -1171,6 +1174,7 @@ function maxReset() {
 			game.permaStat.totalReset = game.permaStat.totalReset.add(buyAmount);
 			achievement.reset.complete();
 			calcReset();
+			game.plexal.resetted = true;
 		}
 	}
 }
@@ -1190,7 +1194,11 @@ function plexal() {
 		if (game.plexal.time < 1000) {
 			achievement.plexalFast.complete();
 		}
-		game.plexal.time = newGame().plexal.time;
+		game.plexal.time = 0;
+		if (!game.plexal.resetted) {
+			achievement.plexalNoReset.complete();
+		}
+		game.plexal.resetted = false;
 		achievement.plexal.complete();
 		calcPlexal();
 	}
@@ -1468,6 +1476,7 @@ function createAchievements() {
 	new Achievement("Unlock Multiplier 10", "You're never gonna get over 1.25 of these bad boys.", "unlock10");
 	new Achievement("Reset", "Don't worry, this isn't a hard reset.", "reset");
 	new Achievement("Plexal", ":rippi:", "plexal");
+	new Achievement("Plexal Without Resetting", "No one likes backtracking.", "plexalNoReset");
 	new Achievement("Inflate", "Aarex now officially hate this game.", "inflate");
 	new Achievement("Plexal in less than a second", "I am speed.", "plexalFast");
 	new Achievement("Start Automation", "I've finally added automation. You better thank me now.", "startAuto");
