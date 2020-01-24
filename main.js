@@ -963,11 +963,11 @@ function calcNotation() {
 	let tstr = document.getElementById("tetrationBase").value.toString();
 	let tnum = unformatNum(tstr);
 	if (tnum != "INVALID VALUE") {
-		if (tnum.lessThan(1.45)) {
-			tnum = "INVALID VALUE";
-		}
 		if (tnum.equals(1.45)) {
 			achievement.limit.complete();
+		}
+		if (tnum.lessThan(1.45)) {
+			tnum = "INVALID VALUE";
 		}
 	}
 	if (tnum == "INVALID VALUE") {
