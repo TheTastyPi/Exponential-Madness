@@ -15,6 +15,7 @@ button {
   border-radius: 15px;
   vertical-align: middle;
   transition-duration: 0.2s;
+  margin: 2px;
 }
 button.dark {
   background-color: black;
@@ -124,6 +125,28 @@ button.dark.notification:not(.noHover):hover {
   20% {left: 20vw; opacity: 1;}
   80% {left: 10vw; opacity: 1;}
   100% {left: -100vw; opacity: 0;}
+}
+#grayout {
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.4);
+}
+.modal {
+  position: fixed;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  border: 2px solid black;
+}
+.modal.dark {
+  background-color: black;
+  border: 2px solid white;
 }
 .hidden {
   display: none;

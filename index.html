@@ -1,11 +1,11 @@
-<!doctype html>
+<!DOCTYPE html>
 
 <html>
   <head>
     <title id="title">
-      Exponential Madness v0.3
+      Exponential Madness v0.31
     </title>
-    <link rel="shortcut icon" type="image/png" href="Exponential Madness.png">
+    <link rel="shortcut icon" type="image/png" href="light.png" id="favicon">
     <link rel="stylesheet" href="style.css">
   </head>
   <body id="body">
@@ -173,7 +173,7 @@
       <br>
       <br>
       <span class="tab" id="normalStat">
-        You have played the game for <span id="timePlayed">0 seconds</span>
+        You have played the game for <span id="timePlayed">0 second</span>
         <br>
         <br>
         Your highest number ever is <span id="highestNum">10</span>
@@ -185,6 +185,9 @@
       </span>
       <span class="hidden tab" id="plexalStat">
         You have plexaled a total of <span id="plexalAmount">0 time</span>
+        <br>
+        <br>
+        It has been <span id="plexalTime">0 second</span> since your last plexal.
       </span>
     </span>
     <span class="hidden tab" id='option'>
@@ -199,6 +202,9 @@
       </button>
       <button type="button" style="font-size: 13px" class="big" onclick="changeAutoSaveSpeed()" id="autoSaveSpeedButton">
         Auto-Save Speed: 1s
+      </button>
+      <button type="button" class="big" onclick="openNotation()" id="notationButton">
+        Notations
       </button>
       <br>
       <button type="button" class="big" onclick="exportSave()" id="exportButton">
@@ -273,6 +279,9 @@
         </span>
       </span>
       <span class="hidden tab" id="plexalUpgrade">
+        You have to buy all of these upgrades in order! Left to right; top to bottom.
+        <br>
+        <br>
         <button type="button" style="font-size:12px;" class="veryBig" onclick="buyUpgrade(1, 'plexal')" id="plexalUpg1">
           Boost all multiplier based on amount plexaled
           <br>
@@ -334,6 +343,52 @@
         </button>
       </span>
     </span>
+    <div class="hidden" id="grayout"></div>
+    <div class="modal hidden" id="notationMenu">
+      <div>
+        <button type="button" style="float:right;" class="warning" onclick="closeAllModal()">x</button>
+      </div>
+      <br>
+      <div style="float:left; margin:10px; text-align:center;">
+        Splits
+        <br>
+        <button type="button" class="big noHover" id="split0">Layer-Mag (Fixed)</button>
+        <br>
+        &lt; <input type="text" value="1000" onblur="calcNotation()" id="split1"></input> &le;
+        <br>
+        <button type="button" class="big" onclick="selectSplit(2)" id="split2">Scientific</button>
+        <br>
+        &lt; <input type="text" value="1e100" onblur="calcNotation()" id="split3"></input> &le;
+        <br>
+        <button type="button" class="big" onclick="selectSplit(4)" id="split4">Logarithmic</button>
+        <br>
+        &lt; <input type="text" value="E1#5" onblur="calcNotation()" id="split5"></input> &le;
+        <br>
+        <button type="button" class="big" onclick="selectSplit(6)" id="split6">Hyper-E</button>
+      </div>
+      <div style="float:right; margin:10px; text-align:center; overflow:scroll; height:300px">
+        Notations
+        <br>
+        <button type="button" class="big" onclick="changeSplit('Layer-Mag')">Layer-Mag</button>
+        <br>
+        <button type="button" class="big" onclick="changeSplit('Scientific')">Scientific</button>
+        <br>
+        <button type="button" class="big" onclick="changeSplit('Logarithmic')">Logarithmic</button>
+        <br>
+        <button type="button" class="big" onclick="changeSplit('Hyper-E')">Hyper-E</button>
+        <br>
+        <button type="button" class="big" onclick="changeSplit('Tetration')">
+          Base-<input type="text" style="width:40%;" value="2" onblur="calcNotation()" id="tetrationBase"></input>
+          Tetration
+        </button>
+        <br>
+        <button type="button" class="big" onclick="changeSplit('HyperSci')">HyperSci</button>
+        <br>
+        <button type="button" class="big" onclick="changeSplit('Psi')">Psi</button>
+        <br>
+        <button type="button" class="big" onclick="changeSplit('SGH')">SGH</button>
+      </div>
+    </div>
     <textarea style="opacity: .01; height:0; position:absolute; z-index: -1;" id="exportArea">export text</textarea>
   </body>
   <script type="text/javascript" src="break_eternity.js"></script>
