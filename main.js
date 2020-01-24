@@ -637,12 +637,6 @@ function calcReset() {
 	r.totalBoost = r.boost.pow(r.amount);
 	r.costIncrease = r.baseCostIncrease.mul(r.costScaling.pow(r.amount));
 	r.cost = r.baseCost.pow(r.costIncrease.pow(r.amount))
-	if (r.amount.greaterThan(0)
-	   || game.number.greaterThan(Decimal.fromComponents(1, 2, 8))) {
-		r.unlocked = true;
-		achievement.reset.hidden = false;
-		achievement.unlock5.hidden = false;
-	}
 	for (let i = 0; i < 5; i++) {
 		if (r.amount.greaterThan(i)) {
 			achievement["unlock" + (i + 6)].hidden = false;
@@ -1010,11 +1004,14 @@ function calcAll() {
 	if (game.number.greaterThan(game.permaStat.highestNum)){
 		game.permaStat.highestNum = game.number;
 	}
+	if (game.reset.amount.greaterThan(0) ||
+	    game.number.greaterThan(Decimal.fromComponents(1, 2, 8))) {
+		game.reset.unlocked = true;
+		achievement.reset.hidden = false;
+		achievement.unlock5.hidden = false;
+	}
 	if (game.number.greaterThan(Decimal.fromComponents(1, 2, 60))) {
 		game.plexal.unlocked = true;
-	}
-	if (game.number.greaterThan(game.permaStat.endgame)) {
-		achievement.endgame.complete();
 	}
 	if (game.number.greaterThan(Decimal.fromComponents(1, 3, 20))) {
 		achievement.inflate.complete();
@@ -1024,6 +1021,9 @@ function calcAll() {
 	}
 	if (game.number.greaterThan(Decimal.fromComponents(1, 4, 100))) {
 		achievement.googoltriplex.complete();
+	}
+	if (game.number.greaterThan(game.permaStat.endgame)) {
+		achievement.endgame.complete();
 	}
 	calcMult();
 	calcPlexalUpg();
