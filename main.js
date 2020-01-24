@@ -890,7 +890,8 @@ function updateAuto() {
 }
 
 function updateAchievement() {
-	for (a in achievement) {
+	for (achieve in achievement) {
+		let a = achievement[achieve];
 		let completed = game.achievement.normalCompleted.includes(a.alias) || game.achievement.secretCompleted.includes(a.alias);
 		if (completed) {
 			a.hidden = false;
