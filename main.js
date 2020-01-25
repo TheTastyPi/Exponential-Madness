@@ -24,7 +24,7 @@ function nextFrame(timeStamp) {
 		if (game.auto.on[0]) {
 			maxAllMult();
 		}
-		if (game.auto.on[1]) {
+		if (game.auto.on[1] && game.mult.amount[1].greaterThan(1)) {
 			maxIterate();
 		}
 		if (doUpdate) {
