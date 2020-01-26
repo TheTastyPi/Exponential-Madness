@@ -609,12 +609,12 @@ function updateMult() {
 		document.getElementById("multPower" + i).innerHTML = "^" + findDisplay(m.power[i]);
 		if (!m.unlocked[i]) {
 			document.getElementById("multButton" + i).innerHTML = "Unlock Multiplier " + i + " Cost: " + findDisplay(m.cost[i]);
-			if (i != m.actualMaxMult) {
+			if (i < m.actualMaxMult) {
 				document.getElementById("mult"+(i+1)).classList.add('hidden');
 			}
 		} else {
 			document.getElementById("multButton" + i).innerHTML = "Boost Multiplier " + i + " by ^" + findDisplay(m.powerPerBuy) + " Cost: " + findDisplay(m.cost[i]);
-			if (i != m.maxMult) {
+			if (i < m.maxMult) {
 				document.getElementById("mult"+(i+1)).classList.remove('hidden');
 			}
 		}
