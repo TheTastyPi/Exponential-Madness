@@ -1038,8 +1038,8 @@ function updateAll() {
 	updateTab();
 	updatePlexal();
 	if (!document.getElementById("mult").classList.contains("hidden")) {
-		updateMult();
 		updateReset();
+		updateMult();
 		updateIterator();
 	}
 	if (!document.getElementById("iterator").classList.contains("hidden")) {
