@@ -642,7 +642,8 @@ function calcReset() {
 			achievement["unlock" + (i + 6)].hidden = false;
 		}
 	}
-	calcIteratorUpg()
+	calcIteratorUpg();
+	updateMult();
 }
 
 function updateReset() {
