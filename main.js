@@ -1394,21 +1394,13 @@ const achievement = {};
 var normalAchieveCount = 0;
 var secretAchieveCount = 0;
 
-function Achievement(name, desc, alias, hidden, secret, hint) {
+function Achievement(name, desc, alias, hidden = true, secret = false, hint) {
 	this.name = name;
 	this.desc = desc;
 	this.alias = alias;
-	this.secret = false;
-	this.hidden = true;
-	if (secret) {
-		this.secret = true;
-	}
-	if (hidden == false) {
-		this.hidden = false;
-	}
-	if (hint) {
-		this.hint = hint
-	}
+	this.secret = secret;
+	this.hidden = hidden;
+	this.hint = hint
 	achievement[alias] = this;
 	if (this.secret) {
 		secretAchieveCount++;
