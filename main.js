@@ -1097,6 +1097,7 @@ function buyMult(n) {
 				game.mult.amount[n] = new Decimal(1.25);
 				game.mult.unlocked[n] = true;
 				achievement["unlock" + n].complete();
+				updateMult();
 			} else {
 				game.mult.upgradeAmount[n] = game.mult.upgradeAmount[n].add(1);
 			}
@@ -1119,6 +1120,7 @@ function maxMult(n) {
 				game.mult.unlocked[n] = true;
 				game.number = game.number.div(game.mult.cost[n]);
 				achievement["unlock" + n].complete();
+				updateMult();
 				maxMult(n, "normal");
 			} else {
 				game.number = game.number.div((new Decimal(10)).pow((new Decimal(10)).pow(totalCost)));
