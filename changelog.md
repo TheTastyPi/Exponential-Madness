@@ -1,6 +1,6 @@
 # Change Log
 ## v0.4: TBD - TBD
-* TBD
+* New gameplay content
 ## v0.31: Stuff - January 24th, 2020
 * Opitmization stuff
 * More achievements n stuff
