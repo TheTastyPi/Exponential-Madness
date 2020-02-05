@@ -151,7 +151,6 @@ function importSave() {
 		catch(yeet) {
 			err = true;
 			document.getElementById("importButton").innerHTML = "Invalid Save";
-			
 		}
 		if (!err) {
 			document.getElementById("importButton").innerHTML = "Imported!";
