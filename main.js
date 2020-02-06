@@ -465,15 +465,15 @@ function unformatNum(str) {
 
 function findTimeDisplay(ms) {
 	let s = ms/1000;
-	let ds = mod(s, 60).toFixed(2);
+	let ds = (s % 60).toFixed(2);
 	let m = Math.floor(s/60);
-	let dm = mod(m, 60);
+	let dm = m % 60;
 	let h = Math.floor(m/60);
-	let dh = mod(h, 24);
+	let dh = h % 24;
 	let d = Math.floor(h/24);
-	let dd = mod(d, 30.43685);
+	let dd = d % 30.43685;
 	let mo = Math.floor(d/30.43685);
-	let dmo = mod(mo, 12);
+	let dmo = mo % 12;
 	let dy = Math.floor(mo/365.2422);
 	let time = "";
 	let seg = 0;
@@ -524,12 +524,6 @@ function pluralCheck(x, decimal) {
 			return "s";
 		}
 	}
-}
-
-function mod(x, y) {
-	let a = Math.floor(x / y);
-	let b = a * y;
-	return x - b;
 }
 
 function notify(message, subMessage, bgColor) {
