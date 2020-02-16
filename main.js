@@ -820,8 +820,7 @@ function calcPlexalUpg() {
 function updatePlexalUpg() {
 	for (let i = 1; i < game.plexal.upgrade.boost.length; i++) {
 		document.getElementById("plexalUpg" + i + "Boost").innerHTML = findDisplay(game.plexal.upgrade.boost[i]);
-	}
-	for (let i = 1; i < game.plexal.upgrade.unlocked.length; i++) {
+		document.getElementById("plexalUpg" + i + "Cost").innerHTML = findDisplay(game.plexal.upgrade.cost[i]);
 		if (game.plexal.upgrade.unlocked[i] == false) {
 			document.getElementById("plexalUpg" + i).classList.remove('noHover');
 			if (game.plexal.essence.greaterThanOrEqualTo(game.plexal.upgrade.cost[i]) && game.plexal.upgrade.unlocked[i-1] == true) {
