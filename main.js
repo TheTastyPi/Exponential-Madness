@@ -360,7 +360,7 @@ function formatNum(n, notation, noPoint) {
 			return "E" + (new Decimal(n.mag)).iteratedlog(10,x.floor()).toFixed(2) + "#" + findDisplay((new Decimal(n.layer)).add(x.floor()), true);
 			break;
 		case "Tetration":
-			return findDisplay(game.notation.tetrationBase) + "^^" + findDisplay(n.slog(game.notation.tetrationBase));
+			return game.notation.tetrationBase + "^^" + findDisplay(n.slog(game.notation.tetrationBase));
 			break;
 		case "HyperSci":
 			let y = new Decimal(n.mag).slog(10);
